@@ -50,8 +50,9 @@ jobs:
       - run: flutter pub get
 
       # APK sempre release, mai debug (regola cliente).
-      # Con ABI splits produce 3 APK in build/app/outputs/apk/global/release/.
-      - run: flutter build apk --release --flavor global
+      # --split-per-abi: 1 APK per architettura (il plugin Flutter gestisce lo
+      # split; un blocco `splits` custom confliggerebbe con gli abiFilters).
+      - run: flutter build apk --release --flavor global --split-per-abi
 
       - name: Ridenomina i 3 APK per-ABI
         run: |

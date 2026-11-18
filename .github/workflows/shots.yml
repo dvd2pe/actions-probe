@@ -40,7 +40,7 @@ jobs:
       - run: flutter pub get
 
       # APK sempre release, mai debug (regola cliente). Serve l'x86_64 per l'emulatore.
-      - run: flutter build apk --release --flavor global
+      - run: flutter build apk --release --flavor global --split-per-abi
 
       - name: Prepara cartella screenshot
         run: mkdir -p /tmp/shots
