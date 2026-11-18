@@ -1,7 +1,16 @@
-name: Build DearCocoa APK (dal repo privato)
+name: Build DearCocoa APK (repo pubblico + keystore via secrets)
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Versione APK (es. 0.3.2)'
+        required: false
+        default: '0.3.2'
+      notes:
+        description: 'Note di release (multilinea possibile)'
+        required: false
+        default: 'Release DearCocoa'
   workflow_call:
 
 jobs:
@@ -11,11 +20,13 @@ jobs:
       run:
         working-directory: app
     steps:
-      - name: Checkout DearCocoa (repo privato)
+      # Checkout del repo pubblico di lavoro: unica fonte di verita'.
+      # Niente piu' mirror da sincronizzare.
+      - name: Checkout DearCocoa (pubblico)
         uses: actions/checkout@v4
         with:
-          repository: dvd2pe/dearcocoa
-          token: ${{ secrets.DVD2PE_TOKEN }}
+          repository: dvd2pe/dearcocoa-mobile
+          ref: main
 
       # La build (SDK + pub cache + gradle + output) sfora il disco libero
       # del runner standard: si liberano ~20 GB.
@@ -38,23 +49,35 @@ jobs:
           channel: stable
           cache: true
 
-      # M12: sherpa_onnx rimosso (niente più build nativa CMake/NDK).
-      # Firma: keystore release ufficiale committato nel repo privato
-      # (app/tools/dearcocoa-release.jks + app/android/key-global.properties).
-      - name: Verifica firma release presente
+      # Firma: keystore release DECODIFICATO dai secrets (mai committato).
+      # Il gradle legge android/key-global.properties con storeFile
+      # ../../tools/dearcocoa-release.jks (relativo a app/android/).
+      - name: Prepara firma release dai secrets
+        env:
+          DC_KEYSTORE_B64: ${{ secrets.DC_KEYSTORE_B64 }}
+          DC_KEYSTORE_PASS: ${{ secrets.DC_KEYSTORE_PASS }}
+          DC_KEY_ALIAS: ${{ secrets.DC_KEY_ALIAS }}
         run: |
-          test -f tools/dearcocoa-release.jks || { echo "keystore mancante" >&2; exit 1; }
-          test -f android/key-global.properties || { echo "key properties mancanti" >&2; exit 1; }
-          echo "firma release OK (alias $(grep keyAlias android/key-global.properties | cut -d= -f2))"
+          set -e
+          mkdir -p tools
+          echo "$DC_KEYSTORE_B64" | base64 -d > tools/dearcocoa-release.jks
+          test -s tools/dearcocoa-release.jks || { echo "keystore vuoto" >&2; exit 1; }
+          cat > android/key-global.properties <<EOF
+          keyAlias=$DC_KEY_ALIAS
+          keyPassword=$DC_KEYSTORE_PASS
+          storeFile=../../tools/dearcocoa-release.jks
+          storePassword=$DC_KEYSTORE_PASS
+          EOF
+          echo "firma release OK (alias $DC_KEY_ALIAS)"
 
       - run: flutter pub get
 
       # APK sempre release, mai debug (regola cliente).
-      # --split-per-abi: 1 APK per architettura (il plugin Flutter gestisce lo
-      # split; un blocco `splits` custom confliggerebbe con gli abiFilters).
       - run: flutter build apk --release --flavor global --split-per-abi
 
       - name: Ridenomina i 3 APK per-ABI
+        env:
+          VERSION: ${{ github.event.inputs.version || '0.3.2' }}
         run: |
           OUT=build/app/outputs/apk/global/release
           ls -lh $OUT
@@ -62,39 +85,42 @@ jobs:
             SRC="$OUT/app-global-$ABI-release.apk"
             [ -f "$SRC" ] || SRC=$(find build/app/outputs -name "*$ABI*.apk" -not -path "*intermediates*" | head -1)
             [ -f "$SRC" ] || { echo "APK $ABI non trovato" >&2; exit 1; }
-            cp "$SRC" "dearcocoa-0.3.1-$ABI.apk"
+            cp "$SRC" "dearcocoa-${VERSION}-${ABI}.apk"
           done
-          ls -lh dearcocoa-0.3.1-*.apk
+          ls -lh dearcocoa-${VERSION}-*.apk
 
       - uses: actions/upload-artifact@v4
         with:
-          name: dearcocoa-0.3.1-apks
-          path: app/dearcocoa-0.3.1-*.apk
+          name: dearcocoa-apks
+          path: app/dearcocoa-*-*.apk
           retention-days: 30
 
-      # Release v0.3.1-dearcocoa sul repo privato (la creazione release non
-      # consuma minuti Actions).
-      - name: Crea release v0.3.1-dearcocoa con i 3 APK
+      # Release sul repo pubblico dearcocoa-mobile (la creazione release
+      # non consuma minuti Actions).
+      - name: Crea release con i 3 APK
         env:
           DVD2PE_TOKEN: ${{ secrets.DVD2PE_TOKEN }}
+          VERSION: ${{ github.event.inputs.version || '0.3.2' }}
+          NOTES: ${{ github.event.inputs.notes || 'Release DearCocoa' }}
         run: |
           set -e
-          API="https://api.github.com/repos/dvd2pe/dearcocoa"
+          API="https://api.github.com/repos/dvd2pe/dearcocoa-mobile"
           AUTH="Authorization: token $DVD2PE_TOKEN"
-          TAG="v0.3.1-dearcocoa"
+          TAG="v${VERSION}-dearcocoa"
+          BODY=$(echo "$NOTES" | python3 -c "import json,sys;print(json.dumps(sys.stdin.read()))")
           REL=$(curl -s -H "$AUTH" "$API/releases/tags/$TAG")
           RELID=$(echo "$REL" | python3 -c "import json,sys;d=json.load(sys.stdin);print(d.get('id',''))")
           if [ -z "$RELID" ]; then
             REL=$(curl -s -X POST -H "$AUTH" -H "Accept: application/vnd.github+json" "$API/releases" -d "{
               \"tag_name\":\"$TAG\",\"target_commitish\":\"main\",
-              \"name\":\"DearCocoa v0.3.1 — fix UX onboarding, AI opzionale, niente logo\",
-              \"body\":\"Fix release v0.3.1 (report utente da telefono reale).\\n\\n- Niente piu' muro di benvenuto in loop: onboarding completo per qualsiasi utente locale; username di fallback dall'email se il profilo Supabase non ha username.\\n- AI/LLM completamente opzionale: niente popup 'LLM configuration is invalid' o dialog di configurazione mancante; le funzionalita' AI restano dormienti finche' non si aggiunge una chiave in Settings.\\n- Community ed Events: senza sessione mostrano il picker demo one-tap invece dell'errore di rete.\\n- Tutorial: i testi non hanno piu' la sottolineatura gialla, lo scrim non blocca piu' i tap (guida, non ostacolo).\\n- Riferimenti 'Memex' visibili rimossi (card intro, config AI, chat, documento, auth).\\n- Logo rimosso dal splash di avvio.\\n- Liste nelle note: digita '- elemento' o '- [ ] task' nel contenuto — renderizzate nella card di dettaglio.\\n\\nFirma: keystore release ufficiale. Versione 0.3.1+126.\"}")
+              \"name\":\"DearCocoa v${VERSION}\",
+              \"body\":$BODY}")
             RELID=$(echo "$REL" | python3 -c "import json,sys;print(json.load(sys.stdin).get('id',''))")
           fi
           echo "release id: $RELID"
           UURL=$(curl -s -H "$AUTH" "$API/releases/$RELID" | python3 -c "import json,sys;print(json.load(sys.stdin)['upload_url'].split('{')[0])")
           for ABI in arm64-v8a armeabi-v7a x86_64; do
-            APK="dearcocoa-0.3.1-$ABI.apk"
+            APK="dearcocoa-${VERSION}-${ABI}.apk"
             curl -s -o /dev/null -w "upload $APK HTTP %{http_code}\n" -X POST -H "$AUTH" \
               -H "Content-Type: application/vnd.android.package-archive" \
               --data-binary "@$APK" "$UURL?name=$APK"
