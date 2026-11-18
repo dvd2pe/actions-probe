@@ -62,39 +62,39 @@ jobs:
             SRC="$OUT/app-global-$ABI-release.apk"
             [ -f "$SRC" ] || SRC=$(find build/app/outputs -name "*$ABI*.apk" -not -path "*intermediates*" | head -1)
             [ -f "$SRC" ] || { echo "APK $ABI non trovato" >&2; exit 1; }
-            cp "$SRC" "dearcocoa-0.3.0-$ABI.apk"
+            cp "$SRC" "dearcocoa-0.3.1-$ABI.apk"
           done
-          ls -lh dearcocoa-0.3.0-*.apk
+          ls -lh dearcocoa-0.3.1-*.apk
 
       - uses: actions/upload-artifact@v4
         with:
-          name: dearcocoa-0.3.0-apks
-          path: app/dearcocoa-0.3.0-*.apk
+          name: dearcocoa-0.3.1-apks
+          path: app/dearcocoa-0.3.1-*.apk
           retention-days: 30
 
-      # Release v0.3.0-dearcocoa sul repo privato (la creazione release non
+      # Release v0.3.1-dearcocoa sul repo privato (la creazione release non
       # consuma minuti Actions).
-      - name: Crea release v0.3.0-dearcocoa con i 3 APK
+      - name: Crea release v0.3.1-dearcocoa con i 3 APK
         env:
           DVD2PE_TOKEN: ${{ secrets.DVD2PE_TOKEN }}
         run: |
           set -e
           API="https://api.github.com/repos/dvd2pe/dearcocoa"
           AUTH="Authorization: token $DVD2PE_TOKEN"
-          TAG="v0.3.0-dearcocoa"
+          TAG="v0.3.1-dearcocoa"
           REL=$(curl -s -H "$AUTH" "$API/releases/tags/$TAG")
           RELID=$(echo "$REL" | python3 -c "import json,sys;d=json.load(sys.stdin);print(d.get('id',''))")
           if [ -z "$RELID" ]; then
             REL=$(curl -s -X POST -H "$AUTH" -H "Accept: application/vnd.github+json" "$API/releases" -d "{
               \"tag_name\":\"$TAG\",\"target_commitish\":\"main\",
-              \"name\":\"DearCocoa v0.3.0 — base memex, APK slim\",
-              \"body\":\"Prima release M12 su base memex (R1-R5 + slim M12).\\n\\n- Base memex 1:1 (timeline cards, 13 insight charts, agenti AI, knowledge base, character chat, app lock biometrico, calendar/health/maps) + social DearCocoa su Supabase (community, gruppi chat, eventi, mood, 5 demo account one-tap).\\n- sherpa_onnx (whisper offline) e MLKit rimossi: APK ~1/3 del precedente; memo vocali sempre salvati come audio, trascrizione opzionale via Groq API (whisper-large-v3-turbo, chiave in Settings → Voice transcription) o LLM multimodale.\\n- 3 APK per-ABI: arm64-v8a (telefoni moderni), armeabi-v7a (telefoni più vecchi), x86_64 (emulatori).\\n- Firma: keystore release ufficiale (alias dearcocoa, validità 30 anni).\\n- Versione 0.3.0+125 — upgrade in-place dalla demo v1.0.39.\\n\\nInstallazione: abilitare le origini sconosciute sul dispositivo.\"}")
+              \"name\":\"DearCocoa v0.3.1 — fix UX onboarding, AI opzionale, niente logo\",
+              \"body\":\"Fix release v0.3.1 (report utente da telefono reale).\\n\\n- Niente piu' muro di benvenuto in loop: onboarding completo per qualsiasi utente locale; username di fallback dall'email se il profilo Supabase non ha username.\\n- AI/LLM completamente opzionale: niente popup 'LLM configuration is invalid' o dialog di configurazione mancante; le funzionalita' AI restano dormienti finche' non si aggiunge una chiave in Settings.\\n- Community ed Events: senza sessione mostrano il picker demo one-tap invece dell'errore di rete.\\n- Tutorial: i testi non hanno piu' la sottolineatura gialla, lo scrim non blocca piu' i tap (guida, non ostacolo).\\n- Riferimenti 'Memex' visibili rimossi (card intro, config AI, chat, documento, auth).\\n- Logo rimosso dal splash di avvio.\\n- Liste nelle note: digita '- elemento' o '- [ ] task' nel contenuto — renderizzate nella card di dettaglio.\\n\\nFirma: keystore release ufficiale. Versione 0.3.1+126.\"}")
             RELID=$(echo "$REL" | python3 -c "import json,sys;print(json.load(sys.stdin).get('id',''))")
           fi
           echo "release id: $RELID"
           UURL=$(curl -s -H "$AUTH" "$API/releases/$RELID" | python3 -c "import json,sys;print(json.load(sys.stdin)['upload_url'].split('{')[0])")
           for ABI in arm64-v8a armeabi-v7a x86_64; do
-            APK="dearcocoa-0.3.0-$ABI.apk"
+            APK="dearcocoa-0.3.1-$ABI.apk"
             curl -s -o /dev/null -w "upload $APK HTTP %{http_code}\n" -X POST -H "$AUTH" \
               -H "Content-Type: application/vnd.android.package-archive" \
               --data-binary "@$APK" "$UURL?name=$APK"
