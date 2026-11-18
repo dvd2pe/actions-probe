@@ -56,11 +56,15 @@ jobs:
           emulator-boot-timeout: 900
           script: |
             set -x
-            cd app
-            OUT=build/app/outputs/apk/global/release
+            # Percorsi assoluti: il runner può eseguire ogni riga in shell separate.
+            APP_DIR="$GITHUB_WORKSPACE/app"
+            OUT="$APP_DIR/build/app/outputs/apk/global/release"
             APK="$OUT/app-global-x86_64-release.apk"
-            [ -f "$APK" ] || APK=$(find build/app/outputs -name "*x86_64*.apk" -not -path "*intermediates*" | head -1)
+            if [ ! -f "$APK" ]; then
+              APK=$(find "$APP_DIR/build/app/outputs" -name "*x86_64*.apk" -not -path "*intermediates*" | head -1)
+            fi
             echo "APK: $APK"
+            [ -f "$APK" ] || { echo "APK x86_64 non trovato" >&2; exit 1; }
             adb install -r "$APK"
 
             PKG=app.dearcocoa.mobile
@@ -130,7 +134,7 @@ jobs:
             adb shell input keyevent 4
             sleep 2
 
-            # 11 long-press AI per registrazione veloce? tap centrale + opzioni
+            # 11 community loggato
             adb shell input tap $((W * 32 / 100)) $BAR_Y
             sleep 4
             shot 11_ultimo_tab
