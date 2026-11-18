@@ -1,4 +1,4 @@
-name: DearCocoa Screenshots (emulatore, dal repo privato)
+name: DearCocoa Screenshots (emulatore, da dearcocoa-mobile)
 
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ jobs:
       - name: Checkout DearCocoa (repo privato)
         uses: actions/checkout@v4
         with:
-          repository: dvd2pe/dearcocoa
+          repository: dvd2pe/dearcocoa-mobile
           token: ${{ secrets.DVD2PE_TOKEN }}
 
       - name: Libera spazio sul runner
