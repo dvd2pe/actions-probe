@@ -42,104 +42,34 @@ jobs:
       # APK sempre release, mai debug (regola cliente). Serve l'x86_64 per l'emulatore.
       - run: flutter build apk --release --flavor global --split-per-abi
 
+      # Con KVM il boot scende da ~17 min (TCG) a 2-4 min. Se assente, prosegue uguale.
+      - name: Abilita KVM (se disponibile)
+        run: |
+          if [ -e /dev/kvm ]; then
+            sudo chmod 666 /dev/kvm || true
+            ls -l /dev/kvm
+          else
+            echo "no /dev/kvm: boot in TCG (lento ma funziona)"
+          fi
+
       - name: Prepara cartella screenshot
         run: mkdir -p /tmp/shots
 
-      # Tour automatico: l'app è local-first (si avvia senza login) e la layer
-      # social usa Supabase con 5 demo account one-tap.
+      # Tour automatico: l'app è local-first (si avvia senza login); Timeline,
+      # menu radiale AI, Community, Events, Library.
+      # Lo script è il FILE scripts/demo_tour.sh nel repo dell'app:
+      # android-emulator-runner esegue lo script inline RIGA PER RIGA in shell
+      # separate (le variabili non sopravvivono e i blocchi if/for si rompono).
       - name: Tour app su emulatore + screencap
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 34
           target: google_apis
           arch: x86_64
-          emulator-boot-timeout: 900
+          emulator-boot-timeout: 1500
           script: |
             set -x
-            # Percorsi assoluti: il runner può eseguire ogni riga in shell separate.
-            APP_DIR="$GITHUB_WORKSPACE/app"
-            OUT="$APP_DIR/build/app/outputs/apk/global/release"
-            APK="$OUT/app-global-x86_64-release.apk"
-            if [ ! -f "$APK" ]; then
-              APK=$(find "$APP_DIR/build/app/outputs" -name "*x86_64*.apk" -not -path "*intermediates*" | head -1)
-            fi
-            echo "APK: $APK"
-            [ -f "$APK" ] || { echo "APK x86_64 non trovato" >&2; exit 1; }
-            adb install -r "$APK"
-
-            PKG=app.dearcocoa.mobile
-            # Permessi comuni per evitare dialog che coprono le schermate
-            for P in android.permission.CAMERA android.permission.RECORD_AUDIO \
-                     android.permission.ACCESS_FINE_LOCATION android.permission.ACCESS_COARSE_LOCATION \
-                     android.permission.POST_NOTIFICATIONS android.permission.READ_MEDIA_IMAGES \
-                     android.permission.ACTIVITY_RECOGNITION; do
-              adb shell pm grant $PKG $P 2>/dev/null || true
-            done
-            # Wake + sblocco schermo
-            adb shell input keyevent 82 || true
-            adb shell input keyevent 4 || true
-
-            W=$(adb shell wm size | grep -oE '[0-9]+' | head -1)
-            H=$(adb shell wm size | tr -d '\r' | grep -oE '[0-9]+' | tail -1)
-            echo "screen: ${W}x${H}"
-            BAR_Y=$((H - H * 8 / 100))
-            shot() { adb exec-out screencap -p > "/tmp/shots/$1.png"; }
-
-            # 01 avvio + timeline
-            adb shell am start -n $PKG/.MainActivity
-            sleep 25
-            shot 01_timeline_avvio
-            sleep 5
-            shot 02_timeline
-
-            # 03 menu radiale (pulsante AI centrale)
-            adb shell input tap $((W / 2)) $BAR_Y
-            sleep 3
-            shot 03_menu_radiale
-            adb shell input keyevent 4
-            sleep 2
-
-            # 04 tab Community (gate demo login se non autenticato)
-            adb shell input tap $((W * 32 / 100)) $BAR_Y
-            sleep 6
-            shot 04_community
-            # 05 prova tap sul primo demo account (area alta centro)
-            adb shell input tap $((W / 2)) $((H * 28 / 100))
-            sleep 8
-            shot 05_dopo_login_demo
-            # torna alla timeline per lo stato autenticato
-            adb shell input tap $((W * 8 / 100)) $BAR_Y
-            sleep 5
-            shot 06_timeline_loggato
-
-            # 07 tab Events
-            adb shell input tap $((W * 68 / 100)) $BAR_Y
-            sleep 6
-            shot 07_events
-
-            # 08 tab Library (destra esterna)
-            adb shell input tap $((W * 92 / 100)) $BAR_Y
-            sleep 6
-            shot 08_library
-
-            # 09-10 tentativi esplorativi header timeline (mood / notifiche)
-            adb shell input tap $((W * 8 / 100)) $BAR_Y
-            sleep 4
-            adb shell input tap $((W - W * 22 / 100)) $((H * 17 / 100))
-            sleep 4
-            shot 09_header_tap_1
-            adb shell input tap $((W - W * 10 / 100)) $((H * 17 / 100))
-            sleep 4
-            shot 10_header_tap_2
-            adb shell input keyevent 4
-            sleep 2
-
-            # 11 community loggato
-            adb shell input tap $((W * 32 / 100)) $BAR_Y
-            sleep 4
-            shot 11_ultimo_tab
-
-            ls -lh /tmp/shots
+            bash "$GITHUB_WORKSPACE/scripts/demo_tour.sh"
 
       - uses: actions/upload-artifact@v4
         with:
