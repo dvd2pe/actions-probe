@@ -81,15 +81,16 @@ jobs:
       # Lo script è il FILE scripts/demo_tour.sh nel repo dell'app:
       # android-emulator-runner esegue lo script inline RIGA PER RIGA in shell
       # separate (le variabili non sopravvivono e i blocchi if/for si rompono).
-      # Profilo device reale: senza --device l'AVD esce 320x640 (inutilizzabile).
-      # pixel_7 = 1080x2400 @ 420dpi.
+      # Profilo device reale: senza profilo l'AVD esce 320x640 @160dpi
+      # (inutilizzabile). pixel_7 = 1080x2400 @ 420dpi.
+      # ATTENZIONE: l'input corretto dell'azione e' `profile`, NON avd-manager-args.
       - name: Tour app su emulatore + screencap
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 34
           target: google_apis
           arch: x86_64
-          avd-manager-args: "--device pixel_7"
+          profile: pixel_7
           emulator-boot-timeout: 1500
           script: |
             set -x
