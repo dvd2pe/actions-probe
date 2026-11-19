@@ -37,6 +37,27 @@ jobs:
           channel: stable
           cache: true
 
+      # Firma: keystore release DECODIFICATO dai secrets (mai committato).
+      # Senza questo l'APK release è UNSIGNED e adb install fallisce con
+      # INSTALL_PARSE_FAILED_NO_CERTIFICATES (bug della run del 19/11).
+      - name: Prepara firma release dai secrets
+        env:
+          DC_KEYSTORE_B64: ${{ secrets.DC_KEYSTORE_B64 }}
+          DC_KEYSTORE_PASS: ${{ secrets.DC_KEYSTORE_PASS }}
+          DC_KEY_ALIAS: ${{ secrets.DC_KEY_ALIAS }}
+        run: |
+          set -e
+          mkdir -p tools
+          echo "$DC_KEYSTORE_B64" | base64 -d > tools/dearcocoa-release.jks
+          test -s tools/dearcocoa-release.jks || { echo "keystore vuoto" >&2; exit 1; }
+          cat > android/key-global.properties <<EOF
+          keyAlias=$DC_KEY_ALIAS
+          keyPassword=$DC_KEYSTORE_PASS
+          storeFile=../../tools/dearcocoa-release.jks
+          storePassword=$DC_KEYSTORE_PASS
+          EOF
+          echo "firma release OK (alias $DC_KEY_ALIAS)"
+
       - run: flutter pub get
 
       # APK sempre release, mai debug (regola cliente). Serve l'x86_64 per l'emulatore.
@@ -60,12 +81,15 @@ jobs:
       # Lo script è il FILE scripts/demo_tour.sh nel repo dell'app:
       # android-emulator-runner esegue lo script inline RIGA PER RIGA in shell
       # separate (le variabili non sopravvivono e i blocchi if/for si rompono).
+      # Profilo device reale: senza --device l'AVD esce 320x640 (inutilizzabile).
+      # pixel_7 = 1080x2400 @ 420dpi.
       - name: Tour app su emulatore + screencap
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 34
           target: google_apis
           arch: x86_64
+          avd-manager-args: "--device pixel_7"
           emulator-boot-timeout: 1500
           script: |
             set -x
