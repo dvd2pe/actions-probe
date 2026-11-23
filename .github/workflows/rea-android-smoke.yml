@@ -62,15 +62,24 @@ jobs:
 
       - name: Check Linux and Java prerequisites
         shell: bash
+        env:
+          REPORT_DIR: ${{ steps.reports.outputs.directory }}
         run: |
-          if ! command -v ps >/dev/null 2>&1; then
-            sudo apt-get update
-            sudo apt-get install --yes procps
+          set -euo pipefail
+          missing=()
+          command -v ps >/dev/null 2>&1 || missing+=(procps)
+          command -v apktool >/dev/null 2>&1 || missing+=(apktool)
+          if (( ${#missing[@]} )); then
+            sudo apt-get update -qq
+            sudo apt-get install --yes --no-install-recommends "${missing[@]}"
           fi
           node --version
           npm --version
           java --version
           java --list-modules | grep '^jdk.compiler@'
+          apktool --version | tee "$REPORT_DIR/apktool-version.txt"
+          command -v apktool > "$REPORT_DIR/apktool-command.txt"
+
 
       - name: Install pinned REA CLI
         shell: bash
@@ -233,6 +242,8 @@ jobs:
           REPORT_DIR: ${{ steps.reports.outputs.directory }}
         run: |
           set +e
+          export REA_APKTOOL_COMMAND="$(command -v apktool)"
+
           rea decode-android-resources "$APK_PATH" --format json --full-output \
             > "$REPORT_DIR/android-resources.json" 2> "$REPORT_DIR/android-resources.stderr"
           printf '%s\n' "$?" > "$REPORT_DIR/android-resources.exit-code.txt"
@@ -244,6 +255,53 @@ jobs:
           rea identify-flutter-build "$APK_PATH" --format json --full-output \
             > "$REPORT_DIR/flutter-build-identity.json" 2> "$REPORT_DIR/flutter-build-identity.stderr"
           printf '%s\n' "$?" > "$REPORT_DIR/flutter-build-identity.exit-code.txt"
+
+          # The XAPK stores libapp.so and the Flutter engine in config.arm64_v8a.apk.
+          # Build a temporary analysis-only APK containing base DEX/manifest plus ABI native libraries.
+          abi_split="${RUNNER_TEMP}/rea-android/extracted/config.arm64_v8a.apk"
+          merged_apk="${RUNNER_TEMP}/rea-android/yaya-merged-arm64-analysis.apk"
+          if [[ -f "$abi_split" ]]; then
+            python3 - "$APK_PATH" "$abi_split" "$merged_apk" <<'PY'
+          import pathlib, sys, zipfile
+          base, split, output = map(pathlib.Path, sys.argv[1:])
+          seen = set()
+          with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=6) as target:
+              with zipfile.ZipFile(base) as source:
+                  for info in source.infolist():
+                      if info.is_dir():
+                          continue
+                      target.writestr(info, source.read(info.filename))
+                      seen.add(info.filename)
+              with zipfile.ZipFile(split) as source:
+                  for info in source.infolist():
+                      if info.is_dir() or not info.filename.startswith("lib/arm64-v8a/"):
+                          continue
+                      if info.filename in seen:
+                          continue
+                      target.writestr(info, source.read(info.filename))
+                      seen.add(info.filename)
+          print(f"Created temporary merged analysis APK with {len(seen)} entries.")
+          PY
+            if [[ -f "$merged_apk" ]]; then
+              sha256sum "$merged_apk" > "$REPORT_DIR/merged-abi-analysis.sha256"
+              rea inspect-android-jni-bindings "$merged_apk" --format json --full-output \
+                > "$REPORT_DIR/android-jni-bindings-merged.json" 2> "$REPORT_DIR/android-jni-bindings-merged.stderr"
+              printf '%s\n' "$?" > "$REPORT_DIR/android-jni-bindings-merged.exit-code.txt"
+
+              rea identify-flutter-build "$merged_apk" --format json --full-output \
+                > "$REPORT_DIR/flutter-build-identity-merged.json" 2> "$REPORT_DIR/flutter-build-identity-merged.stderr"
+              printf '%s\n' "$?" > "$REPORT_DIR/flutter-build-identity-merged.exit-code.txt"
+            fi
+          else
+            echo "config.arm64_v8a.apk was not present in the XAPK." > "$REPORT_DIR/merged-abi-analysis.note.txt"
+          fi
+
+          # Full Apktool decode is kept outside REPORT_DIR until the workspace filters secrets and binaries.
+          apktool_out="${RUNNER_TEMP}/rea-android/apktool-decoded"
+          rm -rf "$apktool_out"
+          apktool d -f -o "$apktool_out" "$APK_PATH" \
+            > "$REPORT_DIR/apktool-decode.log" 2>&1
+          printf '%s\n' "$?" > "$REPORT_DIR/apktool-decode.exit-code.txt"
           exit 0
 
       - name: Inventory Flutter assets and native libraries
@@ -506,7 +564,7 @@ jobs:
           REPORT_DIR: ${{ steps.reports.outputs.directory }}
         run: |
           set -euo pipefail
-          python3 - "$REPORT_DIR" "${RUNNER_TEMP}/jadart-export" "${RUNNER_TEMP}/rea-android/split-content" <<'PY'
+          python3 - "$REPORT_DIR" "${RUNNER_TEMP}/jadart-export" "${RUNNER_TEMP}/rea-android/split-content" "${RUNNER_TEMP}/rea-android/apktool-decoded" <<'PY'
           import collections
           import json
           import pathlib
@@ -514,7 +572,7 @@ jobs:
           import shutil
           import sys
 
-          report, export, splits = map(pathlib.Path, sys.argv[1:])
+          report, export, splits, apktool_dir = map(pathlib.Path, sys.argv[1:])
           source_dir = export / "sources"
           if not source_dir.is_dir():
               raise SystemExit("Jadart export did not contain sources/; refusing to publish an empty source workspace.")
@@ -527,6 +585,7 @@ jobs:
               "lib/recovered",
               "assets/flutter_assets",
               "assets/split-assets",
+              "android/apktool",
               "forensics",
               "forensics/native-libraries",
               "docs",
@@ -546,6 +605,11 @@ jobs:
 
           if (export / "strings.txt").is_file():
               shutil.copy2(export / "strings.txt", root / "forensics/jadart-strings.txt")
+
+          plugin_registrant = export / ".dart_tool/flutter_build/dart_plugin_registrant.dart"
+          plugin_registrant_included = plugin_registrant.is_file()
+          if plugin_registrant_included:
+              shutil.copy2(plugin_registrant, root / "forensics/dart_plugin_registrant.dart")
 
           report_files = (
               "app-source.txt",
@@ -573,6 +637,18 @@ jobs:
               "flutter-build-identity.json",
               "signature.json",
               "analysis.json",
+              "apktool-version.txt",
+              "apktool-command.txt",
+              "apktool-decode.log",
+              "apktool-decode.exit-code.txt",
+              "merged-abi-analysis.sha256",
+              "merged-abi-analysis.note.txt",
+              "android-jni-bindings-merged.json",
+              "android-jni-bindings-merged.stderr",
+              "android-jni-bindings-merged.exit-code.txt",
+              "flutter-build-identity-merged.json",
+              "flutter-build-identity-merged.stderr",
+              "flutter-build-identity-merged.exit-code.txt",
               "redaction-summary.txt",
           )
           for name in report_files:
@@ -580,9 +656,37 @@ jobs:
               if src.is_file():
                   shutil.copy2(src, root / "forensics" / name)
 
+          for pattern in (
+              "rea-help-*.txt",
+              "rea-help-*.exit-code.txt",
+              "android-resources.*",
+              "android-jni-bindings.*",
+              "flutter-build-identity.*",
+          ):
+              for src in sorted(report.glob(pattern)):
+                  if src.is_file():
+                      shutil.copy2(src, root / "forensics" / src.name)
+
           config_dir = report / "flutter-config"
           if config_dir.is_dir():
               shutil.copytree(config_dir, root / "forensics/flutter-config", dirs_exist_ok=True)
+
+          if apktool_dir.is_dir():
+              decoded_count = 0
+              for item in sorted(apktool_dir.rglob("*")):
+                  if not item.is_file() or item.name.lower() == ".env":
+                      continue
+                  relative = item.relative_to(apktool_dir)
+                  if relative.parts[:2] == ("assets", "flutter_assets"):
+                      continue
+                  if relative.parts and relative.parts[0] == "lib" and item.suffix.lower() == ".so":
+                      continue
+                  target = root / "android/apktool" / relative
+                  target.parent.mkdir(parents=True, exist_ok=True)
+                  shutil.copy2(item, target)
+                  decoded_count += 1
+          else:
+              decoded_count = 0
 
           asset_roots = sorted(
               p for p in splits.glob("*/assets/flutter_assets")
@@ -671,6 +775,36 @@ jobs:
               encoding="utf-8",
           )
 
+          import_pattern = re.compile(r"(?m)^\s*(?:import|export|part)\s+['\"]package:([A-Za-z0-9_]+)/")
+          direct_dependencies = set()
+          for dart_file in dart_files:
+              source_text = dart_file.read_text(errors="replace")
+              direct_dependencies.update(import_pattern.findall(source_text))
+          sdk_dependencies = sorted(name for name in direct_dependencies if name in {"flutter", "flutter_test"})
+          external_dependencies = sorted(direct_dependencies - set(sdk_dependencies))
+          (root / "docs/direct-dependency-candidates.md").write_text(
+              "# Direct dependency candidates\n\n"
+              "Package names below were observed in import/export/part directives in the recovered Dart files. "
+              "They are stronger direct-dependency candidates than the NOTICES.Z inventory, but exact versions "
+              "and original dependency constraints remain unknown.\n\n"
+              + ("## Flutter SDK imports\n\n" + "\n".join(f"- {name}" for name in sdk_dependencies) + "\n\n" if sdk_dependencies else "")
+              + "## External package imports\n\n"
+              + ("\n".join(f"- {name}" for name in external_dependencies) if external_dependencies else "_No external package imports were parsed._")
+              + "\n",
+              encoding="utf-8",
+          )
+
+          (root / "docs/android-layer.md").write_text(
+              "# Android packaging and resource layer\n\n"
+              f"- Apktool-decoded files copied: {decoded_count}\n"
+              "- The base APK's AndroidManifest.xml, resource XML, and Smali output are under android/apktool/.\n"
+              "- Flutter assets are kept separately under assets/flutter_assets/ to avoid duplicate copies.\n"
+              "- Raw native .so files and .env are excluded from the public workspace; native library names and hashes remain in forensics/.\n"
+              "- JNI evidence from the synthetic base-plus-arm64 analysis APK is retained as android-jni-bindings-merged.json. "
+              "That merged APK is an analysis-only container, not an installable or signed release.\n",
+              encoding="utf-8",
+          )
+
           asset_files = sorted(p for p in (root / "assets").rglob("*") if p.is_file())
           extension_counts = collections.Counter(p.suffix.lower() or "[no extension]" for p in asset_files)
           asset_rows = "\n".join(f"- {ext}: {count}" for ext, count in sorted(extension_counts.items()))
@@ -713,6 +847,10 @@ jobs:
                       "version_code": 228,
                       "source_bundle": "XAPK",
                       "dart_source_files": len(dart_files),
+                      "jadart_export_file_count": len(export_meta.get("files", [])),
+                      "generated_plugin_registrant_included": plugin_registrant_included,
+                      "direct_package_import_count": len(direct_dependencies),
+                      "apktool_decoded_file_count": decoded_count,
                       "asset_files": len(asset_files),
                       "native_library_count": native_count,
                       "jadart_libraries": export_meta.get("libraries"),
@@ -774,7 +912,8 @@ jobs:
               "Clone this branch and open the folder in VS Code. The recovered Dart files are in "
               "lib/recovered/; extracted Flutter assets are in assets/flutter_assets/; "
               "additional split assets are in assets/split-assets/; analysis evidence is in forensics/ "
-              "and the navigation/feature indexes are in docs/.\n\n"
+              "and the navigation/feature indexes are in docs/. The decoded Android manifest, resource XML and Smali are in android/apktool/.\n\n"
+              "The generated Dart plugin registrant is preserved in forensics/dart_plugin_registrant.dart; direct package import candidates are in docs/direct-dependency-candidates.md.\n\n"
               "## Important status\n\n"
               "- lib/recovered/ contains generated decompilation output, not the original Dart repository.\n"
               "- Dart identifiers and file names may be obfuscated; these files are preserved as raw evidence.\n"
@@ -843,6 +982,16 @@ jobs:
               encoding="utf-8"
           )
           PY
+
+      - name: Attach final redaction summary to workspace
+        if: ${{ always() && steps.reports.outputs.directory != '' }}
+        shell: bash
+        env:
+          REPORT_DIR: ${{ steps.reports.outputs.directory }}
+        run: |
+          if [[ -f "$REPORT_DIR/redaction-summary.txt" && -d "$REPORT_DIR/yaya-reconstructed/forensics" ]]; then
+            cp "$REPORT_DIR/redaction-summary.txt" "$REPORT_DIR/yaya-reconstructed/forensics/redaction-summary.txt"
+          fi
 
       - name: Upload recovered Dart source and Flutter assets
         if: ${{ success() }}
