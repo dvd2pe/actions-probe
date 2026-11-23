@@ -60,6 +60,6 @@
   },
   "meta": {
     "command": "identify-flutter-build",
-    "duration": "236ms"
+    "duration": "211ms"
   }
 }

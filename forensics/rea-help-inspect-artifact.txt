@@ -1,0 +1,30 @@
+rea inspect-artifact — Inspect one artifact and return all available observations and next probes
+
+Usage: rea inspect-artifact <path> [options]
+
+Arguments:
+  path  Application or package path
+
+Options:
+  --integrity-policy <fail|record-and-continue>  Behavior when declared artifact integrity does not match (default: fail)
+  --artifact-limits <value>                      JSON artifact producer admissions: bun, dotnet_bundle, node_sea, godot, and expanded_bytes. Omitted fields keep defaults; changes apply on the next call without restart. Independent of summary/paging and client delivery limits.
+  --detail <complete|summary>                    Deliver complete Evidence, or a summary with --evidence_output (default: complete)
+  --target-format <esp-flash-image>              Read the target as an ESP flash dump; required with --flash-offset or --partition-table-offset
+  --flash-offset <string>                        Flash address (0xhex) of the dump's first byte
+  --partition-table-offset <string>              Flash address (0xhex, a multiple of 0x1000) of the partition table; disables the table scan
+  --evidence_output <string>                     Save complete Evidence as a bundle; required for summary delivery. Never overwrites.
+
+Custom Global Options:
+  --timings  Write measured command timing to stderr.
+
+Global Options:
+  --filter-output <keys>                      Filter output by key paths (e.g. foo,bar.baz,a[0,3])
+  --format <toon|json|yaml|md|jsonl|csv|tsv>  Output format
+  --full-output                               Show full output envelope
+  --help                                      Show help
+  --json                                      Shorthand for --format json
+  --llms, --llms-full                         Print LLM-readable manifest
+  --schema                                    Show JSON Schema for command
+  --token-count                               Print token count of output (instead of output)
+  --token-limit <n>                           Limit output to n tokens
+  --token-offset <n>                          Skip first n tokens of output

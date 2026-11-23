@@ -1,0 +1,24 @@
+rea project-android-application-graph — Project authenticated APK inventory Evidence into an Android application graph
+
+Usage: rea project-android-application-graph <inputJson> [options]
+
+Arguments:
+  inputJson  Inline workflow JSON or JSON file path
+
+Options:
+  --evidence-bundle <string>  Resolve exact retained Evidence IDs from this local Evidence bundle without reopening an analysis target
+
+Custom Global Options:
+  --timings  Write measured command timing to stderr.
+
+Global Options:
+  --filter-output <keys>                      Filter output by key paths (e.g. foo,bar.baz,a[0,3])
+  --format <toon|json|yaml|md|jsonl|csv|tsv>  Output format
+  --full-output                               Show full output envelope
+  --help                                      Show help
+  --json                                      Shorthand for --format json
+  --llms, --llms-full                         Print LLM-readable manifest
+  --schema                                    Show JSON Schema for command
+  --token-count                               Print token count of output (instead of output)
+  --token-limit <n>                           Limit output to n tokens
+  --token-offset <n>                          Skip first n tokens of output
