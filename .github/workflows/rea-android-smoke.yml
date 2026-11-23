@@ -157,6 +157,20 @@ jobs:
             | select(.package == $expected)
           ' "$REPORT_DIR/analysis.json" >/dev/null
 
+      - name: Inspect APK signature and certificate identity
+        if: ${{ success() }}
+        shell: bash
+        env:
+          REPORT_DIR: ${{ steps.reports.outputs.directory }}
+        run: |
+          set +e
+          rea inspect-apk-signature "$APK_PATH" --format json --full-output \
+            > "$REPORT_DIR/signature.json" 2> "$REPORT_DIR/signature.stderr"
+          status=$?
+          set -e
+          printf '%s\n' "$status" > "$REPORT_DIR/signature.exit-code.txt"
+          exit "$status"
+
       - name: Inventory app classes and inspect Android entry points
         if: ${{ success() }}
         shell: bash
@@ -231,6 +245,9 @@ jobs:
           mkdir -p "$REPORT_DIR/flutter-config"
           while IFS= read -r config; do
             relative="${config#"$split_dir"/}"
+            if [[ "$relative" == */.env ]]; then
+              relative="${relative%/.env}/ENV.txt"
+            fi
             destination="$REPORT_DIR/flutter-config/$relative"
             mkdir -p "$(dirname "$destination")"
             cp "$config" "$destination"
