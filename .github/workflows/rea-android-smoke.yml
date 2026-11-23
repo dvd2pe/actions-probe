@@ -37,7 +37,7 @@ jobs:
   android-analysis:
     name: Analyze Android package with REA
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 60
     steps:
       - name: Prepare isolated report directory
         id: reports
@@ -234,6 +234,26 @@ jobs:
           find "$split_dir" -type f -path '*/assets/flutter_assets/*' -printf '%P\n' | sort \
             > "$REPORT_DIR/flutter-assets.txt"
 
+          notices_file="$(find "$split_dir" -type f -path '*/assets/flutter_assets/NOTICES.Z' -print -quit)"
+          if [[ -n "$notices_file" ]]; then
+            python3 - "$notices_file" "$REPORT_DIR/flutter-dependencies.txt" <<'PY'
+          import gzip, pathlib, sys
+          raw = gzip.open(sys.argv[1], "rb").read().decode("utf-8", "replace")
+          names = []
+          for block in raw.split("-" * 80):
+              for line in block.strip().splitlines():
+                  line = line.strip()
+                  if not line:
+                      break
+                  if line and len(line) < 180:
+                      names.append(line)
+          unique = list(dict.fromkeys(names))
+          pathlib.Path(sys.argv[2]).write_text(
+              f"Packages named in Flutter NOTICES.Z: {len(unique)}\n" +
+              "\n".join(unique) + "\n", encoding="utf-8")
+          PY
+          fi
+
           : > "$REPORT_DIR/native-url-candidates.txt"
           : > "$REPORT_DIR/libapp-interesting-strings.txt"
           while IFS= read -r lib; do
@@ -258,6 +278,228 @@ jobs:
           done < <(find "$split_dir" -type f \
             \( -name '.env' -o -name 'app_config.json' -o -name 'countries.json' \
                -o -name 'NativeAssetsManifest.json' -o -name 'FontManifest.json' \) | sort)
+
+      - name: Decompile Flutter Dart AOT with Jadart
+        if: ${{ success() }}
+        shell: bash
+        env:
+          REPORT_DIR: ${{ steps.reports.outputs.directory }}
+        run: |
+          set +e
+          input_dir="${RUNNER_TEMP}/rea-android/split-content/config.arm64_v8a/lib/arm64-v8a"
+          jadart_dir="${RUNNER_TEMP}/jadart"
+          venv="${RUNNER_TEMP}/jadart-venv"
+          export_dir="${RUNNER_TEMP}/jadart-export"
+          log_file="${RUNNER_TEMP}/jadart.log"
+          status=0
+          verify_status=99
+          export_status=99
+
+          sudo apt-get update -qq > "$RUNNER_TEMP/jadart-apt.log" 2>&1
+          status=$?
+          if [[ "$status" -eq 0 ]]; then
+            sudo apt-get install -y --no-install-recommends python3-venv >> "$RUNNER_TEMP/jadart-apt.log" 2>&1
+            status=$?
+          fi
+          if [[ "$status" -eq 0 ]]; then
+            git clone --depth 1 https://github.com/IR0NBYTE/Jadart.git "$jadart_dir" > "$log_file" 2>&1
+            status=$?
+          fi
+          status=$?
+          if [[ "$status" -eq 0 ]]; then
+            git -C "$jadart_dir" rev-parse HEAD > "$REPORT_DIR/jadart-source-revision.txt"
+            python3 -m venv "$venv" >> "$log_file" 2>&1
+            status=$?
+          fi
+          if [[ "$status" -eq 0 ]]; then
+            "$venv/bin/pip" install --disable-pip-version-check "$jadart_dir/framework[disasm]" >> "$log_file" 2>&1
+            status=$?
+          fi
+          if [[ "$status" -eq 0 ]]; then
+            "$venv/bin/jadart" -j info "$input_dir/libapp.so" \
+              > "$REPORT_DIR/jadart-info.json" 2> "$REPORT_DIR/jadart-info.stderr"
+            status=$?
+          fi
+          if [[ "$status" -eq 0 ]]; then
+            "$venv/bin/jadart" -j verify "$input_dir/libapp.so" \
+              > "$REPORT_DIR/jadart-verify.json" 2> "$REPORT_DIR/jadart-verify.stderr"
+            verify_status=$?
+            "$venv/bin/jadart" -j export "$input_dir/libapp.so" \
+              -o "$export_dir" -t 3 -a -q \
+              > "$REPORT_DIR/jadart-export.json" 2> "$REPORT_DIR/jadart-export.stderr"
+            export_status=$?
+          fi
+
+          printf '%s\n' "$status" > "$REPORT_DIR/jadart-exit-code.txt"
+          printf '%s\n' "$verify_status" > "$REPORT_DIR/jadart-verify-exit-code.txt"
+          printf '%s\n' "$export_status" > "$REPORT_DIR/jadart-export-exit-code.txt"
+          if [[ "$status" -ne 0 ]]; then
+            {
+              echo "Jadart could not parse the Flutter snapshot (exit $status)."
+              tail -n 60 "$log_file" 2>/dev/null
+            } > "$REPORT_DIR/jadart-error.txt"
+          fi
+
+          python3 - "$REPORT_DIR" "$export_dir" "$jadart_dir" <<'PY'
+          import json, pathlib, re, sys
+          report, out, source = map(pathlib.Path, sys.argv[1:])
+          lines = ["Jadart Flutter Dart AOT analysis"]
+          def load(name):
+              p = report / name
+              if not p.exists():
+                  return None
+              try:
+                  return json.loads(p.read_text(errors="replace"))
+              except Exception:
+                  return None
+          info = load("jadart-info.json")
+          if info and info.get("ok"):
+              for key, snap in info.get("snapshots", {}).items():
+                  lines += [
+                      f"Snapshot: {key}",
+                      f"  Dart: {snap.get('dart')}",
+                      f"  Epoch: {snap.get('epoch')}",
+                      f"  Target: {snap.get('target')}",
+                      f"  Version hash: {snap.get('version_hash')}",
+                      f"  Objects: {snap.get('objects')}",
+                      f"  Clusters: {snap.get('clusters')}",
+                      f"  Instruction table length: {snap.get('instr_table_len')}",
+                  ]
+          else:
+              lines.append("Jadart info did not produce a supported snapshot header.")
+          verify = load("jadart-verify.json")
+          if verify:
+              lines += ["", "Acceptance gates:"]
+              for gate in verify.get("gates", []):
+                  gate_status = gate.get("status") or ("PASS" if gate.get("passed") else "FAIL")
+                  lines.append(f"  {gate.get('gate')}: {gate_status}")
+              lines.append(f"  passed: {verify.get('passed')}; failed: {len(verify.get('failed', []))}")
+          exported = load("jadart-export.json")
+          if exported and exported.get("ok"):
+              lines += [
+                  "",
+                  "Export summary:",
+                  f"  libraries: {exported.get('libraries')}",
+                  f"  classes: {exported.get('classes')}",
+                  f"  methods: {exported.get('methods')}",
+                  f"  strings: {exported.get('strings')}",
+                  f"  selectors: {exported.get('selectors')}",
+              ]
+          if out.exists():
+              dart_files = list((out / "sources").rglob("*.dart")) if (out / "sources").exists() else []
+              lines.append(f"  Dart source files generated: {len(dart_files)}")
+              class_names, method_names = set(), set()
+              class_re = re.compile(r"(?m)^\s*(?:abstract\s+|sealed\s+)?(?:class|mixin|enum|extension)\s+([A-Za-z_$][A-Za-z0-9_$]*)")
+              method_re = re.compile(r"(?m)^\s{2,}(?:static\s+)?(?:[A-Za-z_$][A-Za-z0-9_$<>?,.\[\] ]*\s+)?([A-Za-z_$][A-Za-z0-9_$]*)\s*\(")
+              keywords = re.compile(r"auth|login|profile|helper|nann|job|chat|message|payment|premium|subscr|visa|interview|booking|search|filter|video|document|upload|firebase|api|socket|notification|family|care", re.I)
+              for p in dart_files:
+                  txt = p.read_text(errors="replace")
+                  class_names.update(class_re.findall(txt))
+                  for m in method_re.finditer(txt):
+                      name = m.group(1)
+                      if keywords.search(name):
+                          method_names.add(name)
+              lines += ["", f"Recovered Dart classes: {len(class_names)}",
+                        f"Feature-related method names: {len(method_names)}",
+                        "Feature-related method candidates:"]
+              lines += [f"  - {n}" for n in sorted(method_names)[:500]]
+              if len(method_names) > 500:
+                  lines.append(f"  ... {len(method_names)-500} additional candidates omitted")
+
+              strings_file = out / "strings.txt"
+              if strings_file.exists():
+                  pool = strings_file.read_text(errors="replace").splitlines()
+                  feature_re = re.compile(r"yaya|helper|nann|family|care|visa|interview|concierge|job|chat|message|profile|premium|subscr|booking|document|upload|cv|passport|certificate|reference|identity|login|register|otp|password|phone|payment|paywall|firebase|onesignal|socket|api|graphql|endpoint|http|gemini|\bAI\b", re.I)
+                  feature_strings = sorted({s for s in pool if feature_re.search(s) and len(s) <= 300})
+                  (report / "jadart-feature-strings.txt").write_text(
+                      "\n".join(feature_strings[:600]) + "\n", encoding="utf-8")
+                  lines += ["", f"Feature-related string literals: {len(feature_strings)}",
+                            "String inventory: jadart-feature-strings.txt"]
+
+              markers = [
+                  "ApiEndpoints", "loadAppConfigData", "AppConfigLoader",
+                  "YayaAiController", "FamilyOnboardingController", "SocketService",
+                  "RevenueCat", "Top Yaya Picks", "Yaya Chat", "INTERVIEW_BOOKING_ENABLED",
+                  "api_server_url", "chat_server_url", "FIREBASE_APP_CONFIG_URL",
+                  "FirebaseAuth", "carefinder", "concierge",
+              ]
+              source_hits = []
+              for source_file in dart_files:
+                  try:
+                      source_lines = source_file.read_text(errors="replace").splitlines()
+                  except OSError:
+                      continue
+                  for marker in markers:
+                      for index, source_line in enumerate(source_lines):
+                          if marker.lower() not in source_line.lower():
+                              continue
+                          class_context = ""
+                          method_context = ""
+                          for previous in reversed(source_lines[:index]):
+                              stripped = previous.strip()
+                              if not class_context and (stripped.startswith("class ") or stripped.startswith("abstract class ")):
+                                  class_context = stripped[:160]
+                              if not method_context and "(" in stripped and stripped.endswith("{") and not stripped.startswith(("if ", "for ", "while ", "switch ", "catch ")):
+                                  method_context = stripped[:160]
+                              if class_context and method_context:
+                                  break
+                          source_hits.append(
+                              f"{source_file.relative_to(out)}:{index+1} [{marker}] "
+                              f"class={class_context or '?'} method={method_context or '?'}"
+                          )
+                          if len(source_hits) >= 400:
+                              break
+                      if len(source_hits) >= 400:
+                          break
+                  if len(source_hits) >= 400:
+                      break
+              (report / "jadart-source-index.txt").write_text(
+                  "\n".join(source_hits) + ("\n" if source_hits else "No selected marker occurrences found.\n"),
+                  encoding="utf-8")
+              lines += ["", f"Source-index matches: {len(source_hits)}",
+                        "Source index: jadart-source-index.txt"]
+          lines.append("")
+          (report / "jadart-summary.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
+          PY
+          exit 0
+
+      - name: Redact credentials and API keys from public report
+        if: ${{ always() && steps.reports.outputs.directory != '' }}
+        shell: bash
+        env:
+          REPORT_DIR: ${{ steps.reports.outputs.directory }}
+        run: |
+          python3 - "$REPORT_DIR" <<'PY'
+          import pathlib, re, sys
+          root = pathlib.Path(sys.argv[1])
+          patterns = [
+              re.compile(r"AIza[0-9A-Za-z_-]{35}"),
+              re.compile(r"AKIA[0-9A-Z]{16}"),
+              re.compile(r"(?i)(Bearer\s+)[A-Za-z0-9._~+/=-]+"),
+              re.compile(r"eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}"),
+              re.compile(r"(?i)([?&](?:api[_-]?key|token|access_token|refresh_token|client_secret|password|secret)=)[^&\s\"']+"),
+              re.compile(r"(?i)(\b(?:api[_-]?key|client_secret|access_token|refresh_token|password|secret|token)\s*[:=]\s*[\"']?)[A-Za-z0-9_./+=-]{8,}"),
+          ]
+          summary = []
+          for path in root.rglob("*"):
+              if not path.is_file() or path.name == "redaction-summary.txt":
+                  continue
+              try:
+                  text = path.read_text(encoding="utf-8")
+              except (UnicodeDecodeError, OSError):
+                  continue
+              total = 0
+              for pattern in patterns:
+                  text, count = pattern.subn(lambda m: (m.group(1) if m.lastindex else "") + "[REDACTED]", text)
+                  total += count
+              if total:
+                  path.write_text(text, encoding="utf-8")
+                  summary.append(f"{path.relative_to(root)}: {total} value(s) redacted")
+          (root / "redaction-summary.txt").write_text(
+              "\n".join(summary) + ("\n" if summary else "No credential-like values matched the redaction rules.\n"),
+              encoding="utf-8"
+          )
+          PY
 
       - name: Upload analysis report
         if: ${{ always() && steps.reports.outputs.directory != '' }}
