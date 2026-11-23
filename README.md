@@ -4,7 +4,9 @@ This workspace was generated from the Android XAPK for com.yaya.portal (version 
 
 ## Open in an editor
 
-Clone this branch and open the folder in VS Code. The recovered Dart files are in lib/recovered/; extracted Flutter assets are in assets/flutter_assets/; additional split assets are in assets/split-assets/; analysis evidence is in forensics/ and the navigation/feature indexes are in docs/.
+Clone this branch and open the folder in VS Code. The recovered Dart files are in lib/recovered/; extracted Flutter assets are in assets/flutter_assets/; additional split assets are in assets/split-assets/; analysis evidence is in forensics/ and the navigation/feature indexes are in docs/. The decoded Android manifest, resource XML and Smali are in android/apktool/.
+
+The generated Dart plugin registrant is preserved in forensics/dart_plugin_registrant.dart; direct package import candidates are in docs/direct-dependency-candidates.md.
 
 ## Important status
 

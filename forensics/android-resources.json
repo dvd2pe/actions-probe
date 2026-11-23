@@ -1,26 +1,964 @@
 {
-  "ok": false,
-  "error": {
-    "code": "capability_unavailable",
-    "category": "unsupported_provider",
-    "message": "The selected apktool launcher was not found: apktool. Set REA_APKTOOL_COMMAND to an absolute apktool launcher (the upstream wrapper or a java -jar script).",
-    "retryable": false,
-    "remediation": {
-      "action": "The selected apktool launcher was not found: apktool. Set REA_APKTOOL_COMMAND to an absolute apktool launcher (the upstream wrapper or a java -jar script)."
+  "ok": true,
+  "data": {
+    "evidence_id": "ev_92349a70eddfff868b9ba84e0bdc0b41f62c9fa064a00a632002a741661a7065",
+    "evidence_format": 2,
+    "subject": {
+      "identity": {
+        "kind": "file",
+        "sha256": "50e1d3bb6ab1ebaf48735ad33581680966d4372f36f89dfaf4ba1868cc2e59d2",
+        "selection": null,
+        "format": "apk",
+        "architecture": null
+      },
+      "name": "com.yaya.portal.apk",
+      "local_path": "/home/runner/work/_temp/rea-android/extracted/com.yaya.portal.apk"
     },
-    "details": {
-      "provider_id": "apktool",
-      "operation": "decode_android_resources",
-      "reason": "The selected apktool launcher was not found: apktool. Set REA_APKTOOL_COMMAND to an absolute apktool launcher (the upstream wrapper or a java -jar script).",
-      "diagnostics": {
-        "filesystem_error": "ENOENT",
-        "selected_command": "apktool",
-        "command_source": "path"
-      }
-    }
+    "provider": {
+      "id": "apktool",
+      "name": "Apktool",
+      "version": "2.7.0-dirty"
+    },
+    "analysis_profile": null,
+    "predicate_type": "rea.analysis",
+    "operation": "decode_android_resources",
+    "parameters": {
+      "path": "/home/runner/work/_temp/rea-android/extracted/com.yaya.portal.apk",
+      "include_strings": true
+    },
+    "raw_result": null,
+    "normalized_result": {
+      "client": {
+        "command": "/usr/bin/apktool",
+        "command_source": "environment",
+        "apktool_version": "2.7.0-dirty"
+      },
+      "target": {
+        "path": "/home/runner/work/_temp/rea-android/extracted/com.yaya.portal.apk",
+        "bytes": 46900922,
+        "sha256": "50e1d3bb6ab1ebaf48735ad33581680966d4372f36f89dfaf4ba1868cc2e59d2"
+      },
+      "metadata": {
+        "version_name": "5.6.2",
+        "version_code": "228",
+        "min_sdk_version": "24",
+        "target_sdk_version": "36",
+        "package_name": "com.yaya.portal"
+      },
+      "manifest": "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"no\"?><manifest xmlns:android=\"http://schemas.android.com/apk/res/android\" android:compileSdkVersion=\"37\" android:compileSdkVersionCodename=\"17\" android:requiredSplitTypes=\"base__abi,base__density\" android:splitTypes=\"\" package=\"com.yaya.portal\" platformBuildVersionCode=\"37\" platformBuildVersionName=\"17\">\n    <uses-permission android:name=\"android.permission.INTERNET\"/>\n    <uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>\n    <uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\"/>\n    <uses-permission android:name=\"android.permission.POST_NOTIFICATIONS\"/>\n    <uses-permission android:name=\"android.permission.VIBRATE\"/>\n    <uses-permission android:name=\"android.permission.CAMERA\"/>\n    <uses-feature android:name=\"android.hardware.camera\"/>\n    <uses-permission android:name=\"com.google.android.gms.permission.AD_ID\"/>\n    <uses-permission android:name=\"com.android.vending.BILLING\"/>\n    <queries>\n        <intent>\n            <action android:name=\"android.intent.action.INSERT\"/>\n            <data android:mimeType=\"vnd.android.cursor.item/event\"/>\n        </intent>\n        <intent>\n            <action android:name=\"android.intent.action.PROCESS_TEXT\"/>\n            <data android:mimeType=\"text/plain\"/>\n        </intent>\n        <intent>\n            <action android:name=\"android.intent.action.GET_CONTENT\"/>\n            <data android:mimeType=\"*/*\"/>\n        </intent>\n        <intent>\n            <action android:name=\"android.support.customtabs.action.CustomTabsService\"/>\n        </intent>\n        <intent>\n            <action android:name=\"com.android.vending.billing.InAppBillingService.BIND\"/>\n        </intent>\n        <intent>\n            <action android:name=\"com.google.android.apps.play.billingtestcompanion.BillingOverrideService.BIND\"/>\n        </intent>\n        <package android:name=\"com.google.android.apps.maps\"/>\n        <intent>\n            <action android:name=\"com.appsflyer.referrer.INSTALL_PROVIDER\"/>\n        </intent>\n        <package android:name=\"com.facebook.katana\"/>\n        <package android:name=\"com.instagram.android\"/>\n        <package android:name=\"com.facebook.lite\"/>\n        <package android:name=\"com.samsung.android.mapsagent\"/>\n        <intent>\n            <action android:name=\"android.intent.action.VIEW\"/>\n            <category android:name=\"android.intent.category.BROWSABLE\"/>\n            <data android:scheme=\"https\"/>\n        </intent>\n        <intent>\n            <action android:name=\"android.intent.action.INSERT\"/>\n            <data android:mimeType=\"vnd.android.cursor.dir/event\"/>\n        </intent>\n        <intent>\n            <action android:name=\"android.intent.action.VIEW\"/>\n            <data android:scheme=\"sms\"/>\n        </intent>\n        <intent>\n            <action android:name=\"android.intent.action.DIAL\"/>\n            <data android:path=\"tel:\"/>\n        </intent>\n        <package android:name=\"com.android.vending\"/>\n        <package android:name=\"androidx.test.orchestrator\"/>\n        <package android:name=\"androidx.test.services\"/>\n        <package android:name=\"com.google.android.apps.common.testing.services\"/>\n    </queries>\n    <queries>\n        <intent>\n            <action android:name=\"android.intent.action.VIEW\"/>\n            <data android:scheme=\"sms\"/>\n        </intent>\n        <intent>\n            <action android:name=\"android.intent.action.VIEW\"/>\n            <data android:scheme=\"tel\"/>\n        </intent>\n        <intent>\n            <action android:name=\"android.support.customtabs.action.CustomTabsService\"/>\n        </intent>\n    </queries>\n    <queries>\n        <intent>\n            <action android:name=\"android.intent.action.VIEW\"/>\n            <category android:name=\"android.intent.category.BROWSABLE\"/>\n            <data android:scheme=\"https\"/>\n        </intent>\n    </queries>\n    <uses-permission android:name=\"android.permission.WAKE_LOCK\"/>\n    <uses-permission android:name=\"com.google.android.providers.gsf.permission.READ_GSERVICES\"/>\n    <permission android:name=\"com.yaya.portal.permission.C2D_MESSAGE\" android:protectionLevel=\"signature\"/>\n    <uses-permission android:name=\"com.yaya.portal.permission.C2D_MESSAGE\"/>\n    <uses-permission android:name=\"com.google.android.c2dm.permission.RECEIVE\"/>\n    <uses-permission android:name=\"com.sec.android.provider.badge.permission.READ\"/>\n    <uses-permission android:name=\"com.sec.android.provider.badge.permission.WRITE\"/>\n    <uses-permission android:name=\"com.htc.launcher.permission.READ_SETTINGS\"/>\n    <uses-permission android:name=\"com.htc.launcher.permission.UPDATE_SHORTCUT\"/>\n    <uses-permission android:name=\"com.sonyericsson.home.permission.BROADCAST_BADGE\"/>\n    <uses-permission android:name=\"com.sonymobile.home.permission.PROVIDER_INSERT_BADGE\"/>\n    <uses-permission android:name=\"com.anddoes.launcher.permission.UPDATE_COUNT\"/>\n    <uses-permission android:name=\"com.majeur.launcher.permission.UPDATE_BADGE\"/>\n    <uses-permission android:name=\"com.huawei.android.launcher.permission.CHANGE_BADGE\"/>\n    <uses-permission android:name=\"com.huawei.android.launcher.permission.READ_SETTINGS\"/>\n    <uses-permission android:name=\"com.huawei.android.launcher.permission.WRITE_SETTINGS\"/>\n    <uses-permission android:name=\"android.permission.READ_APP_BADGE\"/>\n    <uses-permission android:name=\"com.oppo.launcher.permission.READ_SETTINGS\"/>\n    <uses-permission android:name=\"com.oppo.launcher.permission.WRITE_SETTINGS\"/>\n    <uses-permission android:name=\"me.everything.badger.permission.BADGE_COUNT_READ\"/>\n    <uses-permission android:name=\"me.everything.badger.permission.BADGE_COUNT_WRITE\"/>\n    <uses-feature android:glEsVersion=\"0x00020000\" android:required=\"true\"/>\n    <uses-permission android:name=\"com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE\"/>\n    <uses-permission android:name=\"com.samsung.android.mapsagent.permission.READ_APP_INFO\"/>\n    <uses-permission android:name=\"com.huawei.appmarket.service.commondata.permission.GET_COMMON_DATA\"/>\n    <uses-permission android:name=\"android.permission.ACCESS_ADSERVICES_ATTRIBUTION\"/>\n    <uses-permission android:name=\"android.permission.ACCESS_ADSERVICES_AD_ID\"/>\n    <uses-permission android:name=\"android.permission.ACCESS_ADSERVICES_TOPICS\"/>\n    <uses-permission android:name=\"android.permission.ACCESS_ADSERVICES_CUSTOM_AUDIENCE\"/>\n    <uses-permission android:name=\"android.permission.USE_BIOMETRIC\"/>\n    <uses-permission android:name=\"android.permission.USE_FINGERPRINT\"/>\n    <uses-permission android:name=\"android.permission.REORDER_TASKS\"/>\n    <uses-permission android:name=\"android.permission.FOREGROUND_SERVICE\"/>\n    <permission android:name=\"com.yaya.portal.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION\" android:protectionLevel=\"signature\"/>\n    <uses-permission android:name=\"com.yaya.portal.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION\"/>\n    <application android:allowBackup=\"true\" android:appComponentFactory=\"androidx.core.app.CoreComponentFactory\" android:dataExtractionRules=\"@xml/appsflyer_data_extraction_rules\" android:extractNativeLibs=\"true\" android:fullBackupContent=\"@xml/appsflyer_backup_rules\" android:hardwareAccelerated=\"true\" android:icon=\"@mipmap/launcher_icon\" android:label=\"Yaya\" android:largeHeap=\"true\" android:name=\"com.pairip.application.Application\" android:supportsRtl=\"true\" android:theme=\"@style/Theme.AppCompat.NoActionBar\" android:usesCleartextTraffic=\"true\">\n        <meta-data android:name=\"com.google.android.geo.API_KEY\" android:value=\"[REDACTED]\"/>\n        <meta-data android:name=\"com.google.android.gms.ads.APPLICATION_ID\" android:value=\"ca-app-pub-9974753589233145~9767318342\"/>\n        <meta-data android:name=\"com.google.android.gms.ads.flag.OPTIMIZE_INITIALIZATION\" android:value=\"true\"/>\n        <meta-data android:name=\"com.google.android.gms.ads.flag.OPTIMIZE_AD_LOADING\" android:value=\"true\"/>\n        <meta-data android:name=\"io.flutter.embedding.android.EnableImpeller\" android:value=\"false\"/>\n        <activity android:configChanges=\"density|fontScale|keyboard|keyboardHidden|layoutDirection|locale|orientation|screenLayout|screenSize|smallestScreenSize|uiMode\" android:enableOnBackInvokedCallback=\"true\" android:exported=\"true\" android:hardwareAccelerated=\"true\" android:launchMode=\"singleTask\" android:name=\"com.yaya.portal.MainActivity\" android:screenOrientation=\"portrait\" android:taskAffinity=\"\" android:theme=\"@style/LaunchTheme\" android:windowSoftInputMode=\"adjustResize\">\n            <meta-data android:name=\"io.flutter.embedding.android.NormalTheme\" android:resource=\"@style/NormalTheme\"/>\n            <meta-data android:name=\"flutter_deeplinking_enabled\" android:value=\"false\"/>\n            <intent-filter>\n                <action android:name=\"android.intent.action.MAIN\"/>\n                <category android:name=\"android.intent.category.LAUNCHER\"/>\n            </intent-filter>\n            <intent-filter android:autoVerify=\"true\">\n                <action android:name=\"android.intent.action.VIEW\"/>\n                <category android:name=\"android.intent.category.DEFAULT\"/>\n                <category android:name=\"android.intent.category.BROWSABLE\"/>\n                <data android:scheme=\"https\"/>\n                <data android:host=\"yayamiddleeast.com\"/>\n                <data android:host=\"www.yayamiddleeast.com\"/>\n                <data android:pathPrefix=\"/carefinder/nannies\"/>\n                <data android:pathPrefix=\"/helpers\"/>\n                <data android:pathPrefix=\"/employers\"/>\n                <data android:pathPrefix=\"/paywall\"/>\n            </intent-filter>\n            <intent-filter android:autoVerify=\"true\">\n                <action android:name=\"android.intent.action.VIEW\"/>\n                <category android:name=\"android.intent.category.DEFAULT\"/>\n                <category android:name=\"android.intent.category.BROWSABLE\"/>\n                <data android:host=\"yayamiddleeast.onelink.me\" android:pathPrefix=\"/sBUa\" android:scheme=\"https\"/>\n            </intent-filter>\n            <intent-filter>\n                <action android:name=\"android.intent.action.VIEW\"/>\n                <category android:name=\"android.intent.category.DEFAULT\"/>\n                <category android:name=\"android.intent.category.BROWSABLE\"/>\n                <data android:host=\"com.yaya.portal\" android:scheme=\"app\"/>\n                <data android:host=\"open.my.app\" android:scheme=\"app\"/>\n            </intent-filter>\n            <intent-filter>\n                <action android:name=\"android.intent.action.VIEW\"/>\n                <category android:name=\"android.intent.category.DEFAULT\"/>\n                <category android:name=\"android.intent.category.BROWSABLE\"/>\n                <data android:host=\"paywall\" android:scheme=\"yaya\"/>\n            </intent-filter>\n        </activity>\n        <meta-data android:name=\"flutterEmbedding\" android:value=\"2\"/>\n        <meta-data android:name=\"com.facebook.sdk.ApplicationId\" android:value=\"@string/facebook_app_id\"/>\n        <meta-data android:name=\"com.facebook.sdk.ClientToken\" android:value=\"@string/facebook_client_token\"/>\n        <activity android:configChanges=\"keyboard|keyboardHidden|orientation|screenLayout|screenSize\" android:label=\"@string/app_name\" android:name=\"com.facebook.FacebookActivity\" android:theme=\"@style/com_facebook_activity_theme\"/>\n        <activity android:exported=\"true\" android:name=\"com.facebook.CustomTabActivity\">\n            <intent-filter>\n                <action android:name=\"android.intent.action.VIEW\"/>\n                <category android:name=\"android.intent.category.DEFAULT\"/>\n                <category android:name=\"android.intent.category.BROWSABLE\"/>\n                <data android:scheme=\"@string/facebook_app_id\"/>\n            </intent-filter>\n            <intent-filter>\n                <action android:name=\"android.intent.action.VIEW\"/>\n                <category android:name=\"android.intent.category.DEFAULT\"/>\n                <category android:name=\"android.intent.category.BROWSABLE\"/>\n                <data android:host=\"cct.com.yaya.portal\" android:scheme=\"fbconnect\"/>\n            </intent-filter>\n        </activity>\n        <meta-data android:name=\"com.onesignal.NotificationIcon\" android:resource=\"@mipmap/launcher_icon\"/>\n        <activity android:name=\"com.yalantis.ucrop.UCropActivity\" android:theme=\"@style/Theme.AppCompat.Light.NoActionBar\"/>\n        <service android:exported=\"true\" android:name=\"com.onesignal.NotificationExtenderService\" android:permission=\"android.permission.BIND_JOB_SERVICE\"/>\n        <activity android:exported=\"true\" android:name=\"com.aboutyou.dart_packages.sign_in_with_apple.SignInWithAppleCallback\">\n            <intent-filter>\n                <action android:name=\"android.intent.action.VIEW\"/>\n                <category android:name=\"android.intent.category.DEFAULT\"/>\n                <category android:name=\"android.intent.category.BROWSABLE\"/>\n                <data android:scheme=\"signinwithapple\"/>\n                <data android:path=\"callback\"/>\n            </intent-filter>\n        </activity>\n        <meta-data android:name=\"com.facebook.sdk.CodelessDebugLogEnabled\" android:value=\"true\"/>\n        <service android:directBootAware=\"true\" android:exported=\"false\" android:name=\"com.google.firebase.components.ComponentDiscoveryService\">\n            <meta-data android:name=\"com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n            <meta-data android:name=\"com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n            <meta-data android:name=\"com.google.firebase.components:io.flutter.plugins.firebase.analytics.FlutterFirebaseAppRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n            <meta-data android:name=\"com.google.firebase.components:io.flutter.plugins.firebase.crashlytics.FlutterFirebaseAppRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n            <meta-data android:name=\"com.google.firebase.components:io.flutter.plugins.firebase.performance.FlutterFirebaseAppRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n            <meta-data android:name=\"com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n            <meta-data android:name=\"com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n            <meta-data android:name=\"com.google.firebase.components:com.google.firebase.firestore.FirebaseFirestoreKtxRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n            <meta-data android:name=\"com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n            <meta-data android:name=\"com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingKtxRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n            <meta-data android:name=\"com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n            <meta-data android:name=\"com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n            <meta-data android:name=\"com.google.firebase.components:com.google.firebase.crashlytics.FirebaseCrashlyticsKtxRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n            <meta-data android:name=\"com.google.firebase.components:com.google.firebase.crashlytics.CrashlyticsRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n            <meta-data android:name=\"com.google.firebase.components:com.google.firebase.perf.FirebasePerfKtxRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n            <meta-data android:name=\"com.google.firebase.components:com.google.firebase.perf.FirebasePerfRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n            <meta-data android:name=\"com.google.firebase.components:com.google.firebase.sessions.FirebaseSessionsRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n            <meta-data android:name=\"com.google.firebase.components:com.google.firebase.remoteconfig.FirebaseRemoteConfigKtxRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n            <meta-data android:name=\"com.google.firebase.components:com.google.firebase.remoteconfig.RemoteConfigRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n            <meta-data android:name=\"com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsKtxRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n            <meta-data android:name=\"com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n            <meta-data android:name=\"com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n            <meta-data android:name=\"com.google.firebase.components:com.google.firebase.abt.component.AbtRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n            <meta-data android:name=\"com.google.firebase.components:com.google.firebase.datatransport.TransportRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n        </service>\n        <activity android:excludeFromRecents=\"true\" android:exported=\"true\" android:launchMode=\"singleTask\" android:name=\"com.google.firebase.auth.internal.GenericIdpActivity\" android:theme=\"@android:style/Theme.Translucent.NoTitleBar\">\n            <intent-filter>\n                <action android:name=\"android.intent.action.VIEW\"/>\n                <category android:name=\"android.intent.category.DEFAULT\"/>\n                <category android:name=\"android.intent.category.BROWSABLE\"/>\n                <data android:host=\"firebase.auth\" android:path=\"/\" android:scheme=\"genericidp\"/>\n            </intent-filter>\n        </activity>\n        <activity android:excludeFromRecents=\"true\" android:exported=\"true\" android:launchMode=\"singleTask\" android:name=\"com.google.firebase.auth.internal.RecaptchaActivity\" android:theme=\"@android:style/Theme.Translucent.NoTitleBar\">\n            <intent-filter>\n                <action android:name=\"android.intent.action.VIEW\"/>\n                <category android:name=\"android.intent.category.DEFAULT\"/>\n                <category android:name=\"android.intent.category.BROWSABLE\"/>\n                <data android:host=\"firebase.auth\" android:path=\"/\" android:scheme=\"recaptcha\"/>\n            </intent-filter>\n        </activity>\n        <activity android:configChanges=\"orientation|screenSize\" android:name=\"biz.cunning.cunning_document_scanner.fallback.DocumentScannerActivity\" android:screenOrientation=\"portrait\" android:theme=\"@style/cunning_theme_fullscreen\"/>\n        <provider android:authorities=\"com.yaya.portal.DocumentScannerFileProvider\" android:exported=\"false\" android:grantUriPermissions=\"true\" android:name=\"biz.cunning.cunning_document_scanner.fallback.DocumentScannerFileProvider\">\n            <meta-data android:name=\"android.support.FILE_PROVIDER_PATHS\" android:resource=\"@xml/cunning_file_paths\"/>\n        </provider>\n        <activity android:configChanges=\"density|fontScale|keyboard|keyboardHidden|layoutDirection|locale|orientation|screenLayout|screenSize\" android:exported=\"false\" android:name=\"com.pichillilorenzo.flutter_inappwebview_android.in_app_browser.InAppBrowserActivity\" android:theme=\"@style/AppTheme\"/>\n        <activity android:exported=\"false\" android:name=\"com.pichillilorenzo.flutter_inappwebview_android.chrome_custom_tabs.ChromeCustomTabsActivity\" android:theme=\"@style/ThemeTransparent\"/>\n        <activity android:exported=\"false\" android:name=\"com.pichillilorenzo.flutter_inappwebview_android.chrome_custom_tabs.TrustedWebActivity\" android:theme=\"@style/ThemeTransparent\"/>\n        <activity android:exported=\"false\" android:launchMode=\"singleInstance\" android:name=\"com.pichillilorenzo.flutter_inappwebview_android.chrome_custom_tabs.ChromeCustomTabsActivitySingleInstance\" android:theme=\"@style/ThemeTransparent\"/>\n        <activity android:exported=\"false\" android:launchMode=\"singleInstance\" android:name=\"com.pichillilorenzo.flutter_inappwebview_android.chrome_custom_tabs.TrustedWebActivitySingleInstance\" android:theme=\"@style/ThemeTransparent\"/>\n        <receiver android:enabled=\"true\" android:exported=\"false\" android:name=\"com.pichillilorenzo.flutter_inappwebview_android.chrome_custom_tabs.ActionBroadcastReceiver\"/>\n        <meta-data android:name=\"io.flutter.embedded_views_preview\" android:value=\"true\"/>\n        <uses-library android:name=\"org.apache.http.legacy\" android:required=\"false\"/>\n        <provider android:authorities=\"com.yaya.portal.flutter.image_provider\" android:exported=\"false\" android:grantUriPermissions=\"true\" android:name=\"io.flutter.plugins.imagepicker.ImagePickerFileProvider\">\n            <meta-data android:name=\"android.support.FILE_PROVIDER_PATHS\" android:resource=\"@xml/flutter_image_picker_file_paths\"/>\n        </provider>\n        <service android:enabled=\"false\" android:exported=\"false\" android:name=\"com.google.android.gms.metadata.ModuleDependencies\">\n            <intent-filter>\n                <action android:name=\"com.google.android.gms.metadata.MODULE_DEPENDENCIES\"/>\n            </intent-filter>\n            <meta-data android:name=\"photopicker_activity:0:required\" android:value=\"\"/>\n        </service>\n        <service android:enabled=\"true\" android:exported=\"false\" android:foregroundServiceType=\"location\" android:name=\"com.baseflow.geolocator.GeolocatorLocationService\"/>\n        <provider android:authorities=\"com.yaya.portal.flutter.share_provider\" android:exported=\"false\" android:grantUriPermissions=\"true\" android:name=\"dev.fluttercommunity.plus.share.ShareFileProvider\">\n            <meta-data android:name=\"android.support.FILE_PROVIDER_PATHS\" android:resource=\"@xml/flutter_share_file_paths\"/>\n        </provider>\n        <receiver android:exported=\"false\" android:name=\"dev.fluttercommunity.plus.share.SharePlusPendingIntent\">\n            <intent-filter>\n                <action android:name=\"EXTRA_CHOSEN_COMPONENT\"/>\n            </intent-filter>\n        </receiver>\n        <activity android:exported=\"false\" android:name=\"io.flutter.plugins.urllauncher.WebViewActivity\" android:theme=\"@android:style/Theme.NoTitleBar.Fullscreen\"/>\n        <receiver android:exported=\"true\" android:name=\"com.onesignal.notifications.receivers.FCMBroadcastReceiver\" android:permission=\"com.google.android.c2dm.permission.SEND\">\n            <intent-filter android:priority=\"999\">\n                <action android:name=\"com.google.android.c2dm.intent.RECEIVE\"/>\n                <category android:name=\"com.yaya.portal\"/>\n            </intent-filter>\n        </receiver>\n        <service android:exported=\"false\" android:name=\"com.onesignal.notifications.services.HmsMessageServiceOneSignal\">\n            <intent-filter>\n                <action android:name=\"com.huawei.push.action.MESSAGING_EVENT\"/>\n            </intent-filter>\n        </service>\n        <activity android:exported=\"true\" android:name=\"com.onesignal.NotificationOpenedActivityHMS\" android:noHistory=\"true\" android:theme=\"@android:style/Theme.Translucent.NoTitleBar\">\n            <intent-filter>\n                <action android:name=\"android.intent.action.VIEW\"/>\n            </intent-filter>\n        </activity>\n        <receiver android:exported=\"false\" android:name=\"com.onesignal.notifications.receivers.NotificationDismissReceiver\"/>\n        <receiver android:exported=\"false\" android:name=\"com.onesignal.notifications.receivers.BootUpReceiver\">\n            <intent-filter>\n                <action android:name=\"android.intent.action.BOOT_COMPLETED\"/>\n            </intent-filter>\n        </receiver>\n        <receiver android:exported=\"false\" android:name=\"com.onesignal.notifications.receivers.UpgradeReceiver\">\n            <intent-filter>\n                <action android:name=\"android.intent.action.MY_PACKAGE_REPLACED\"/>\n            </intent-filter>\n        </receiver>\n        <activity android:excludeFromRecents=\"true\" android:exported=\"false\" android:name=\"com.onesignal.notifications.activities.NotificationOpenedActivity\" android:noHistory=\"true\" android:taskAffinity=\"\" android:theme=\"@android:style/Theme.Translucent.NoTitleBar\"/>\n        <activity android:excludeFromRecents=\"true\" android:exported=\"false\" android:name=\"com.onesignal.notifications.activities.NotificationOpenedActivityAndroid22AndOlder\" android:noHistory=\"true\" android:theme=\"@android:style/Theme.Translucent.NoTitleBar\"/>\n        <service android:exported=\"false\" android:name=\"com.onesignal.core.services.SyncJobService\" android:permission=\"android.permission.BIND_JOB_SERVICE\"/>\n        <service android:exported=\"false\" android:name=\"com.onesignal.SyncJobService\" android:permission=\"android.permission.BIND_JOB_SERVICE\"/>\n        <activity android:exported=\"false\" android:name=\"com.onesignal.core.activities.PermissionsActivity\" android:theme=\"@style/OneSignal.Theme.Translucent\"/>\n        <provider android:authorities=\"com.yaya.portal.androidx-startup\" android:exported=\"false\" android:name=\"androidx.startup.InitializationProvider\">\n            <meta-data android:name=\"com.onesignal.core.internal.application.impl.ActivityLifecycleInitializer\" android:value=\"androidx.startup\"/>\n            <meta-data android:name=\"com.google.maps.android.utils.attribution.AttributionIdInitializer\" android:value=\"androidx.startup\"/>\n            <meta-data android:name=\"androidx.work.WorkManagerInitializer\" android:value=\"androidx.startup\"/>\n            <meta-data android:name=\"androidx.emoji2.text.EmojiCompatInitializer\" android:value=\"androidx.startup\"/>\n            <meta-data android:name=\"androidx.lifecycle.ProcessLifecycleInitializer\" android:value=\"androidx.startup\"/>\n            <meta-data android:name=\"androidx.profileinstaller.ProfileInstallerInitializer\" android:value=\"androidx.startup\"/>\n        </provider>\n        <activity android:exported=\"false\" android:name=\"com.google.mlkit.vision.documentscanner.internal.GmsDocumentScanningDelegateActivity\" android:screenOrientation=\"portrait\" android:theme=\"@android:style/Theme.Black.NoTitleBar.Fullscreen\"/>\n        <receiver android:exported=\"true\" android:name=\"com.amazon.device.iap.ResponseReceiver\" android:permission=\"com.amazon.inapp.purchasing.Permission.NOTIFY\">\n            <intent-filter>\n                <action android:name=\"com.amazon.inapp.purchasing.NOTIFY\"/>\n            </intent-filter>\n        </receiver>\n        <activity android:exported=\"false\" android:name=\"com.revenuecat.purchases.ui.revenuecatui.activity.PaywallActivity\"/>\n        <activity android:exported=\"false\" android:name=\"com.revenuecat.purchases.ui.revenuecatui.customercenter.CustomerCenterActivity\" android:theme=\"@android:style/Theme.NoTitleBar\"/>\n        <activity android:configChanges=\"keyboard|keyboardHidden|orientation|screenLayout|screenSize\" android:name=\"com.revenuecat.purchases.amazon.purchasing.ProxyAmazonBillingActivity\" android:theme=\"@android:style/Theme.Translucent.NoTitleBar\"/>\n        <activity android:configChanges=\"orientation|screenSize\" android:excludeFromRecents=\"true\" android:name=\"com.revenuecat.purchases.SimulatedStoreErrorDialogActivity\" android:theme=\"@android:style/Theme.Material.Dialog.Alert\"/>\n        <meta-data android:name=\"com.google.android.play.billingclient.version\" android:value=\"8.3.0\"/>\n        <activity android:configChanges=\"keyboard|keyboardHidden|orientation|screenLayout|screenSize\" android:exported=\"false\" android:name=\"com.android.billingclient.api.ProxyBillingActivity\" android:theme=\"@android:style/Theme.Translucent.NoTitleBar\"/>\n        <activity android:configChanges=\"keyboard|keyboardHidden|orientation|screenLayout|screenSize\" android:exported=\"false\" android:name=\"com.android.billingclient.api.ProxyBillingActivityV2\" android:theme=\"@android:style/Theme.Translucent.NoTitleBar\"/>\n        <meta-data android:name=\"com.google.android.gms.version\" android:value=\"@integer/google_play_services_version\"/>\n        <service android:enabled=\"true\" android:exported=\"false\" android:name=\"androidx.credentials.playservices.CredentialProviderMetadataHolder\">\n            <meta-data android:name=\"androidx.credentials.CREDENTIAL_PROVIDER_KEY\" android:value=\"androidx.credentials.playservices.CredentialProviderPlayServicesImpl\"/>\n        </service>\n        <activity android:configChanges=\"keyboardHidden|orientation|screenLayout|screenSize\" android:enabled=\"true\" android:exported=\"false\" android:fitsSystemWindows=\"true\" android:name=\"androidx.credentials.playservices.HiddenActivity\" android:theme=\"@style/Theme.Hidden\"/>\n        <activity android:configChanges=\"keyboardHidden|orientation|screenLayout|screenSize\" android:enabled=\"true\" android:exported=\"false\" android:fitsSystemWindows=\"true\" android:name=\"androidx.credentials.playservices.IdentityCredentialApiHiddenActivity\" android:theme=\"@style/Theme.Hidden\"/>\n        <activity android:excludeFromRecents=\"true\" android:exported=\"false\" android:name=\"com.google.android.gms.auth.api.signin.internal.SignInHubActivity\" android:theme=\"@android:style/Theme.Translucent.NoTitleBar\"/>\n        <service android:exported=\"true\" android:name=\"com.google.android.gms.auth.api.signin.RevocationBoundService\" android:permission=\"com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION\" android:visibleToInstantApps=\"true\"/>\n        <provider android:authorities=\"com.yaya.portal.mlkitinitprovider\" android:exported=\"false\" android:initOrder=\"99\" android:name=\"com.google.mlkit.common.internal.MlKitInitProvider\"/>\n        <service android:directBootAware=\"true\" android:exported=\"false\" android:name=\"com.google.mlkit.common.internal.MlKitComponentDiscoveryService\">\n            <meta-data android:name=\"com.google.firebase.components:com.google.mlkit.common.internal.CommonComponentRegistrar\" android:value=\"com.google.firebase.components.ComponentRegistrar\"/>\n        </service>\n        <receiver android:enabled=\"true\" android:exported=\"false\" android:name=\"com.google.android.gms.measurement.AppMeasurementReceiver\"/>\n        <service android:enabled=\"true\" android:exported=\"false\" android:name=\"com.google.android.gms.measurement.AppMeasurementService\"/>\n        <service android:enabled=\"true\" android:exported=\"false\" android:name=\"com.google.android.gms.measurement.AppMeasurementJobService\" android:permission=\"android.permission.BIND_JOB_SERVICE\"/>\n        <receiver android:exported=\"true\" android:name=\"com.google.firebase.iid.FirebaseInstanceIdReceiver\" android:permission=\"com.google.android.c2dm.permission.SEND\">\n            <intent-filter>\n                <action android:name=\"com.google.android.c2dm.intent.RECEIVE\"/>\n            </intent-filter>\n            <meta-data android:name=\"com.google.android.gms.cloudmessaging.FINISHED_AFTER_HANDLED\" android:value=\"true\"/>\n        </receiver>\n        <service android:directBootAware=\"true\" android:exported=\"false\" android:name=\"com.google.firebase.messaging.FirebaseMessagingService\">\n            <intent-filter android:priority=\"-500\">\n                <action android:name=\"com.google.firebase.MESSAGING_EVENT\"/>\n            </intent-filter>\n        </service>\n        <activity android:exported=\"false\" android:name=\"com.google.android.gms.common.api.GoogleApiActivity\" android:theme=\"@android:style/Theme.Translucent.NoTitleBar\"/>\n        <service android:enabled=\"false\" android:exported=\"false\" android:name=\"com.google.firebase.sessions.SessionLifecycleService\"/>\n        <provider android:authorities=\"com.yaya.portal.firebaseinitprovider\" android:directBootAware=\"true\" android:exported=\"false\" android:initOrder=\"100\" android:name=\"com.google.firebase.provider.FirebaseInitProvider\"/>\n        <activity android:configChanges=\"keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode\" android:enableOnBackInvokedCallback=\"false\" android:exported=\"false\" android:name=\"com.google.android.gms.ads.AdActivity\" android:theme=\"@android:style/Theme.Translucent\"/>\n        <provider android:authorities=\"com.yaya.portal.mobileadsinitprovider\" android:exported=\"false\" android:initOrder=\"100\" android:name=\"com.google.android.gms.ads.MobileAdsInitProvider\"/>\n        <service android:enabled=\"true\" android:exported=\"false\" android:name=\"com.google.android.gms.ads.AdService\"/>\n        <activity android:configChanges=\"keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode\" android:exported=\"false\" android:name=\"com.google.android.gms.ads.OutOfContextTestingActivity\"/>\n        <activity android:excludeFromRecents=\"true\" android:exported=\"false\" android:launchMode=\"singleTask\" android:name=\"com.google.android.gms.ads.NotificationHandlerActivity\" android:taskAffinity=\"\" android:theme=\"@android:style/Theme.Translucent.NoTitleBar\"/>\n        <activity android:name=\"com.facebook.CustomTabMainActivity\"/>\n        <provider android:authorities=\"com.yaya.portal.FacebookInitProvider\" android:exported=\"false\" android:name=\"com.facebook.internal.FacebookInitProvider\"/>\n        <receiver android:exported=\"false\" android:name=\"com.facebook.CurrentAccessTokenExpirationBroadcastReceiver\">\n            <intent-filter>\n                <action android:name=\"com.facebook.sdk.ACTION_CURRENT_ACCESS_TOKEN_CHANGED\"/>\n            </intent-filter>\n        </receiver>\n        <receiver android:exported=\"false\" android:name=\"com.facebook.AuthenticationTokenManager$CurrentAuthenticationTokenChangedBroadcastReceiver\">\n            <intent-filter>\n                <action android:name=\"com.facebook.sdk.ACTION_CURRENT_AUTHENTICATION_TOKEN_CHANGED\"/>\n            </intent-filter>\n        </receiver>\n        <activity android:configChanges=\"keyboardHidden|orientation|screenLayout|screenSize\" android:excludeFromRecents=\"true\" android:exported=\"false\" android:launchMode=\"singleTop\" android:name=\"com.google.android.play.core.hsdp.service.HsdpShimActivity\" android:theme=\"@style/Theme.HsdpServiceTransparent\"/>\n        <activity android:exported=\"true\" android:name=\"androidx.test.core.app.InstrumentationActivityInvoker$BootstrapActivity\" android:theme=\"@style/WhiteBackgroundTheme\">\n            <intent-filter android:priority=\"-100\">\n                <category android:name=\"android.intent.category.LAUNCHER\"/>\n            </intent-filter>\n        </activity>\n        <activity android:exported=\"true\" android:name=\"androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity\" android:theme=\"@style/WhiteBackgroundTheme\">\n            <intent-filter android:priority=\"-100\">\n                <category android:name=\"android.intent.category.LAUNCHER\"/>\n            </intent-filter>\n        </activity>\n        <activity android:exported=\"true\" android:name=\"androidx.test.core.app.InstrumentationActivityInvoker$EmptyFloatingActivity\" android:theme=\"@style/WhiteBackgroundDialogTheme\">\n            <intent-filter android:priority=\"-100\">\n                <category android:name=\"android.intent.category.LAUNCHER\"/>\n            </intent-filter>\n        </activity>\n        <service android:directBootAware=\"false\" android:enabled=\"@bool/enable_system_alarm_service_default\" android:exported=\"false\" android:name=\"androidx.work.impl.background.systemalarm.SystemAlarmService\"/>\n        <service android:directBootAware=\"false\" android:enabled=\"@bool/enable_system_job_service_default\" android:exported=\"true\" android:name=\"androidx.work.impl.background.systemjob.SystemJobService\" android:permission=\"android.permission.BIND_JOB_SERVICE\"/>\n        <service android:directBootAware=\"false\" android:enabled=\"@bool/enable_system_foreground_service_default\" android:exported=\"false\" android:name=\"androidx.work.impl.foreground.SystemForegroundService\"/>\n        <receiver android:directBootAware=\"false\" android:enabled=\"true\" android:exported=\"false\" android:name=\"androidx.work.impl.utils.ForceStopRunnable$BroadcastReceiver\"/>\n        <receiver android:directBootAware=\"false\" android:enabled=\"false\" android:exported=\"false\" android:name=\"androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy\">\n            <intent-filter>\n                <action android:name=\"android.intent.action.ACTION_POWER_CONNECTED\"/>\n                <action android:name=\"android.intent.action.ACTION_POWER_DISCONNECTED\"/>\n            </intent-filter>\n        </receiver>\n        <receiver android:directBootAware=\"false\" android:enabled=\"false\" android:exported=\"false\" android:name=\"androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy\">\n            <intent-filter>\n                <action android:name=\"android.intent.action.BATTERY_OKAY\"/>\n                <action android:name=\"android.intent.action.BATTERY_LOW\"/>\n            </intent-filter>\n        </receiver>\n        <receiver android:directBootAware=\"false\" android:enabled=\"false\" android:exported=\"false\" android:name=\"androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy\">\n            <intent-filter>\n                <action android:name=\"android.intent.action.DEVICE_STORAGE_LOW\"/>\n                <action android:name=\"android.intent.action.DEVICE_STORAGE_OK\"/>\n            </intent-filter>\n        </receiver>\n        <receiver android:directBootAware=\"false\" android:enabled=\"false\" android:exported=\"false\" android:name=\"androidx.work.impl.background.systemalarm.ConstraintProxy$NetworkStateProxy\">\n            <intent-filter>\n                <action android:name=\"android.net.conn.CONNECTIVITY_CHANGE\"/>\n            </intent-filter>\n        </receiver>\n        <receiver android:directBootAware=\"false\" android:enabled=\"false\" android:exported=\"false\" android:name=\"androidx.work.impl.background.systemalarm.RescheduleReceiver\">\n            <intent-filter>\n                <action android:name=\"android.intent.action.BOOT_COMPLETED\"/>\n                <action android:name=\"android.intent.action.TIME_SET\"/>\n                <action android:name=\"android.intent.action.TIMEZONE_CHANGED\"/>\n            </intent-filter>\n        </receiver>\n        <receiver android:directBootAware=\"false\" android:enabled=\"@bool/enable_system_alarm_service_default\" android:exported=\"false\" android:name=\"androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver\">\n            <intent-filter>\n                <action android:name=\"androidx.work.impl.background.systemalarm.UpdateProxies\"/>\n            </intent-filter>\n        </receiver>\n        <receiver android:directBootAware=\"false\" android:enabled=\"true\" android:exported=\"true\" android:name=\"androidx.work.impl.diagnostics.DiagnosticsReceiver\" android:permission=\"android.permission.DUMP\">\n            <intent-filter>\n                <action android:name=\"androidx.work.diagnostics.REQUEST_DIAGNOSTICS\"/>\n            </intent-filter>\n        </receiver>\n        <uses-library android:name=\"android.ext.adservices\" android:required=\"false\"/>\n        <uses-library android:name=\"androidx.window.extensions\" android:required=\"false\"/>\n        <uses-library android:name=\"androidx.window.sidecar\" android:required=\"false\"/>\n        <receiver android:directBootAware=\"false\" android:enabled=\"true\" android:exported=\"true\" android:name=\"androidx.profileinstaller.ProfileInstallReceiver\" android:permission=\"android.permission.DUMP\">\n            <intent-filter>\n                <action android:name=\"androidx.profileinstaller.action.INSTALL_PROFILE\"/>\n            </intent-filter>\n            <intent-filter>\n                <action android:name=\"androidx.profileinstaller.action.SKIP_FILE\"/>\n            </intent-filter>\n            <intent-filter>\n                <action android:name=\"androidx.profileinstaller.action.SAVE_PROFILE\"/>\n            </intent-filter>\n            <intent-filter>\n                <action android:name=\"androidx.profileinstaller.action.BENCHMARK_OPERATION\"/>\n            </intent-filter>\n        </receiver>\n        <service android:exported=\"false\" android:name=\"com.google.android.datatransport.runtime.backends.TransportBackendDiscovery\">\n            <meta-data android:name=\"backend:com.google.android.datatransport.cct.CctBackendFactory\" android:value=\"cct\"/>\n        </service>\n        <service android:exported=\"false\" android:name=\"com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService\" android:permission=\"android.permission.BIND_JOB_SERVICE\"/>\n        <receiver android:exported=\"false\" android:name=\"com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver\"/>\n        <service android:directBootAware=\"true\" android:exported=\"false\" android:name=\"androidx.room.MultiInstanceInvalidationService\"/>\n        <activity android:exported=\"false\" android:name=\"com.google.android.play.core.common.PlayCoreDialogWrapperActivity\" android:stateNotNeeded=\"true\" android:theme=\"@style/Theme.PlayCore.Transparent\"/>\n        <activity android:exported=\"false\" android:name=\"com.pairip.licensecheck.LicenseActivity\"/>\n        <meta-data android:name=\"com.android.vending.splits.required\" android:value=\"true\"/>\n        <meta-data android:name=\"com.android.stamp.source\" android:value=\"https://play.google.com/store\"/>\n        <meta-data android:name=\"com.android.stamp.type\" android:value=\"STAMP_TYPE_DISTRIBUTION_APK\"/>\n        <meta-data android:name=\"com.android.vending.splits\" android:resource=\"@xml/splits0\"/>\n        <meta-data android:name=\"com.android.vending.derived.apk.id\" android:value=\"3\"/>\n    </application>\n    <uses-permission android:name=\"com.android.vending.CHECK_LICENSE\"/>\n</manifest>",
+      "strings": [
+        {
+          "name": "OK",
+          "value": "OK"
+        },
+        {
+          "name": "abc_action_bar_home_description",
+          "value": "Navigate home"
+        },
+        {
+          "name": "abc_action_bar_up_description",
+          "value": "Navigate up"
+        },
+        {
+          "name": "abc_action_menu_overflow_description",
+          "value": "More options"
+        },
+        {
+          "name": "abc_action_mode_done",
+          "value": "Done"
+        },
+        {
+          "name": "abc_activity_chooser_view_see_all",
+          "value": "See all"
+        },
+        {
+          "name": "abc_activitychooserview_choose_application",
+          "value": "Choose an app"
+        },
+        {
+          "name": "abc_capital_off",
+          "value": "OFF"
+        },
+        {
+          "name": "abc_capital_on",
+          "value": "ON"
+        },
+        {
+          "name": "abc_menu_alt_shortcut_label",
+          "value": "Alt+"
+        },
+        {
+          "name": "abc_menu_ctrl_shortcut_label",
+          "value": "Ctrl+"
+        },
+        {
+          "name": "abc_menu_delete_shortcut_label",
+          "value": "delete"
+        },
+        {
+          "name": "abc_menu_enter_shortcut_label",
+          "value": "enter"
+        },
+        {
+          "name": "abc_menu_function_shortcut_label",
+          "value": "Function+"
+        },
+        {
+          "name": "abc_menu_meta_shortcut_label",
+          "value": "Meta+"
+        },
+        {
+          "name": "abc_menu_shift_shortcut_label",
+          "value": "Shift+"
+        },
+        {
+          "name": "abc_menu_space_shortcut_label",
+          "value": "space"
+        },
+        {
+          "name": "abc_menu_sym_shortcut_label",
+          "value": "Sym+"
+        },
+        {
+          "name": "abc_prepend_shortcut_label",
+          "value": "Menu+"
+        },
+        {
+          "name": "abc_search_hint",
+          "value": "Search…"
+        },
+        {
+          "name": "abc_searchview_description_clear",
+          "value": "Clear query"
+        },
+        {
+          "name": "abc_searchview_description_query",
+          "value": "Search query"
+        },
+        {
+          "name": "abc_searchview_description_search",
+          "value": "Search"
+        },
+        {
+          "name": "abc_searchview_description_submit",
+          "value": "Submit query"
+        },
+        {
+          "name": "abc_searchview_description_voice",
+          "value": "Voice search"
+        },
+        {
+          "name": "abc_shareactionprovider_share_with",
+          "value": "Share with"
+        },
+        {
+          "name": "abc_shareactionprovider_share_with_application",
+          "value": "Share with %s"
+        },
+        {
+          "name": "abc_toolbar_collapse_description",
+          "value": "Collapse"
+        },
+        {
+          "name": "action_close",
+          "value": "Close"
+        },
+        {
+          "name": "action_go_back",
+          "value": "Go Back"
+        },
+        {
+          "name": "action_go_forward",
+          "value": "Go Forward"
+        },
+        {
+          "name": "action_reload",
+          "value": "Reload"
+        },
+        {
+          "name": "action_share",
+          "value": "Share"
+        },
+        {
+          "name": "all_plans",
+          "value": "All plans"
+        },
+        {
+          "name": "android.credentials.TYPE_PASSWORD_CREDENTIAL",
+          "value": "Password"
+        },
+        {
+          "name": "androidx.credentials.TYPE_PUBLIC_KEY_CREDENTIAL",
+          "value": "Passkey"
+        },
+        {
+          "name": "androidx_startup",
+          "value": "androidx.startup"
+        },
+        {
+          "name": "annual",
+          "value": "Annual"
+        },
+        {
+          "name": "app_name",
+          "value": "Yaya Middle East"
+        },
+        {
+          "name": "autofill",
+          "value": "Autofill"
+        },
+        {
+          "name": "bimonthly",
+          "value": "2 month"
+        },
+        {
+          "name": "call_notification_answer_action",
+          "value": "Answer"
+        },
+        {
+          "name": "call_notification_answer_video_action",
+          "value": "Video"
+        },
+        {
+          "name": "call_notification_decline_action",
+          "value": "Decline"
+        },
+        {
+          "name": "call_notification_hang_up_action",
+          "value": "Hang Up"
+        },
+        {
+          "name": "call_notification_incoming_text",
+          "value": "Incoming call"
+        },
+        {
+          "name": "call_notification_ongoing_text",
+          "value": "Ongoing call"
+        },
+        {
+          "name": "call_notification_screening_text",
+          "value": "Screening an incoming call"
+        },
+        {
+          "name": "cannot_open_link",
+          "value": "Link invalid. Could not be opened."
+        },
+        {
+          "name": "close_drawer",
+          "value": "Close navigation menu"
+        },
+        {
+          "name": "close_sheet",
+          "value": "Close sheet"
+        },
+        {
+          "name": "com.google.firebase.crashlytics.mapping_file_id",
+          "value": "60ce3036c8f346f5b0ae85e3cbb08ec0"
+        },
+        {
+          "name": "com_facebook_device_auth_instructions",
+          "value": "Visit &lt;b>facebook.com/device&lt;/b> and enter the code shown above."
+        },
+        {
+          "name": "com_facebook_image_download_unknown_error",
+          "value": "Unexpected error while downloading an image."
+        },
+        {
+          "name": "com_facebook_internet_permission_error_message",
+          "value": "WebView login requires INTERNET permission"
+        },
+        {
+          "name": "com_facebook_internet_permission_error_title",
+          "value": "AndroidManifest Error"
+        },
+        {
+          "name": "com_facebook_like_button_liked",
+          "value": "Liked"
+        },
+        {
+          "name": "com_facebook_like_button_not_liked",
+          "value": "Like"
+        },
+        {
+          "name": "com_facebook_loading",
+          "value": "Loading…"
+        },
+        {
+          "name": "com_facebook_loginview_cancel_action",
+          "value": "Cancel"
+        },
+        {
+          "name": "com_facebook_loginview_log_in_button",
+          "value": "Log in"
+        },
+        {
+          "name": "com_facebook_loginview_log_in_button_continue",
+          "value": "Continue with Facebook"
+        },
+        {
+          "name": "com_facebook_loginview_log_in_button_long",
+          "value": "Log in with Facebook"
+        },
+        {
+          "name": "com_facebook_loginview_log_out_action",
+          "value": "Log out"
+        },
+        {
+          "name": "com_facebook_loginview_log_out_button",
+          "value": "Log out"
+        },
+        {
+          "name": "com_facebook_loginview_logged_in_as",
+          "value": "Logged in as: %1$s"
+        },
+        {
+          "name": "com_facebook_loginview_logged_in_using_facebook",
+          "value": "Logged in using Facebook"
+        },
+        {
+          "name": "com_facebook_send_button_text",
+          "value": "Send"
+        },
+        {
+          "name": "com_facebook_share_button_text",
+          "value": "Share"
+        },
+        {
+          "name": "com_facebook_smart_device_instructions",
+          "value": "To connect your account, open the Facebook app on your mobile device and check for notifications."
+        },
+        {
+          "name": "com_facebook_smart_device_instructions_or",
+          "value": "- OR -"
+        },
+        {
+          "name": "com_facebook_smart_login_confirmation_cancel",
+          "value": "Not you?"
+        },
+        {
+          "name": "com_facebook_smart_login_confirmation_continue_as",
+          "value": "Continue as %1$s"
+        },
+        {
+          "name": "com_facebook_smart_login_confirmation_title",
+          "value": "Confirm Login"
+        },
+        {
+          "name": "com_facebook_sso_noapp_body",
+          "value": "Create your account in seconds with Facebook."
+        },
+        {
+          "name": "com_facebook_sso_noapp_not_now",
+          "value": "Not now"
+        },
+        {
+          "name": "com_facebook_sso_noapp_title",
+          "value": "Sign up faster with Facebook"
+        },
+        {
+          "name": "com_facebook_sso_outdated_body",
+          "value": "Continue with your Facebook account to get started."
+        },
+        {
+          "name": "com_facebook_sso_outdated_title",
+          "value": "Log in with Facebook"
+        },
+        {
+          "name": "com_facebook_tooltip_default",
+          "value": "\"You're in control - choose what info you want to share with apps.\""
+        },
+        {
+          "name": "common_google_play_services_enable_button",
+          "value": "Enable"
+        },
+        {
+          "name": "common_google_play_services_enable_text",
+          "value": "Google Play services must be enabled for %1$s."
+        },
+        {
+          "name": "common_google_play_services_enable_title",
+          "value": "Enable Google Play services"
+        },
+        {
+          "name": "common_google_play_services_install_button",
+          "value": "Install"
+        },
+        {
+          "name": "common_google_play_services_install_text",
+          "value": "Install Google Play services to continue using %1$s."
+        },
+        {
+          "name": "common_google_play_services_install_title",
+          "value": "Install Google Play services"
+        },
+        {
+          "name": "common_google_play_services_notification_channel_name",
+          "value": "Google Play services availability"
+        },
+        {
+          "name": "common_google_play_services_notification_ticker",
+          "value": "Google Play services error"
+        },
+        {
+          "name": "common_google_play_services_signin_required_text",
+          "value": "\"%1$s couldn't connect to Google Play services. Please sign-in to your Google account.\""
+        },
+        {
+          "name": "common_google_play_services_signin_required_title",
+          "value": "Sign-in required"
+        },
+        {
+          "name": "common_google_play_services_try_again_text",
+          "value": "\"%1$s couldn't connect to Google Play services. Please try again.\""
+        },
+        {
+          "name": "common_google_play_services_try_again_title",
+          "value": "Please try again"
+        },
+        {
+          "name": "common_google_play_services_unknown_issue",
+          "value": "%1$s is having trouble with Google Play services. Please try again."
+        },
+        {
+          "name": "common_google_play_services_unsupported_text",
+          "value": "\"%1$s can't run because your device doesn't support Google Play services. Please use a supported device.\""
+        },
+        {
+          "name": "common_google_play_services_unsupported_title",
+          "value": "Device not compatible"
+        },
+        {
+          "name": "common_google_play_services_update_button",
+          "value": "Update"
+        },
+        {
+          "name": "common_google_play_services_update_text",
+          "value": "Update Google Play services to use %1$s."
+        },
+        {
+          "name": "common_google_play_services_update_title",
+          "value": "Update Google Play services"
+        },
+        {
+          "name": "common_google_play_services_updating_client_title",
+          "value": "Google Play services updating"
+        },
+        {
+          "name": "common_google_play_services_updating_text",
+          "value": "%1$s will be available once the Google Play services update is complete."
+        },
+        {
+          "name": "common_google_play_services_wear_update_text",
+          "value": "Update Google Play services to use %1$s."
+        },
+        {
+          "name": "common_open_on_phone",
+          "value": "Open on phone"
+        },
+        {
+          "name": "common_signin_button_text",
+          "value": "Sign in"
+        },
+        {
+          "name": "common_signin_button_text_long",
+          "value": "Sign in with Google"
+        },
+        {
+          "name": "confirm_device_credential_password",
+          "value": "Use password"
+        },
+        {
+          "name": "continue_cta",
+          "value": "Continue"
+        },
+        {
+          "name": "copy",
+          "value": "Copy"
+        },
+        {
+          "name": "copy_toast_msg",
+          "value": "Link copied to clipboard"
+        },
+        {
+          "name": "cunning_crop_page_progress",
+          "value": "Crop Page %1$d of %2$d"
+        },
+        {
+          "name": "cunning_image_with_cropper",
+          "value": "Original Image With Cropper"
+        },
+        {
+          "name": "default_error_message",
+          "value": "Invalid input"
+        },
+        {
+          "name": "default_error_msg",
+          "value": "Unknown error"
+        },
+        {
+          "name": "default_offer_details_with_intro_offer",
+          "value": "Start your {{ sub_offer_duration }} trial, then {{ total_price_and_per_month }}."
+        },
+        {
+          "name": "default_popup_window_title",
+          "value": "Pop-Up Window"
+        },
+        {
+          "name": "default_web_client_id",
+          "value": "401845886819-jdmmt2urm0mhf47i24hqiiiklbvclnis.apps.googleusercontent.com"
+        },
+        {
+          "name": "dismiss_button_description",
+          "value": "sdk_loading_ui_dismiss_button"
+        },
+        {
+          "name": "dropdown_menu",
+          "value": "Dropdown menu"
+        },
+        {
+          "name": "expand_button_title",
+          "value": "Advanced"
+        },
+        {
+          "name": "facebook_app_id",
+          "value": "740824830833836"
+        },
+        {
+          "name": "facebook_client_token",
+          "value": "3d616986ac73e7fa24a8b8bbabec9722"
+        },
+        {
+          "name": "fallback_menu_item_copy_link",
+          "value": "Copy link"
+        },
+        {
+          "name": "fallback_menu_item_open_in_browser",
+          "value": "Open in browser"
+        },
+        {
+          "name": "fallback_menu_item_share_link",
+          "value": "Share link"
+        },
+        {
+          "name": "fb_login_protocol_scheme",
+          "value": "fb740824830833836"
+        },
+        {
+          "name": "fcm_fallback_notification_channel_label",
+          "value": "Miscellaneous"
+        },
+        {
+          "name": "fingerprint_dialog_touch_sensor",
+          "value": "Touch the fingerprint sensor"
+        },
+        {
+          "name": "fingerprint_error_hw_not_available",
+          "value": "Fingerprint hardware not available."
+        },
+        {
+          "name": "fingerprint_error_hw_not_present",
+          "value": "This device does not have a fingerprint sensor"
+        },
+        {
+          "name": "fingerprint_error_lockout",
+          "value": "Too many attempts. Please try again later."
+        },
+        {
+          "name": "fingerprint_error_no_fingerprints",
+          "value": "No fingerprints enrolled."
+        },
+        {
+          "name": "fingerprint_error_user_canceled",
+          "value": "Fingerprint operation canceled by user."
+        },
+        {
+          "name": "fingerprint_not_recognized",
+          "value": "Not recognized"
+        },
+        {
+          "name": "firebase_database_url",
+          "value": "https://yaya-52baa-default-rtdb.firebaseio.com"
+        },
+        {
+          "name": "gcm_defaultSenderId",
+          "value": "401845886819"
+        },
+        {
+          "name": "generic_error_no_device_credential",
+          "value": "No PIN, pattern, or password set."
+        },
+        {
+          "name": "generic_error_no_keyguard",
+          "value": "This device does not support PIN, pattern, or password."
+        },
+        {
+          "name": "generic_error_user_canceled",
+          "value": "Authentication canceled by user."
+        },
+        {
+          "name": "google_api_key",
+          "value": "[REDACTED]"
+        },
+        {
+          "name": "google_app_id",
+          "value": "1:401845886819:android:9145250db7d96a7a7cbd56"
+        },
+        {
+          "name": "google_crash_reporting_api_key",
+          "value": "[REDACTED]"
+        },
+        {
+          "name": "google_storage_bucket",
+          "value": "yaya-52baa.appspot.com"
+        },
+        {
+          "name": "in_progress",
+          "value": "In progress"
+        },
+        {
+          "name": "indeterminate",
+          "value": "Partially checked"
+        },
+        {
+          "name": "lifetime",
+          "value": "Lifetime"
+        },
+        {
+          "name": "loading",
+          "value": "Loading"
+        },
+        {
+          "name": "location_permission_missing_message",
+          "value": "\"Looks like this app doesn't have location services configured. Please see OneSignal docs for more information.\""
+        },
+        {
+          "name": "location_permission_missing_title",
+          "value": "App Missing Permission"
+        },
+        {
+          "name": "location_permission_name_for_title",
+          "value": "Location"
+        },
+        {
+          "name": "location_permission_settings_message",
+          "value": "sharing your device location"
+        },
+        {
+          "name": "m3c_dialog",
+          "value": "Dialog"
+        },
+        {
+          "name": "menu_search",
+          "value": "Search"
+        },
+        {
+          "name": "messenger_send_button_text",
+          "value": "Send"
+        },
+        {
+          "name": "monthly",
+          "value": "Monthly"
+        },
+        {
+          "name": "native_body",
+          "value": "Body"
+        },
+        {
+          "name": "native_headline",
+          "value": "Headline"
+        },
+        {
+          "name": "native_media_view",
+          "value": "Media View"
+        },
+        {
+          "name": "navigation_menu",
+          "value": "Navigation menu"
+        },
+        {
+          "name": "no_browser_cannot_open_link",
+          "value": "No browser installed. Link could not be opened."
+        },
+        {
+          "name": "not_selected",
+          "value": "Not selected"
+        },
+        {
+          "name": "not_set",
+          "value": "Not set"
+        },
+        {
+          "name": "notification_permission_name_for_title",
+          "value": "Notifications"
+        },
+        {
+          "name": "notification_permission_settings_message",
+          "value": "Notifications"
+        },
+        {
+          "name": "notifications_permission_confirm",
+          "value": "Allow"
+        },
+        {
+          "name": "notifications_permission_decline",
+          "value": "\"Don't allow\""
+        },
+        {
+          "name": "notifications_permission_title",
+          "value": "Allow app to send you notifications?"
+        },
+        {
+          "name": "offline_dialog_image_description",
+          "value": "Icon"
+        },
+        {
+          "name": "offline_dialog_text",
+          "value": "\"Thanks for your interest.\nWe will share more once you're back online.\""
+        },
+        {
+          "name": "offline_notification_title",
+          "value": "\"You are back online! Let's pick up where we left off\""
+        },
+        {
+          "name": "offline_notification_title_with_advertiser",
+          "value": "You are back online! Continue learning about %s"
+        },
+        {
+          "name": "offline_opt_in_confirm",
+          "value": "OK"
+        },
+        {
+          "name": "offline_opt_in_decline",
+          "value": "No thanks"
+        },
+        {
+          "name": "offline_opt_in_message",
+          "value": "\"We'll send you a notification with a link to the advertiser site.\""
+        },
+        {
+          "name": "offline_opt_in_title",
+          "value": "\"Open ad when you're back online.\""
+        },
+        {
+          "name": "package_discount",
+          "value": "%1$d%% off"
+        },
+        {
+          "name": "permission_not_available_message",
+          "value": "You have previously denied %s. Please go to settings to enable."
+        },
+        {
+          "name": "permission_not_available_open_settings_option",
+          "value": "Settings"
+        },
+        {
+          "name": "permission_not_available_title",
+          "value": "%s Not Available"
+        },
+        {
+          "name": "preference_copied",
+          "value": "\\\"%1$s\\\" copied to clipboard."
+        },
+        {
+          "name": "privacy",
+          "value": "Privacy"
+        },
+        {
+          "name": "privacy_policy",
+          "value": "Privacy policy"
+        },
+        {
+          "name": "project_id",
+          "value": "yaya-52baa"
+        },
+        {
+          "name": "quarter",
+          "value": "3 month"
+        },
+        {
+          "name": "range_end",
+          "value": "Range end"
+        },
+        {
+          "name": "range_start",
+          "value": "Range start"
+        },
+        {
+          "name": "restore",
+          "value": "Restore"
+        },
+        {
+          "name": "restore_purchases",
+          "value": "Restore purchases"
+        },
+        {
+          "name": "revenuecatui_preview_workflow_load_error",
+          "value": "The preview workflow could not be loaded. Please try again."
+        },
+        {
+          "name": "revenuecatui_purchase",
+          "value": "Purchase"
+        },
+        {
+          "name": "revenuecatui_restore_purchases",
+          "value": "@string/restore_purchases"
+        },
+        {
+          "name": "s1",
+          "value": "Save image"
+        },
+        {
+          "name": "s2",
+          "value": "Allow Ad to store image in Picture gallery?"
+        },
+        {
+          "name": "s3",
+          "value": "Accept"
+        },
+        {
+          "name": "s4",
+          "value": "Decline"
+        },
+        {
+          "name": "s5",
+          "value": "Create calendar event"
+        },
+        {
+          "name": "s6",
+          "value": "Allow Ad to create a calendar event?"
+        },
+        {
+          "name": "s7",
+          "value": "Test Ad"
+        },
+        {
+          "name": "search_menu_title",
+          "value": "Search"
+        },
+        {
+          "name": "selected",
+          "value": "Selected"
+        },
+        {
+          "name": "semester",
+          "value": "6 month"
+        },
+        {
+          "name": "state_empty",
+          "value": "Empty"
+        },
+        {
+          "name": "state_off",
+          "value": "Off"
+        },
+        {
+          "name": "state_on",
+          "value": "On"
+        },
+        {
+          "name": "status_bar_notification_info_overflow",
+          "value": "999+"
+        },
+        {
+          "name": "summary_collapsed_preference_list",
+          "value": "%1$s, %2$s"
+        },
+        {
+          "name": "switch_role",
+          "value": "Switch"
+        },
+        {
+          "name": "tab",
+          "value": "Tab"
+        },
+        {
+          "name": "template_percent",
+          "value": "%1$d percent."
+        },
+        {
+          "name": "terms",
+          "value": "Terms"
+        },
+        {
+          "name": "terms_and_conditions",
+          "value": "Terms and conditions"
+        },
+        {
+          "name": "tooltip_description",
+          "value": "tooltip"
+        },
+        {
+          "name": "tooltip_label",
+          "value": "show tooltip"
+        },
+        {
+          "name": "ucrop_crop",
+          "value": "Crop"
+        },
+        {
+          "name": "ucrop_error_input_data_is_absent",
+          "value": "Both input and output Uri must be specified"
+        },
+        {
+          "name": "ucrop_label_edit_photo",
+          "value": "Edit Photo"
+        },
+        {
+          "name": "ucrop_label_original",
+          "value": "Original"
+        },
+        {
+          "name": "ucrop_menu_crop",
+          "value": "Crop"
+        },
+        {
+          "name": "ucrop_mutate_exception_hint",
+          "value": "Therefore, override color resource (ucrop_color_toolbar_widget) in your app to make it work on pre-L devices"
+        },
+        {
+          "name": "ucrop_rotate",
+          "value": "Rotate"
+        },
+        {
+          "name": "ucrop_scale",
+          "value": "Scale"
+        },
+        {
+          "name": "v7_preference_off",
+          "value": "OFF"
+        },
+        {
+          "name": "v7_preference_on",
+          "value": "ON"
+        },
+        {
+          "name": "watermark_label_prefix",
+          "value": "\"AdMob - \""
+        },
+        {
+          "name": "weekly",
+          "value": "Weekly"
+        }
+      ],
+      "locale": null,
+      "locales": [],
+      "decoded_file_count": 1433,
+      "coverage": "complete"
+    },
+    "confidence": "observed",
+    "authority": "shipped-artifact",
+    "environment": null,
+    "limitations": [
+      "Reported apktool version \"2.7.0-dirty\" predates the upstream 2.9.2 fix for CVE-2024-21633 (decoded resource paths could escape the output directory). Verify the selected decoder's patches before decoding untrusted APKs; launcher version alone does not establish engine contents or downstream backports. https://github.com/iBotPeaches/Apktool/security/advisories/GHSA-2hqv-2xv4-5h5w",
+      "Decoding skips smali (--no-src); Java-source recovery belongs to the JADX family"
+    ],
+    "relationship_coverage": null,
+    "locations": [],
+    "evidence_links": [],
+    "caller_input_path": "/home/runner/work/_temp/rea-android/extracted/com.yaya.portal.apk"
   },
   "meta": {
     "command": "decode-android-resources",
-    "duration": "40ms"
+    "duration": "2748ms"
   }
 }

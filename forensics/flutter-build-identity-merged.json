@@ -1,0 +1,95 @@
+{
+  "ok": true,
+  "data": {
+    "evidence_id": "ev_0d96885002557a24cfd1cc5d814b06e66a4a21130164ad4e98d29f596b579680",
+    "evidence_format": 2,
+    "subject": {
+      "identity": {
+        "kind": "file",
+        "sha256": "ea38a4a2b7f9d4c5f0254091da3c7e6410210d3c70ddb3653bf39b8a5c7ec9d8",
+        "selection": null,
+        "format": "apk",
+        "architecture": null
+      },
+      "name": "yaya-merged-arm64-analysis.apk",
+      "local_path": "/home/runner/work/_temp/rea-android/yaya-merged-arm64-analysis.apk"
+    },
+    "provider": {
+      "id": "flutter",
+      "name": "Flutter build identification",
+      "version": null
+    },
+    "analysis_profile": null,
+    "predicate_type": "rea.analysis",
+    "operation": "identify_flutter_build",
+    "parameters": {
+      "path": "/home/runner/work/_temp/rea-android/yaya-merged-arm64-analysis.apk"
+    },
+    "raw_result": null,
+    "normalized_result": {
+      "target": {
+        "path": "/home/runner/work/_temp/rea-android/yaya-merged-arm64-analysis.apk",
+        "bytes": 67848144,
+        "sha256": "ea38a4a2b7f9d4c5f0254091da3c7e6410210d3c70ddb3653bf39b8a5c7ec9d8"
+      },
+      "flutter_detected": true,
+      "abis": [
+        {
+          "abi": "arm64-v8a",
+          "libapp": {
+            "present": true,
+            "bytes": 16974728,
+            "sha256": "d2d15ee67221096b206d449b32d952f651577e29dee05b55e23c76ec3ff19587",
+            "elf_header_valid": true,
+            "snapshot_hash_sources": 1,
+            "snapshot_hash_candidates": [
+              "0451907c2eaa8467e848c0067bfe8ed4"
+            ],
+            "snapshot_hash": "0451907c2eaa8467e848c0067bfe8ed4"
+          },
+          "libflutter": {
+            "present": true,
+            "bytes": 11747528,
+            "sha256": "d12fd96d667d5bac111f9c7d5fed6cf37805d896b9f69fa30c09198d3f6eb594",
+            "build_id": "edfb9140c6b45651bf2f7c04752bc8e1dac58097",
+            "build_id_candidates": [
+              "edfb9140c6b45651bf2f7c04752bc8e1dac58097"
+            ],
+            "dart_version": "3.13.1 (stable) (Tue Aug 18 01:00:59 2026 -0700) on \"android_arm64\"",
+            "dart_version_capped": false,
+            "toolchain_lines": [
+              "Android (13624864, +pgo, +bolt, +lto, +mlgo, based on r530567e) clang version 19.0.1 (https://android.googlesource.com/toolchain/llvm-project 97a699bf4812a18fb657c2779f5296a4ab2694d2)"
+            ],
+            "toolchain_capped": false
+          }
+        }
+      ],
+      "coverage": "partial"
+    },
+    "confidence": "observed",
+    "authority": "shipped-artifact",
+    "environment": null,
+    "limitations": [
+      "The APK is read through an owned read-only snapshot; concurrent changes to the original cannot mix into this observation",
+      "The snapshot hash identifies a Dart SDK build only against an external mapping dataset; REA performs no lookup",
+      "Unlabeled Dart version values are identified by their printable-string shape, not a symbol or other source identity; a matching unrelated string may be reported and a null value means no supported pattern was found",
+      "Engine build IDs come only from ELF-declared PT_NOTE/SHT_NOTE records; conflicting or incompletely examined notes preserve candidates and report partial coverage",
+      "The snapshot hash sits 20 bytes after each snapshot magic in the AOT payload; findings are observations of that layout",
+      "ELF header validity checks the supported header layout and declared table extents; identification does not resolve symbols or validate table contents",
+      "lib/arm64-v8a/libapp.so carries 1 observed snapshot header(s); complete coverage of the supported legacy split VM/isolate profile requires two independent sources. Unified and other layouts remain unverified"
+    ],
+    "relationship_coverage": null,
+    "locations": [
+      {
+        "kind": "artifact-path",
+        "path": "/home/runner/work/_temp/rea-android/yaya-merged-arm64-analysis.apk"
+      }
+    ],
+    "evidence_links": [],
+    "caller_input_path": "/home/runner/work/_temp/rea-android/yaya-merged-arm64-analysis.apk"
+  },
+  "meta": {
+    "command": "identify-flutter-build",
+    "duration": "563ms"
+  }
+}

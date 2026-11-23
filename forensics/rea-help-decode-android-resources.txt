@@ -1,0 +1,33 @@
+rea decode-android-resources — Decode one APK's manifest, metadata, and string resources with apktool
+
+Usage: rea decode-android-resources <path> [options]
+
+Arguments:
+  path  Local APK file to decode
+
+Options:
+  --strings                               Include string resources; use --no-strings to skip projecting them (default: true)
+  --string-offset <value>                 Zero-based offset into valid parsed strings in each selected table, default 0. Retry the same APK and locale with the returned page.next_offset to retrieve later strings; verify target.sha256 across calls.
+  --string-limit <value>                  Maximum strings returned per selected table, default 2000. Applies on this decode; no restart. Independent of XML read and aggregate output budgets.
+  --max-total-strings <value>             Aggregate returned string copies, default 10000. The legacy multi-locale shape charges the primary strings twice; string_tables_only avoids that copy. Raise this or select fewer locales when exhausted.
+  --max-string-table-bytes <value>        UTF-8 source byte admission for each strings.xml, default 8388608. Raise this and, when necessary, max_total_string_table_bytes to retry an oversized table. Applies on the next decode; no restart.
+  --max-total-string-table-bytes <value>  Aggregate XML bytes read across distinct physical string tables, default 33554432. Raise this or select fewer locales. Does not raise per-table admission or string output budgets.
+  --string-tables-only                    Return selected strings only in string_tables, leaving top-level strings empty. Omit to preserve the primary strings field.
+  --locale <string>                       Project strings from res/values-<locale>/strings.xml instead of the default table
+  --locales <array>                       Repeat to project multiple localized string tables, e.g. --locales de --locales pt-BR
+  --decode-timeout-ms <value>             Decode wall-clock budget in milliseconds (default 600000), from apktool d start through process exit. Omitted means 600000. Applies on the next decode. Does not raise the fixed output capture allowance or the version probe.
+
+Custom Global Options:
+  --timings  Write measured command timing to stderr.
+
+Global Options:
+  --filter-output <keys>                      Filter output by key paths (e.g. foo,bar.baz,a[0,3])
+  --format <toon|json|yaml|md|jsonl|csv|tsv>  Output format
+  --full-output                               Show full output envelope
+  --help                                      Show help
+  --json                                      Shorthand for --format json
+  --llms, --llms-full                         Print LLM-readable manifest
+  --schema                                    Show JSON Schema for command
+  --token-count                               Print token count of output (instead of output)
+  --token-limit <n>                           Limit output to n tokens
+  --token-offset <n>                          Skip first n tokens of output

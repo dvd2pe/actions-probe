@@ -1,0 +1,551 @@
+.class public final Lgj/k;
+.super Lcom/google/protobuf/f0;
+.source "r8-map-id-430f9def3d0ef2fb1942130fccaaca5f1538bfde1d14fdc4049069135a87727a"
+
+
+# static fields
+.field public static final CLIENT_TIME_US_FIELD_NUMBER:I = 0x1
+
+.field private static final DEFAULT_INSTANCE:Lgj/k;
+
+.field private static volatile PARSER:Lcom/google/protobuf/o1; = null
+    .annotation system Ldalvik/annotation/Signature;
+        value = {
+            "Lcom/google/protobuf/o1;"
+        }
+    .end annotation
+.end field
+
+.field public static final SYSTEM_TIME_US_FIELD_NUMBER:I = 0x3
+
+.field public static final USER_TIME_US_FIELD_NUMBER:I = 0x2
+
+
+# instance fields
+.field private bitField0_:I
+
+.field private clientTimeUs_:J
+
+.field private systemTimeUs_:J
+
+.field private userTimeUs_:J
+
+
+# direct methods
+.method static constructor <clinit>()V
+    .locals 2
+
+    .line 1
+    new-instance v0, Lgj/k;
+
+    .line 2
+    .line 3
+    invoke-direct {v0}, Lcom/google/protobuf/f0;-><init>()V
+
+    .line 4
+    .line 5
+    .line 6
+    sput-object v0, Lgj/k;->DEFAULT_INSTANCE:Lgj/k;
+
+    .line 7
+    .line 8
+    const-class v1, Lgj/k;
+
+    .line 9
+    .line 10
+    invoke-static {v1, v0}, Lcom/google/protobuf/f0;->x(Ljava/lang/Class;Lcom/google/protobuf/f0;)V
+
+    .line 11
+    .line 12
+    .line 13
+    return-void
+    .line 14
+    .line 15
+    .line 16
+    .line 17
+    .line 18
+    .line 19
+    .line 20
+    .line 21
+    .line 22
+    .line 23
+    .line 24
+.end method
+
+.method public static A(Lgj/k;J)V
+    .locals 1
+
+    .line 1
+    iget v0, p0, Lgj/k;->bitField0_:I
+
+    .line 2
+    .line 3
+    or-int/lit8 v0, v0, 0x2
+
+    .line 4
+    .line 5
+    iput v0, p0, Lgj/k;->bitField0_:I
+
+    .line 6
+    .line 7
+    iput-wide p1, p0, Lgj/k;->userTimeUs_:J
+
+    .line 8
+    .line 9
+    return-void
+    .line 10
+    .line 11
+    .line 12
+    .line 13
+    .line 14
+    .line 15
+    .line 16
+    .line 17
+    .line 18
+    .line 19
+    .line 20
+    .line 21
+    .line 22
+    .line 23
+    .line 24
+    .line 25
+    .line 26
+    .line 27
+    .line 28
+    .line 29
+    .line 30
+    .line 31
+    .line 32
+    .line 33
+    .line 34
+    .line 35
+    .line 36
+    .line 37
+    .line 38
+    .line 39
+    .line 40
+    .line 41
+    .line 42
+    .line 43
+    .line 44
+    .line 45
+    .line 46
+    .line 47
+    .line 48
+    .line 49
+    .line 50
+    .line 51
+    .line 52
+    .line 53
+    .line 54
+    .line 55
+    .line 56
+    .line 57
+.end method
+
+.method public static B(Lgj/k;J)V
+    .locals 1
+
+    .line 1
+    iget v0, p0, Lgj/k;->bitField0_:I
+
+    .line 2
+    .line 3
+    or-int/lit8 v0, v0, 0x4
+
+    .line 4
+    .line 5
+    iput v0, p0, Lgj/k;->bitField0_:I
+
+    .line 6
+    .line 7
+    iput-wide p1, p0, Lgj/k;->systemTimeUs_:J
+
+    .line 8
+    .line 9
+    return-void
+    .line 10
+    .line 11
+    .line 12
+    .line 13
+    .line 14
+    .line 15
+    .line 16
+    .line 17
+    .line 18
+    .line 19
+    .line 20
+    .line 21
+    .line 22
+    .line 23
+    .line 24
+    .line 25
+    .line 26
+    .line 27
+    .line 28
+    .line 29
+    .line 30
+    .line 31
+    .line 32
+    .line 33
+    .line 34
+    .line 35
+    .line 36
+    .line 37
+    .line 38
+    .line 39
+    .line 40
+    .line 41
+    .line 42
+    .line 43
+    .line 44
+    .line 45
+    .line 46
+    .line 47
+    .line 48
+    .line 49
+    .line 50
+    .line 51
+    .line 52
+    .line 53
+    .line 54
+    .line 55
+    .line 56
+    .line 57
+.end method
+
+.method public static C()Lgj/j;
+    .locals 1
+
+    .line 1
+    sget-object v0, Lgj/k;->DEFAULT_INSTANCE:Lgj/k;
+
+    .line 2
+    .line 3
+    invoke-virtual {v0}, Lcom/google/protobuf/f0;->m()Lcom/google/protobuf/d0;
+
+    .line 4
+    .line 5
+    .line 6
+    move-result-object v0
+
+    .line 7
+    check-cast v0, Lgj/j;
+
+    .line 8
+    .line 9
+    return-object v0
+    .line 10
+    .line 11
+    .line 12
+    .line 13
+    .line 14
+    .line 15
+    .line 16
+    .line 17
+    .line 18
+    .line 19
+    .line 20
+    .line 21
+    .line 22
+    .line 23
+    .line 24
+.end method
+
+.method public static z(Lgj/k;J)V
+    .locals 1
+
+    .line 1
+    iget v0, p0, Lgj/k;->bitField0_:I
+
+    .line 2
+    .line 3
+    or-int/lit8 v0, v0, 0x1
+
+    .line 4
+    .line 5
+    iput v0, p0, Lgj/k;->bitField0_:I
+
+    .line 6
+    .line 7
+    iput-wide p1, p0, Lgj/k;->clientTimeUs_:J
+
+    .line 8
+    .line 9
+    return-void
+    .line 10
+    .line 11
+    .line 12
+    .line 13
+    .line 14
+    .line 15
+    .line 16
+    .line 17
+    .line 18
+    .line 19
+    .line 20
+    .line 21
+    .line 22
+    .line 23
+    .line 24
+    .line 25
+    .line 26
+    .line 27
+    .line 28
+    .line 29
+    .line 30
+    .line 31
+    .line 32
+    .line 33
+    .line 34
+    .line 35
+    .line 36
+    .line 37
+    .line 38
+    .line 39
+    .line 40
+    .line 41
+    .line 42
+    .line 43
+    .line 44
+    .line 45
+    .line 46
+    .line 47
+    .line 48
+    .line 49
+    .line 50
+    .line 51
+    .line 52
+    .line 53
+    .line 54
+    .line 55
+    .line 56
+    .line 57
+.end method
+
+
+# virtual methods
+.method public final n(I)Ljava/lang/Object;
+    .locals 3
+
+    .line 1
+    invoke-static {p1}, Lb0/h;->e(I)I
+
+    .line 2
+    .line 3
+    .line 4
+    move-result p1
+
+    .line 5
+    packed-switch p1, :pswitch_data_0
+
+    .line 6
+    .line 7
+    .line 8
+    new-instance p1, Ljava/lang/UnsupportedOperationException;
+
+    .line 9
+    .line 10
+    invoke-direct {p1}, Ljava/lang/UnsupportedOperationException;-><init>()V
+
+    .line 11
+    .line 12
+    .line 13
+    throw p1
+
+    .line 14
+    :pswitch_0
+    sget-object p1, Lgj/k;->PARSER:Lcom/google/protobuf/o1;
+
+    .line 15
+    .line 16
+    if-nez p1, :cond_1
+
+    .line 17
+    .line 18
+    const-class v0, Lgj/k;
+
+    .line 19
+    .line 20
+    monitor-enter v0
+
+    .line 21
+    :try_start_0
+    sget-object p1, Lgj/k;->PARSER:Lcom/google/protobuf/o1;
+
+    .line 22
+    .line 23
+    if-nez p1, :cond_0
+
+    .line 24
+    .line 25
+    new-instance p1, Lcom/google/protobuf/e0;
+
+    .line 26
+    .line 27
+    sget-object v1, Lgj/k;->DEFAULT_INSTANCE:Lgj/k;
+
+    .line 28
+    .line 29
+    invoke-direct {p1, v1}, Lcom/google/protobuf/e0;-><init>(Lcom/google/protobuf/f0;)V
+
+    .line 30
+    .line 31
+    .line 32
+    sput-object p1, Lgj/k;->PARSER:Lcom/google/protobuf/o1;
+
+    .line 33
+    .line 34
+    goto :goto_0
+
+    .line 35
+    :catchall_0
+    move-exception p1
+
+    .line 36
+    goto :goto_1
+
+    .line 37
+    :cond_0
+    :goto_0
+    monitor-exit v0
+
+    .line 38
+    return-object p1
+
+    .line 39
+    :goto_1
+    monitor-exit v0
+    :try_end_0
+    .catchall {:try_start_0 .. :try_end_0} :catchall_0
+
+    .line 40
+    throw p1
+
+    .line 41
+    :cond_1
+    return-object p1
+
+    .line 42
+    :pswitch_1
+    sget-object p1, Lgj/k;->DEFAULT_INSTANCE:Lgj/k;
+
+    .line 43
+    .line 44
+    return-object p1
+
+    .line 45
+    :pswitch_2
+    new-instance p1, Lgj/j;
+
+    .line 46
+    .line 47
+    sget-object v0, Lgj/k;->DEFAULT_INSTANCE:Lgj/k;
+
+    .line 48
+    .line 49
+    invoke-direct {p1, v0}, Lcom/google/protobuf/d0;-><init>(Lcom/google/protobuf/f0;)V
+
+    .line 50
+    .line 51
+    .line 52
+    return-object p1
+
+    .line 53
+    :pswitch_3
+    new-instance p1, Lgj/k;
+
+    .line 54
+    .line 55
+    invoke-direct {p1}, Lcom/google/protobuf/f0;-><init>()V
+
+    .line 56
+    .line 57
+    .line 58
+    return-object p1
+
+    .line 59
+    :pswitch_4
+    const-string p1, "bitField0_"
+
+    .line 60
+    .line 61
+    const-string v0, "clientTimeUs_"
+
+    .line 62
+    .line 63
+    const-string v1, "userTimeUs_"
+
+    .line 64
+    .line 65
+    const-string v2, "systemTimeUs_"
+
+    .line 66
+    .line 67
+    filled-new-array {p1, v0, v1, v2}, [Ljava/lang/Object;
+
+    .line 68
+    .line 69
+    .line 70
+    move-result-object p1
+
+    .line 71
+    const-string v0, "\u0001\u0003\u0000\u0001\u0001\u0003\u0003\u0000\u0000\u0000\u0001\u1002\u0000\u0002\u1002\u0001\u0003\u1002\u0002"
+
+    .line 72
+    .line 73
+    sget-object v1, Lgj/k;->DEFAULT_INSTANCE:Lgj/k;
+
+    .line 74
+    .line 75
+    new-instance v2, Lcom/google/protobuf/s1;
+
+    .line 76
+    .line 77
+    invoke-direct {v2, v1, v0, p1}, Lcom/google/protobuf/s1;-><init>(Lcom/google/protobuf/a;Ljava/lang/String;[Ljava/lang/Object;)V
+
+    .line 78
+    .line 79
+    .line 80
+    return-object v2
+
+    .line 81
+    :pswitch_5
+    const/4 p1, 0x0
+
+    .line 82
+    return-object p1
+
+    .line 83
+    :pswitch_6
+    const/4 p1, 0x1
+
+    .line 84
+    invoke-static {p1}, Ljava/lang/Byte;->valueOf(B)Ljava/lang/Byte;
+
+    .line 85
+    .line 86
+    .line 87
+    move-result-object p1
+
+    .line 88
+    return-object p1
+
+    .line 89
+    :pswitch_data_0
+    .packed-switch 0x0
+        :pswitch_6
+        :pswitch_5
+        :pswitch_4
+        :pswitch_3
+        :pswitch_2
+        :pswitch_1
+        :pswitch_0
+    .end packed-switch
+    .line 90
+    .line 91
+    .line 92
+    .line 93
+    .line 94
+    .line 95
+.end method

@@ -1,7 +1,7 @@
 {
   "ok": true,
   "data": {
-    "evidence_id": "ev_82d4dc7a5b37ca1231fa757273353d573ad619b2bd41ca5a5c75ef2f8181a155",
+    "evidence_id": "ev_374e5b27b5896edab3be736ff238323ed0e477a8457d88347a2c312b48ffeb18",
     "evidence_format": 2,
     "subject": {
       "identity": {
@@ -34,7 +34,7 @@
       "jar_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
       "loaded": {
         "state": "LOADED",
-        "apk_path": "/tmp/rea-android-DqfO36/target.apk",
+        "apk_path": "/tmp/rea-android-FykNXT/target.apk",
         "class_count": 19789,
         "resource_count": 1396,
         "threads": 1,
@@ -48,7 +48,7 @@
             "content": [
               {
                 "type": "text",
-                "text": "{\"available_processors\":4,\"java_version\":\"21.0.13\",\"max_heap_bytes\":4190109696,\"metadata_scope\":\"parsed_members\",\"engine_reported_version\":\"0.7.1\"}"
+                "text": "{\"engine_reported_version\":\"0.7.1\",\"available_processors\":4,\"java_version\":\"21.0.13\",\"max_heap_bytes\":4190109696,\"metadata_scope\":\"parsed_members\"}"
               }
             ],
             "isError": false
@@ -57,7 +57,7 @@
         {
           "operation": "load_apk",
           "input": {
-            "path": "/tmp/rea-android-DqfO36/target.apk",
+            "path": "/tmp/rea-android-FykNXT/target.apk",
             "threads": 1,
             "resources": "full"
           },
@@ -65,7 +65,7 @@
             "content": [
               {
                 "type": "text",
-                "text": "{\"state\":\"LOADED\",\"apk_path\":\"/tmp/rea-android-DqfO36/target.apk\",\"class_count\":19789,\"raw_class_count\":19789,\"resource_count\":1396,\"load_duration_ms\":5387,\"decompile_timeout_ms\":90000,\"threads\":1,\"code_cache_size\":64,\"resources\":\"full\"}"
+                "text": "{\"state\":\"LOADED\",\"apk_path\":\"/tmp/rea-android-FykNXT/target.apk\",\"class_count\":19789,\"raw_class_count\":19789,\"resource_count\":1396,\"load_duration_ms\":3807,\"decompile_timeout_ms\":90000,\"threads\":1,\"code_cache_size\":64,\"resources\":\"full\"}"
               }
             ],
             "isError": false
@@ -4091,6 +4091,6 @@
   },
   "meta": {
     "command": "inspect-android-package",
-    "duration": "9857ms"
+    "duration": "7504ms"
   }
 }

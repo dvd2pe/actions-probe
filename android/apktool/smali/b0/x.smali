@@ -1,0 +1,11 @@
+.class public interface abstract Lb0/x;
+.super Ljava/lang/Object;
+.source "r8-map-id-430f9def3d0ef2fb1942130fccaaca5f1538bfde1d14fdc4049069135a87727a"
+
+# interfaces
+.implements Lb0/a0;
+
+
+# virtual methods
+.method public abstract a(Lb0/p1;)Lb0/t1;
+.end method

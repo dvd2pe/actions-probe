@@ -1,0 +1,27 @@
+rea inspect-android-jni-bindings — Link raw DEX native declarations to static JNI export/table candidates without executing the APK
+
+Usage: rea inspect-android-jni-bindings <path> [options]
+
+Arguments:
+  path  Local APK path; the target is never executed
+
+Options:
+  --detail <complete|summary>  Deliver complete Evidence, or a summary with --evidence_output (default: complete)
+  --view <string>              JSON android-jni collection page; requires --detail summary and --evidence_output
+  --query <string>             JSON selection: class_name, method_names, descriptors, abis, library_paths; arrays preserve exact names
+  --evidence_output <string>   Save complete Evidence as a bundle; required for summary delivery. Never overwrites.
+
+Custom Global Options:
+  --timings  Write measured command timing to stderr.
+
+Global Options:
+  --filter-output <keys>                      Filter output by key paths (e.g. foo,bar.baz,a[0,3])
+  --format <toon|json|yaml|md|jsonl|csv|tsv>  Output format
+  --full-output                               Show full output envelope
+  --help                                      Show help
+  --json                                      Shorthand for --format json
+  --llms, --llms-full                         Print LLM-readable manifest
+  --schema                                    Show JSON Schema for command
+  --token-count                               Print token count of output (instead of output)
+  --token-limit <n>                           Limit output to n tokens
+  --token-offset <n>                          Skip first n tokens of output
