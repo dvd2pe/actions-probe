@@ -247,7 +247,9 @@ jobs:
           while IFS= read -r config; do
             relative="${config#"$split_dir"/}"
             if [[ "$relative" == */.env ]]; then
-              relative="${relative%/.env}/ENV.txt"
+              sed -E 's/^([[:space:]]*#?[[:space:]]*[A-Za-z_][A-Za-z0-9_]*)=.*/\1=[REDACTED]/' "$config" \
+                >> "$REPORT_DIR/flutter-env-keys-redacted.txt"
+              continue
             fi
             destination="$REPORT_DIR/flutter-config/$relative"
             mkdir -p "$(dirname "$destination")"
