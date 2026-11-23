@@ -317,7 +317,7 @@ jobs:
                           if isinstance(record, dict) and isinstance(record.get("evidence_id"), str)]
           if len(evidence_ids) != len(records):
               raise SystemExit("REA evidence bundle contains a record without a stable evidence_id.")
-          request = {"inventory_evidence": [{"evidence_id": evidence_id} for evidence_id in evidence_ids]}
+          request = {"inventory_evidence": [{"evidence_format": 2, "evidence_id": evidence_id} for evidence_id in evidence_ids]}
           request_path = pathlib.Path(sys.argv[2])
           request_path.write_text(json.dumps(request, separators=(",", ":")), encoding="utf-8")
           if request_path.stat().st_size > 16384:
