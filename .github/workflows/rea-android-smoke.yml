@@ -365,10 +365,10 @@ jobs:
           patterns = [
               re.compile(r"AIza[0-9A-Za-z_-]{35}"),
               re.compile(r"AKIA[0-9A-Z]{16}"),
-              re.compile(r"(?i)(Bearer\\s+)[A-Za-z0-9._~+/=-]+"),
-              re.compile(r"eyJ[A-Za-z0-9_-]{10,}\\.[A-Za-z0-9_-]{10,}\\.[A-Za-z0-9_-]{10,}"),
-              re.compile(r"(?i)([?&](?:api[_-]?key|token|access_token|refresh_token|client_secret|password|secret)=)[^&\\s\"']+"),
-              re.compile(r"(?i)(\\b(?:api[_-]?key|client_secret|access_token|refresh_token|password|secret|token)\\s*[:=]\\s*[\"']?)[A-Za-z0-9_./+=-]{8,}"),
+              re.compile(r"(?i)(Bearer\s+)[A-Za-z0-9._~+/=-]+"),
+              re.compile(r"eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}"),
+              re.compile(r"(?i)([?&](?:api[_-]?key|token|access_token|refresh_token|client_secret|password|secret)=)[^&\s\"']+"),
+              re.compile(r"(?i)(\\b(?:api[_-]?key|client_secret|access_token|refresh_token|password|secret|token)\s*[:=]\s*[\"']?)[A-Za-z0-9_./+=-]{8,}"),
           ]
           summary = []
           for path in root.rglob("*"):
