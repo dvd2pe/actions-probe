@@ -184,7 +184,7 @@ jobs:
             printf '%s\n' "$?" > "$REPORT_DIR/class-$slug.exit-code.txt"
           done
 
-          for selector in "com.yaya.portal.MainActivity|onCreate" "com.pairip.application.Application|attachBaseContext"; do
+          for selector in "com.yaya.portal.MainActivity|onCreate" "com.pairip.application.Application|attachBaseContext" "com.pairip.licensecheck.LicenseClient|checkLicense" "com.pairip.licensecheck.LicenseClient|performLocalInstallerCheck" "com.pairip.licensecheck.LicenseClient|processResponse"; do
             class_name="${selector%%|*}"
             method_name="${selector#*|}"
             slug="$(printf '%s_%s' "$class_name" "$method_name" | tr '. ' '__')"
@@ -208,7 +208,7 @@ jobs:
             [[ -f "$apk" ]] || continue
             destination="$split_dir/$(basename "$apk" .apk)"
             mkdir -p "$destination"
-            unzip -qq "$apk" 'lib/*' 'assets/flutter_assets/*' -d "$destination" || true
+            unzip -qq "$apk" 'lib/*' 'assets/flutter_assets/*' 'assets/flutter_assets/.env' -d "$destination" || true
           done < "$REPORT_DIR/extracted-apk-files.txt"
 
           find "$split_dir" -type f -name '*.so' -printf '%P\t%s bytes\n' | sort \
