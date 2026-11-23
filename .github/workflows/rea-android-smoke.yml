@@ -576,7 +576,14 @@ jobs:
           source_dir = export / "sources"
           if not source_dir.is_dir():
               raise SystemExit("Jadart export did not contain sources/; refusing to publish an empty source workspace.")
-          dart_files = sorted(source_dir.rglob("*.dart"))
+          all_dart_files = sorted(source_dir.rglob("*.dart"))
+          registrants = sorted(export.rglob("dart_plugin_registrant.dart"))
+          plugin_registrant = registrants[0] if registrants else None
+          plugin_registrant_included = plugin_registrant is not None
+          dart_files = [
+              path for path in all_dart_files
+              if path.name != "dart_plugin_registrant.dart" and ".dart_tool" not in path.parts
+          ]
           if not dart_files:
               raise SystemExit("Jadart export contains no Dart source files.")
 
@@ -593,7 +600,7 @@ jobs:
           ):
               (root / folder).mkdir(parents=True, exist_ok=True)
 
-          shutil.copytree(source_dir, root / "lib/recovered", dirs_exist_ok=True)
+          shutil.copytree(source_dir, root / "lib/recovered", dirs_exist_ok=True, ignore=shutil.ignore_patterns(".dart_tool"))
           (root / "lib/README.md").write_text(
               "# Recovered Dart sources\n\n"
               "Files in recovered/ were generated from the Flutter AOT snapshot by Jadart. "
@@ -606,8 +613,6 @@ jobs:
           if (export / "strings.txt").is_file():
               shutil.copy2(export / "strings.txt", root / "forensics/jadart-strings.txt")
 
-          plugin_registrant = export / ".dart_tool/flutter_build/dart_plugin_registrant.dart"
-          plugin_registrant_included = plugin_registrant.is_file()
           if plugin_registrant_included:
               shutil.copy2(plugin_registrant, root / "forensics/dart_plugin_registrant.dart")
 
@@ -782,25 +787,61 @@ jobs:
               direct_dependencies.update(import_pattern.findall(source_text))
           sdk_dependencies = sorted(name for name in direct_dependencies if name in {"flutter", "flutter_test"})
           external_dependencies = sorted(direct_dependencies - set(sdk_dependencies))
+
+          plugin_imports = set()
+          if plugin_registrant_included:
+              plugin_imports.update(import_pattern.findall(plugin_registrant.read_text(errors="replace")))
+
+          smali_registrant = root / "android/apktool/smali_classes3/io/flutter/plugins/GeneratedPluginRegistrant.smali"
+          plugin_registry = []
+          if smali_registrant.is_file():
+              smali_text = smali_registrant.read_text(errors="replace")
+              plugin_registry = sorted(set(re.findall(
+                  r'Error registering plugin ([^,"]+), ([^"]+)"',
+                  smali_text,
+              )))
+
+          plugin_table = "\n".join(
+              f"| {name} | {implementation} |"
+              for name, implementation in plugin_registry
+          )
+          (root / "docs/plugin-registry.md").write_text(
+              "# Recovered Android Flutter plugin registry\n\n"
+              f"Recovered {len(plugin_registry)} plugin registrations from the Android Smali class "
+              "GeneratedPluginRegistrant. This is direct evidence of plugins wired into the shipped Android build.\n\n"
+              "| Flutter plugin | Android implementation class |\n"
+              "|---|---|\n"
+              + (plugin_table if plugin_table else "| _Not recovered_ | — |")
+              + "\n",
+              encoding="utf-8",
+          )
+
           (root / "docs/direct-dependency-candidates.md").write_text(
               "# Direct dependency candidates\n\n"
-              "Package names below were observed in import/export/part directives in the recovered Dart files. "
-              "They are stronger direct-dependency candidates than the NOTICES.Z inventory, but exact versions "
-              "and original dependency constraints remain unknown.\n\n"
-              + ("## Flutter SDK imports\n\n" + "\n".join(f"- {name}" for name in sdk_dependencies) + "\n\n" if sdk_dependencies else "")
-              + "## External package imports\n\n"
-              + ("\n".join(f"- {name}" for name in external_dependencies) if external_dependencies else "_No external package imports were parsed._")
-              + "\n",
+              "The Jadart AOT pseudocode does not reliably preserve Dart import/export directives. "
+              f"Only {len(external_dependencies)} external package imports were parsed from that output; "
+              "do not treat an empty list as proof that the app has no Dart dependencies.\n\n"
+              + ("## Dart package imports that survived decompilation\n\n"
+                 + "\n".join(f"- {name}" for name in external_dependencies) + "\n\n"
+                 if external_dependencies else "")
+              + "## Native Flutter plugin packages\n\n"
+              + (("\n".join(f"- {name}" for name in sorted({name for name, _ in plugin_registry}))) if plugin_registry else "_No plugin registry was parsed._")
+              + "\n\n"
+              + f"Generated Dart plugin registrant package imports: {len(plugin_imports)}.\n\n"
+              + "The complete 396-name NOTICES.Z package inventory is in dependencies.md. "
+              "Exact versions and original direct-vs-transitive constraints remain unknown.\n",
               encoding="utf-8",
           )
 
           (root / "docs/android-layer.md").write_text(
               "# Android packaging and resource layer\n\n"
               f"- Apktool-decoded files copied: {decoded_count}\n"
+              f"- Smali files recovered: {sum(1 for p in (root / 'android/apktool').rglob('*.smali'))}\n"
+              f"- Flutter plugin registrations recovered: {len(plugin_registry)}\n"
               "- The base APK's AndroidManifest.xml, resource XML, and Smali output are under android/apktool/.\n"
               "- Flutter assets are kept separately under assets/flutter_assets/ to avoid duplicate copies.\n"
               "- Raw native .so files and .env are excluded from the public workspace; native library names and hashes remain in forensics/.\n"
-              "- JNI evidence from the synthetic base-plus-arm64 analysis APK is retained as android-jni-bindings-merged.json. "
+              "- JNI evidence from the synthetic base-plus-arm64 analysis APK is retained in forensics/android-jni-bindings-merged.json. "
               "That merged APK is an analysis-only container, not an installable or signed release.\n",
               encoding="utf-8",
           )
@@ -850,6 +891,8 @@ jobs:
                       "jadart_export_file_count": len(export_meta.get("files", [])),
                       "generated_plugin_registrant_included": plugin_registrant_included,
                       "direct_package_import_count": len(direct_dependencies),
+                      "plugin_package_import_count": len(plugin_imports),
+                      "native_plugin_count": len(plugin_registry),
                       "apktool_decoded_file_count": decoded_count,
                       "asset_files": len(asset_files),
                       "native_library_count": native_count,
@@ -913,7 +956,7 @@ jobs:
               "lib/recovered/; extracted Flutter assets are in assets/flutter_assets/; "
               "additional split assets are in assets/split-assets/; analysis evidence is in forensics/ "
               "and the navigation/feature indexes are in docs/. The decoded Android manifest, resource XML and Smali are in android/apktool/.\n\n"
-              "The generated Dart plugin registrant is preserved in forensics/dart_plugin_registrant.dart; direct package import candidates are in docs/direct-dependency-candidates.md.\n\n"
+              "The Android plugin registry is documented in docs/plugin-registry.md, with its Smali implementation under android/apktool/smali_classes3/io/flutter/plugins/GeneratedPluginRegistrant.smali. Direct package candidates are in docs/direct-dependency-candidates.md.\n\n"
               "## Important status\n\n"
               "- lib/recovered/ contains generated decompilation output, not the original Dart repository.\n"
               "- Dart identifiers and file names may be obfuscated; these files are preserved as raw evidence.\n"
