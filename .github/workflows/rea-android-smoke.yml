@@ -235,6 +235,26 @@ jobs:
           find "$split_dir" -type f -path '*/assets/flutter_assets/*' -printf '%P\n' | sort \
             > "$REPORT_DIR/flutter-assets.txt"
 
+          notices_file="$(find "$split_dir" -type f -path '*/assets/flutter_assets/NOTICES.Z' -print -quit)"
+          if [[ -n "$notices_file" ]]; then
+            python3 - "$notices_file" "$REPORT_DIR/flutter-dependencies.txt" <<'PY'
+          import gzip, pathlib, sys
+          raw = gzip.open(sys.argv[1], "rb").read().decode("utf-8", "replace")
+          names = []
+          for block in raw.split("-" * 80):
+              for line in block.strip().splitlines():
+                  line = line.strip()
+                  if not line:
+                      break
+                  if line and len(line) < 180:
+                      names.append(line)
+          unique = list(dict.fromkeys(names))
+          pathlib.Path(sys.argv[2]).write_text(
+              f"Packages named in Flutter NOTICES.Z: {len(unique)}\n" +
+              "\n".join(unique) + "\n", encoding="utf-8")
+          PY
+          fi
+
           : > "$REPORT_DIR/native-url-candidates.txt"
           : > "$REPORT_DIR/libapp-interesting-strings.txt"
           while IFS= read -r lib; do
@@ -469,6 +489,58 @@ jobs:
               lines += [f"  - {n}" for n in sorted(method_names)[:500]]
               if len(method_names) > 500:
                   lines.append(f"  ... {len(method_names)-500} additional candidates omitted")
+
+              strings_file = out / "strings.txt"
+              if strings_file.exists():
+                  pool = strings_file.read_text(errors="replace").splitlines()
+                  feature_re = re.compile(r"yaya|helper|nann|family|care|visa|interview|concierge|job|chat|message|profile|premium|subscr|booking|document|upload|cv|passport|certificate|reference|identity|login|register|otp|password|phone|payment|paywall|firebase|onesignal|socket|api|graphql|endpoint|http|gemini|\bAI\b", re.I)
+                  feature_strings = sorted({s for s in pool if feature_re.search(s) and len(s) <= 300})
+                  (report / "jadart-feature-strings.txt").write_text(
+                      "\n".join(feature_strings[:600]) + "\n", encoding="utf-8")
+                  lines += ["", f"Feature-related string literals: {len(feature_strings)}",
+                            "String inventory: jadart-feature-strings.txt"]
+
+              markers = [
+                  "ApiEndpoints", "loadAppConfigData", "AppConfigLoader",
+                  "YayaAiController", "FamilyOnboardingController", "SocketService",
+                  "RevenueCat", "Top Yaya Picks", "Yaya Chat", "INTERVIEW_BOOKING_ENABLED",
+                  "api_server_url", "chat_server_url", "FIREBASE_APP_CONFIG_URL",
+                  "FirebaseAuth", "carefinder", "concierge",
+              ]
+              source_hits = []
+              for source_file in dart_files:
+                  try:
+                      source_lines = source_file.read_text(errors="replace").splitlines()
+                  except OSError:
+                      continue
+                  for marker in markers:
+                      for index, source_line in enumerate(source_lines):
+                          if marker.lower() not in source_line.lower():
+                              continue
+                          class_context = ""
+                          method_context = ""
+                          for previous in reversed(source_lines[:index]):
+                              if not class_context and re.match(r"^\\s*(?:abstract\\s+)?class\\s+", previous):
+                                  class_context = previous.strip()[:160]
+                              if not method_context and re.match(r"^\\s{2,}.*[A-Za-z_$][A-Za-z0-9_$]*\\s*\\(", previous):
+                                  method_context = previous.strip()[:160]
+                              if class_context and method_context:
+                                  break
+                          source_hits.append(
+                              f"{source_file.relative_to(out)}:{index+1} [{marker}] "
+                              f"class={class_context or '?'} method={method_context or '?'}"
+                          )
+                          if len(source_hits) >= 400:
+                              break
+                      if len(source_hits) >= 400:
+                          break
+                  if len(source_hits) >= 400:
+                      break
+              (report / "jadart-source-index.txt").write_text(
+                  "\n".join(source_hits) + ("\n" if source_hits else "No selected marker occurrences found.\n"),
+                  encoding="utf-8")
+              lines += ["", f"Source-index matches: {len(source_hits)}",
+                        "Source index: jadart-source-index.txt"]
           lines.append("")
           (report / "jadart-summary.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
           PY
@@ -519,7 +591,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          for artifact_id in 14812540332 14811892532 14813901411; do
+          for artifact_id in 14812540332 14811892532 14813901411 14813602883; do
             status="$(curl --silent --show-error --output "$RUNNER_TEMP/delete-$artifact_id.txt" \
               --write-out '%{http_code}' --request DELETE \
               --header "Accept: application/vnd.github+json" \
