@@ -284,7 +284,7 @@ jobs:
           fi
           if [[ "$status" -eq 0 ]]; then
             sudo apt-get install -y --no-install-recommends \
-              python3-pyelftools python3-requests git cmake ninja-build \
+              python3-pyelftools python3-requests python3-venv git cmake ninja-build \
               build-essential pkg-config libicu-dev libcapstone-dev \
               >> "$RUNNER_TEMP/blutter-apt.log" 2>&1
             status=$?
@@ -353,6 +353,127 @@ jobs:
           PY
           exit 0
 
+      - name: Decompile Flutter Dart AOT with Jadart
+        if: ${{ success() }}
+        shell: bash
+        env:
+          REPORT_DIR: ${{ steps.reports.outputs.directory }}
+        run: |
+          set +e
+          input_dir="${RUNNER_TEMP}/rea-android/split-content/config.arm64_v8a/lib/arm64-v8a"
+          jadart_dir="${RUNNER_TEMP}/jadart"
+          venv="${RUNNER_TEMP}/jadart-venv"
+          export_dir="${RUNNER_TEMP}/jadart-export"
+          log_file="${RUNNER_TEMP}/jadart.log"
+          status=0
+          verify_status=99
+          export_status=99
+
+          git clone --depth 1 https://github.com/IR0NBYTE/Jadart.git "$jadart_dir" > "$log_file" 2>&1
+          status=$?
+          if [[ "$status" -eq 0 ]]; then
+            git -C "$jadart_dir" rev-parse HEAD > "$REPORT_DIR/jadart-source-revision.txt"
+            python3 -m venv "$venv" >> "$log_file" 2>&1
+            status=$?
+          fi
+          if [[ "$status" -eq 0 ]]; then
+            "$venv/bin/pip" install --disable-pip-version-check "$jadart_dir/framework[disasm]" >> "$log_file" 2>&1
+            status=$?
+          fi
+          if [[ "$status" -eq 0 ]]; then
+            "$venv/bin/jadart" -j info "$input_dir/libapp.so" \
+              > "$REPORT_DIR/jadart-info.json" 2> "$REPORT_DIR/jadart-info.stderr"
+            status=$?
+          fi
+          if [[ "$status" -eq 0 ]]; then
+            "$venv/bin/jadart" -j verify "$input_dir/libapp.so" \
+              > "$REPORT_DIR/jadart-verify.json" 2> "$REPORT_DIR/jadart-verify.stderr"
+            verify_status=$?
+            "$venv/bin/jadart" -j export "$input_dir/libapp.so" \
+              -o "$export_dir" -t 3 -a -q \
+              > "$REPORT_DIR/jadart-export.json" 2> "$REPORT_DIR/jadart-export.stderr"
+            export_status=$?
+          fi
+
+          printf '%s\n' "$status" > "$REPORT_DIR/jadart-exit-code.txt"
+          printf '%s\n' "$verify_status" > "$REPORT_DIR/jadart-verify-exit-code.txt"
+          printf '%s\n' "$export_status" > "$REPORT_DIR/jadart-export-exit-code.txt"
+          if [[ "$status" -ne 0 ]]; then
+            {
+              echo "Jadart could not parse the Flutter snapshot (exit $status)."
+              tail -n 60 "$log_file" 2>/dev/null
+            } > "$REPORT_DIR/jadart-error.txt"
+          fi
+
+          python3 - "$REPORT_DIR" "$export_dir" "$jadart_dir" <<'PY'
+          import json, pathlib, re, sys
+          report, out, source = map(pathlib.Path, sys.argv[1:])
+          lines = ["Jadart Flutter Dart AOT analysis"]
+          def load(name):
+              p = report / name
+              if not p.exists():
+                  return None
+              try:
+                  return json.loads(p.read_text(errors="replace"))
+              except Exception:
+                  return None
+          info = load("jadart-info.json")
+          if info and info.get("ok"):
+              for key, snap in info.get("snapshots", {}).items():
+                  lines += [
+                      f"Snapshot: {key}",
+                      f"  Dart: {snap.get('dart')}",
+                      f"  Epoch: {snap.get('epoch')}",
+                      f"  Target: {snap.get('target')}",
+                      f"  Version hash: {snap.get('version_hash')}",
+                      f"  Objects: {snap.get('objects')}",
+                      f"  Clusters: {snap.get('clusters')}",
+                      f"  Instruction table length: {snap.get('instr_table_len')}",
+                  ]
+          else:
+              lines.append("Jadart info did not produce a supported snapshot header.")
+          verify = load("jadart-verify.json")
+          if verify:
+              lines += ["", "Acceptance gates:"]
+              for gate in verify.get("gates", []):
+                  lines.append(f"  {gate.get('gate')}: {'PASS' if gate.get('passed') else 'FAIL'}")
+              lines.append(f"  supported: {verify.get('supported')}")
+          exported = load("jadart-export.json")
+          if exported and exported.get("ok"):
+              lines += [
+                  "",
+                  "Export summary:",
+                  f"  libraries: {exported.get('libraries')}",
+                  f"  classes: {exported.get('classes')}",
+                  f"  methods: {exported.get('methods')}",
+                  f"  strings: {exported.get('strings')}",
+                  f"  selectors: {exported.get('selectors')}",
+              ]
+          if out.exists():
+              dart_files = list((out / "sources").rglob("*.dart")) if (out / "sources").exists() else []
+              lines.append(f"  Dart source files generated: {len(dart_files)}")
+              class_names, method_names = set(), set()
+              class_re = re.compile(r"(?m)^\\s*(?:abstract\\s+|sealed\\s+)?(?:class|mixin|enum|extension)\\s+([A-Za-z_$][A-Za-z0-9_$]*)")
+              method_re = re.compile(r"(?m)^\\s{2,}(?:static\\s+)?(?:[A-Za-z_$][A-Za-z0-9_$<>?,.\\[\\] ]*\\s+)?([A-Za-z_$][A-Za-z0-9_$]*)\\s*\\(")
+              keywords = re.compile(r"auth|login|profile|helper|nann|job|chat|message|payment|premium|subscr|visa|interview|booking|search|filter|video|document|upload|firebase|api|socket|notification|family|care", re.I)
+              for p in dart_files:
+                  txt = p.read_text(errors="replace")
+                  class_names.update(class_re.findall(txt))
+                  for m in method_re.finditer(txt):
+                      name = m.group(1)
+                      if keywords.search(name):
+                          method_names.add(name)
+              lines += ["", f"Recovered Dart classes: {len(class_names)}",
+                        f"Feature-related method names: {len(method_names)}",
+                        "Feature-related method candidates:"]
+              lines += [f"  - {n}" for n in sorted(method_names)[:500]]
+              if len(method_names) > 500:
+                  lines.append(f"  ... {len(method_names)-500} additional candidates omitted")
+          lines.append("")
+          (report / "jadart-summary.txt").write_text("\\n".join(lines), encoding="utf-8")
+          PY
+          exit 0
+
       - name: Redact credentials and API keys from public report
         if: ${{ always() && steps.reports.outputs.directory != '' }}
         shell: bash
@@ -398,7 +519,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          for artifact_id in 14812540332 14811892532; do
+          for artifact_id in 14812540332 14811892532 14813901411; do
             status="$(curl --silent --show-error --output "$RUNNER_TEMP/delete-$artifact_id.txt" \
               --write-out '%{http_code}' --request DELETE \
               --header "Accept: application/vnd.github+json" \
