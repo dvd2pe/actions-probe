@@ -520,9 +520,9 @@ jobs:
                           class_context = ""
                           method_context = ""
                           for previous in reversed(source_lines[:index]):
-                              if not class_context and re.match(r"^\\s*(?:abstract\\s+)?class\\s+", previous):
+                              if not class_context and re.match(r"^\s*(?:abstract\s+)?class\s+", previous):
                                   class_context = previous.strip()[:160]
-                              if not method_context and re.match(r"^\\s{2,}.*[A-Za-z_$][A-Za-z0-9_$]*\\s*\\(", previous):
+                              if not method_context and re.match(r"^\s{2,}.*[A-Za-z_$][A-Za-z0-9_$]*\s*\\(", previous):
                                   method_context = previous.strip()[:160]
                               if class_context and method_context:
                                   break
