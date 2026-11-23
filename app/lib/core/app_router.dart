@@ -1,6 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
 import '../screens/auth_screens.dart';
+import '../screens/helpers_search_screen.dart';
 import '../screens/dashboard_screens.dart';
 import '../screens/recovered_route_screens.dart';
 import 'route_names.dart';
