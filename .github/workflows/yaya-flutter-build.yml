@@ -1,0 +1,105 @@
+name: Yaya Flutter reconstruction CI
+
+on:
+  push:
+    branches:
+      - yaya-recovered-source
+    paths:
+      - "app/**"
+      - "assets/flutter_assets/assets/fonts/**"
+      - ".github/workflows/yaya-flutter-build.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: yaya-flutter-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out reconstruction branch
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Flutter stable
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Prepare original fonts and platform scaffolding
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p app/assets/fonts
+          cp assets/flutter_assets/assets/fonts/Outfit-Regular.ttf app/assets/fonts/
+          cp assets/flutter_assets/assets/fonts/Outfit-Medium.ttf app/assets/fonts/
+          cp assets/flutter_assets/assets/fonts/Outfit-SemiBold.ttf app/assets/fonts/
+          cp assets/flutter_assets/assets/fonts/Outfit-Bold.ttf app/assets/fonts/
+
+          if [[ ! -d app/android || ! -d app/web || ! -f app/.metadata ]]; then
+            template="${RUNNER_TEMP}/yaya-flutter-template"
+            rm -rf "$template"
+            flutter create --no-pub --platforms=android,web --org com.yaya.portal --project-name reconstructed "$template"
+            mkdir -p app
+            rm -rf app/android app/web
+            cp -a "$template/android" app/android
+            cp -a "$template/web" app/web
+            cp "$template/.metadata" app/.metadata
+            sed -i 's/android:label="reconstructed"/android:label="Yaya Reconstructed"/' app/android/app/src/main/AndroidManifest.xml
+            sed -i 's/<title>reconstructed<\/title>/<title>Yaya Reconstructed<\/title>/' app/web/index.html
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add app/android app/web app/.metadata app/assets/fonts
+          if ! git diff --cached --quiet; then
+            git commit -m "Generate Flutter platform scaffolding for Yaya reconstruction [skip ci]"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+
+      - name: Print Flutter version
+        run: flutter --version
+
+      - name: Resolve Flutter packages
+        working-directory: app
+        run: flutter pub get
+
+      - name: Analyze reconstructed app
+        working-directory: app
+        run: flutter analyze
+
+      - name: Run widget tests
+        working-directory: app
+        run: flutter test
+
+      - name: Build Android APK
+        working-directory: app
+        run: flutter build apk --release
+
+      - name: Build web bundle
+        working-directory: app
+        run: flutter build web --release
+
+      - name: Upload APK and web build
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: yaya-reconstructed-${{ github.run_number }}
+          path: |
+            app/build/app/outputs/flutter-apk/app-release.apk
+            app/build/web/
+          if-no-files-found: error
+          retention-days: 30

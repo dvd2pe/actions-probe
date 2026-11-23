@@ -1,21 +1,25 @@
-# Yaya — recovered Flutter workspace
+# Yaya — recovered and reconstructed workspace
 
-This workspace was generated from the Android XAPK for com.yaya.portal (version 5.6.2, versionCode 228) using REA and Jadart.
+This branch contains two separate layers:
+
+- app/ — clean, editable Flutter reconstruction shell with its own pubspec.yaml, route handling, entry/auth flow, family/helper onboarding shells and dashboard navigation.
+- Recovered evidence — Jadart-generated Dart pseudocode in lib/recovered/, Android decoded resources/Smali in android/apktool/, original extracted Flutter assets in assets/flutter_assets/, and REA reports in forensics/.
 
 ## Work directly on GitHub
 
-No local clone is required. Browse and edit this branch in the GitHub web interface, or open the branch in github.dev: https://github.dev/dvd2pe/actions-probe/tree/yaya-recovered-source. GitHub Actions performs extraction and verification in the cloud. The recovered Dart files are in lib/recovered/; Flutter assets are in assets/flutter_assets/ and assets/split-assets/; analysis evidence is in forensics/; navigation, route-to-source, feature-to-source and Android manifest maps are in docs/. The decoded Android resource XML and Smali are in android/apktool/.
+No local clone is required. Browse and edit this branch in GitHub or open it in github.dev:
 
-The Android plugin registry is documented in docs/plugin-registry.md, with its Smali implementation under android/apktool/smali_classes3/io/flutter/plugins/GeneratedPluginRegistrant.smali. Direct package candidates are in docs/direct-dependency-candidates.md.
+https://github.dev/dvd2pe/actions-probe/tree/yaya-recovered-source
 
-## Important status
+The yaya-flutter-build GitHub Actions workflow generates the Android and web platform scaffolding, copies the original Outfit fonts into the app package, runs flutter analyze and widget tests, then builds an Android APK and web bundle.
 
-- lib/recovered/ contains generated decompilation output, not the original Dart repository.
-- Dart identifiers and file names may be obfuscated; these files are preserved as raw evidence.
-- This is an editor-ready recovery workspace, not yet a buildable Flutter application. The original pubspec.yaml, exact dependency versions, Android project scaffolding, and signing key have not been recovered.
-- .env and raw native .so binaries are intentionally excluded from this public branch. Their redacted key inventory, hashes, and string-analysis reports are retained where safe.
-- Credential-like values in text/JSON reports are redacted before publication.
+## Recovery boundaries
 
-## Next reconstruction pass
+- lib/recovered/ is decompiled pseudocode, not the original Dart source tree.
+- The original APK is Flutter AOT; original source names/comments and exact dependency versions cannot be assumed recovered.
+- assets/flutter_assets/ is preserved as extracted evidence. The reconstruction does not overwrite those originals.
+- .env values and raw native .so binaries are excluded from the public workspace; credential-like values are redacted.
+- The new app uses com.yaya.portal.reconstructed, not the original com.yaya.portal. The official signing key was not recovered.
+- Backend authentication, messaging, subscriptions, push notifications and live data services are not connected in the first reconstruction layer.
 
-Map important recovered classes to screens and controllers, recover the Android resource tree and plugin configuration, infer dependency versions, then refactor selected flows into clean, buildable Flutter code. Keep lib/recovered/ unchanged as the reference layer.
+See docs/reconstruction-status.md for the current scope and verification status.
