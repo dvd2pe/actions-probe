@@ -1,4 +1,4 @@
-name: REA Android APK smoke test
+name: REA Android APK analysis
 
 on:
   push:
@@ -9,15 +9,31 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      apk_url:
+        description: Direct APK or XAPK download URL
+        required: true
+        type: string
+        default: "https://d.apkpure.net/b/XAPK/com.yaya.portal?version=latest"
+      expected_sha256:
+        description: Expected SHA-256 of the downloaded APK/XAPK bundle
+        required: true
+        type: string
+        default: "2b707fe58aab7b3c8ba1c53520d3496480d7ee14d75d59393359f633adbe2cd2"
+      package_name:
+        description: Expected Android application ID
+        required: true
+        type: string
+        default: "com.yaya.portal"
 
 permissions:
   contents: read
 
 jobs:
-  android-smoke-test:
-    name: Analyze a checksum-pinned Android APK
+  android-analysis:
+    name: Analyze Android package with REA
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - name: Prepare isolated report directory
         id: reports
@@ -57,15 +73,19 @@ jobs:
           npm install --prefix "${RUNNER_TEMP}/rea-tool" --no-audit --no-fund --ignore-scripts --save-exact rea-agents@6.10.1
           echo "${RUNNER_TEMP}/rea-tool/node_modules/.bin" >> "$GITHUB_PATH"
 
-      - name: Download and verify JADX and public test APK
+      - name: Download and verify JADX and target APK/XAPK
         shell: bash
         env:
           REPORT_DIR: ${{ steps.reports.outputs.directory }}
+          APK_URL: ${{ github.event.inputs.apk_url || 'https://d.apkpure.net/b/XAPK/com.yaya.portal?version=latest' }}
+          EXPECTED_SHA256: ${{ github.event.inputs.expected_sha256 || '2b707fe58aab7b3c8ba1c53520d3496480d7ee14d75d59393359f633adbe2cd2' }}
+          EXPECTED_PACKAGE: ${{ github.event.inputs.package_name || 'com.yaya.portal' }}
         run: |
+          set -euo pipefail
           android_dir="${RUNNER_TEMP}/rea-android"
           mkdir -p "$android_dir"
           jar="$android_dir/jadx-headless-mcp-0.7.1-all.jar"
-          apk="$android_dir/ApiDemos-debug.apk"
+          bundle="$android_dir/target-package.xapk"
 
           curl --fail --location --retry 3 --silent --show-error \
             "https://github.com/1013503897/jadx-headless-mcp/releases/download/v0.7.1/jadx-headless-mcp-0.7.1-all.jar" \
@@ -75,19 +95,40 @@ jobs:
             "$jar" | sha256sum --check
 
           curl --fail --location --retry 3 --silent --show-error \
-            "https://github.com/appium/android-apidemos/releases/download/v6.0.18/ApiDemos-debug.apk" \
-            --output "$apk"
-          printf '%s  %s\n' \
-            'a9eecf37b26cd084855c530db81c2bb1b91f4c1b095a04f47aa7c20e2791f686' \
-            "$apk" | sha256sum --check
+            --user-agent "Mozilla/5.0 (compatible; REA-Android-Analyzer/1.0)" \
+            "$APK_URL" --output "$bundle"
+          printf '%s  %s\n' "$EXPECTED_SHA256" "$bundle" | sha256sum --check
+          sha256sum "$bundle" > "$REPORT_DIR/apk-bundle.sha256"
+          printf 'APK_SOURCE=%s\n' "$APK_URL" > "$REPORT_DIR/app-source.txt"
+          printf 'EXPECTED_PACKAGE=%s\n' "$EXPECTED_PACKAGE" >> "$REPORT_DIR/app-source.txt"
+          printf 'REA_VERSION=6.10.1\n' >> "$REPORT_DIR/app-source.txt"
+          printf 'JADX_VERSION=0.7.1\n' >> "$REPORT_DIR/app-source.txt"
+
+          extract_dir="$android_dir/extracted"
+          mkdir -p "$extract_dir"
+          if unzip -tq "$bundle" >/dev/null 2>&1; then
+            unzip -q "$bundle" -d "$extract_dir"
+            mapfile -t apk_files < <(find "$extract_dir" -type f -iname '*.apk' | sort)
+            if [[ "${#apk_files[@]}" -eq 0 ]]; then
+              echo "The downloaded XAPK contains no APK files." >&2
+              exit 1
+            fi
+            if [[ -f "$extract_dir/base.apk" ]]; then
+              apk="$extract_dir/base.apk"
+            else
+              apk="${apk_files[0]}"
+            fi
+            printf '%s\n' "${apk_files[@]}" > "$REPORT_DIR/extracted-apk-files.txt"
+            find "$extract_dir" -type f -iname '*.apk' -print0 | sort -z | xargs -0 sha256sum > "$REPORT_DIR/extracted-apk-sha256.txt"
+          else
+            apk="$android_dir/target.apk"
+            cp "$bundle" "$apk"
+          fi
 
           printf 'REA_JADX_MCP_JAR=%s\n' "$jar" >> "$GITHUB_ENV"
           printf 'APK_PATH=%s\n' "$apk" >> "$GITHUB_ENV"
-          sha256sum "$apk" > "$REPORT_DIR/apk.sha256"
-          printf 'JADX_VERSION=0.7.1\n' > "$REPORT_DIR/toolchain.txt"
-          printf 'JADX_JAR_SHA256=%s\n' '6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75' >> "$REPORT_DIR/toolchain.txt"
-          printf 'APK_FIXTURE=Appium ApiDemos 6.0.18\n' >> "$REPORT_DIR/toolchain.txt"
-          printf 'REA_VERSION=6.10.1\n' >> "$REPORT_DIR/toolchain.txt"
+          printf 'EXPECTED_PACKAGE=%s\n' "$EXPECTED_PACKAGE" >> "$GITHUB_ENV"
+          printf 'APK_SELECTED=%s\n' "$apk" >> "$REPORT_DIR/app-source.txt"
 
       - name: Inspect APK with REA
         id: analyze
@@ -101,13 +142,24 @@ jobs:
           status=$?
           set -e
           printf '%s\n' "$status" > "$REPORT_DIR/exit-code.txt"
-          exit "$status"
+          if [[ "$status" -ne 0 ]]; then
+            exit "$status"
+          fi
+          jq -e --arg expected "$EXPECTED_PACKAGE" '
+            .data.raw_result.calls[]
+            | select(.operation == "get_app_info")
+            | .response.content[]
+            | select(.type == "text")
+            | .text
+            | fromjson
+            | select(.package == $expected)
+          ' "$REPORT_DIR/analysis.json" >/dev/null
 
       - name: Upload analysis report
         if: ${{ always() && steps.reports.outputs.directory != '' }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: rea-android-smoke-test
+          name: rea-android-analysis
           path: ${{ steps.reports.outputs.directory }}
           if-no-files-found: warn
           retention-days: 7
