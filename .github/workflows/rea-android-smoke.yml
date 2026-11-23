@@ -313,10 +313,15 @@ jobs:
           records = evidence.get("records")
           if not isinstance(records, list) or not records:
               raise SystemExit("REA evidence bundle contains no evidence records.")
-          evidence_ids = [record.get("evidence_id") for record in records
-                          if isinstance(record, dict) and isinstance(record.get("evidence_id"), str)]
-          if len(evidence_ids) != len(records):
-              raise SystemExit("REA evidence bundle contains a record without a stable evidence_id.")
+          evidence_ids = [
+              record["evidence_id"]
+              for record in records
+              if isinstance(record, dict)
+              and record.get("operation") == "inventory_artifact"
+              and isinstance(record.get("evidence_id"), str)
+          ]
+          if not evidence_ids:
+              raise SystemExit("REA evidence bundle contains no inventory_artifact Evidence record.")
           request = {"inventory_evidence": [{"kind": "retained-evidence", "evidence_id": evidence_id} for evidence_id in evidence_ids]}
           request_path = pathlib.Path(sys.argv[2])
           request_path.write_text(json.dumps(request, separators=(",", ":")), encoding="utf-8")
