@@ -861,7 +861,7 @@ jobs:
           path: ${{ steps.reports.outputs.directory }}
           if-no-files-found: warn
           retention-days: 7
-publish-recovered-workspace:
+  publish-recovered-workspace:
     name: Publish recovered workspace branch
     needs: android-analysis
     if: ${{ needs.android-analysis.result == 'success' && github.event_name != 'pull_request' && (github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/rea-yaya-blutter-deep-analysis') }}
