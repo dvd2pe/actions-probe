@@ -3,6 +3,7 @@ name: REA Android APK smoke test
 on:
   push:
     branches:
+      - main
       - rea-apk-lab
   pull_request:
     branches:
