@@ -1,0 +1,112 @@
+name: REA Android APK smoke test
+
+on:
+  push:
+    branches:
+      - main
+      - rea-apk-lab
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  android-smoke-test:
+    name: Analyze a checksum-pinned Android APK
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Prepare isolated report directory
+        id: reports
+        shell: bash
+        run: |
+          directory="$(mktemp -d "${RUNNER_TEMP}/rea-android.XXXXXX")"
+          printf 'directory=%s\n' "$directory" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24.22.1"
+
+      - uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Check Linux and Java prerequisites
+        shell: bash
+        run: |
+          if ! command -v ps >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install --yes procps
+          fi
+          node --version
+          npm --version
+          java --version
+          java --list-modules | grep '^jdk.compiler@'
+
+      - name: Install pinned REA CLI
+        shell: bash
+        run: |
+          npm install --prefix "${RUNNER_TEMP}/rea-tool" --no-audit --no-fund --ignore-scripts --save-exact rea-agents@6.10.1
+          echo "${RUNNER_TEMP}/rea-tool/node_modules/.bin" >> "$GITHUB_PATH"
+
+      - name: Download and verify JADX and public test APK
+        shell: bash
+        env:
+          REPORT_DIR: ${{ steps.reports.outputs.directory }}
+        run: |
+          android_dir="${RUNNER_TEMP}/rea-android"
+          mkdir -p "$android_dir"
+          jar="$android_dir/jadx-headless-mcp-0.8.0-all.jar"
+          apk="$android_dir/ApiDemos-debug.apk"
+
+          curl --fail --location --retry 3 --silent --show-error \
+            "https://github.com/1013503897/jadx-headless-mcp/releases/download/v0.8.0/jadx-headless-mcp-0.8.0-all.jar" \
+            --output "$jar"
+          printf '%s  %s\n' \
+            '4b9a01c23845c123c217840182d2b5f2c26a7ca20dec3d08810b310fc80a2372' \
+            "$jar" | sha256sum --check
+
+          curl --fail --location --retry 3 --silent --show-error \
+            "https://github.com/appium/android-apidemos/releases/download/v6.0.18/ApiDemos-debug.apk" \
+            --output "$apk"
+          printf '%s  %s\n' \
+            'a9eecf37b26cd084855c530db81c2bb1b91f4c1b095a04f47aa7c20e2791f686' \
+            "$apk" | sha256sum --check
+
+          printf 'REA_JADX_MCP_JAR=%s\n' "$jar" >> "$GITHUB_ENV"
+          printf 'APK_PATH=%s\n' "$apk" >> "$GITHUB_ENV"
+          sha256sum "$apk" > "$REPORT_DIR/apk.sha256"
+          printf 'JADX_JAR_SHA256=%s\n' '4b9a01c23845c123c217840182d2b5f2c26a7ca20dec3d08810b310fc80a2372' > "$REPORT_DIR/toolchain.txt"
+          printf 'APK_FIXTURE=Appium ApiDemos 6.0.18\n' >> "$REPORT_DIR/toolchain.txt"
+          printf 'REA_VERSION=6.10.1\n' >> "$REPORT_DIR/toolchain.txt"
+
+      - name: Inspect APK with REA
+        id: analyze
+        shell: bash
+        env:
+          REPORT_DIR: ${{ steps.reports.outputs.directory }}
+        run: |
+          set +e
+          rea inspect-android-package "$APK_PATH" --format json --full-output \
+            > "$REPORT_DIR/analysis.json" 2> "$REPORT_DIR/analysis.stderr"
+          status=$?
+          set -e
+          printf '%s\n' "$status" > "$REPORT_DIR/exit-code.txt"
+          exit "$status"
+
+      - name: Upload analysis report
+        if: ${{ always() && steps.reports.outputs.directory != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: rea-android-smoke-test
+          path: ${{ steps.reports.outputs.directory }}
+          if-no-files-found: warn
+          retention-days: 7
