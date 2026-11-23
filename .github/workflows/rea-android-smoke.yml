@@ -32,7 +32,6 @@ on:
 
 permissions:
   contents: read
-  actions: write
 
 jobs:
   android-analysis:
@@ -501,28 +500,6 @@ jobs:
               encoding="utf-8"
           )
           PY
-
-      - name: Delete previous public analysis artifacts
-        if: ${{ always() }}
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          for artifact_id in 14810920451 14811320061 14811645068 14811356004 14812540332 14811892532 14813901411 14813602883 14813697634 14813538580; do
-            status="$(curl --silent --show-error --output "$RUNNER_TEMP/delete-$artifact_id.txt" \
-              --write-out '%{http_code}' --request DELETE \
-              --header "Accept: application/vnd.github+json" \
-              --header "Authorization: Bearer $GH_TOKEN" \
-              --header "X-GitHub-Api-Version: 2022-11-28" \
-              "https://api.github.com/repos/dvd2pe/actions-probe/actions/artifacts/$artifact_id")"
-            if [[ "$status" != "204" && "$status" != "404" ]]; then
-              cat "$RUNNER_TEMP/delete-$artifact_id.txt"
-              echo "Artifact deletion failed: $artifact_id (HTTP $status)" >&2
-              exit 1
-            fi
-            echo "Artifact $artifact_id absent or deleted (HTTP $status)."
-          done
 
       - name: Upload analysis report
         if: ${{ always() && steps.reports.outputs.directory != '' }}
