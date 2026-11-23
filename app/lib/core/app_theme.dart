@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 class YayaColors {
   static const Color primary = Color(0xFF8B7BDA);
