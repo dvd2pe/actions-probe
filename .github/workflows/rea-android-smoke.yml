@@ -299,33 +299,51 @@ jobs:
               rea inspect-artifact "$merged_apk" --detail summary \
                 --evidence_output "$REPORT_DIR/merged-android-inventory-evidence.json" --json \
                 > "$REPORT_DIR/merged-android-inventory-summary.json" 2> "$REPORT_DIR/merged-android-inventory.stderr"
-              printf '%s\n' "$?" > "$REPORT_DIR/merged-android-inventory.exit-code.txt"
+              inventory_status="$?"
+              printf '%s\n' "$inventory_status" > "$REPORT_DIR/merged-android-inventory.exit-code.txt"
+              if [[ "$inventory_status" -ne 0 || ! -s "$REPORT_DIR/merged-android-inventory-evidence.json" ]]; then
+                echo "REA merged Android inventory failed (exit $inventory_status)." >&2
+                cat "$REPORT_DIR/merged-android-inventory.stderr" >&2 || true
+                exit 1
+              fi
 
-              if [[ -s "$REPORT_DIR/merged-android-inventory-evidence.json" ]]; then
-                python3 - "$REPORT_DIR/merged-android-inventory-evidence.json" "$REPORT_DIR/android-graph-request.json" <<'PY'
+              python3 - "$REPORT_DIR/merged-android-inventory-evidence.json" "$REPORT_DIR/android-graph-request.json" <<'PY'
           import json, pathlib, sys
           evidence = json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8"))
           records = evidence.get("records")
           if not isinstance(records, list) or not records:
               raise SystemExit("REA evidence bundle contains no evidence records.")
-          if any(not isinstance(record, dict) or not isinstance(record.get("evidence_id"), str) for record in records):
+          evidence_ids = [record.get("evidence_id") for record in records
+                          if isinstance(record, dict) and isinstance(record.get("evidence_id"), str)]
+          if len(evidence_ids) != len(records):
               raise SystemExit("REA evidence bundle contains a record without a stable evidence_id.")
-          pathlib.Path(sys.argv[2]).write_text(
-              json.dumps({"inventory_evidence": records}, separators=(",", ":")),
-              encoding="utf-8",
-          )
+          request = {"inventory_evidence": evidence_ids}
+          request_path = pathlib.Path(sys.argv[2])
+          request_path.write_text(json.dumps(request, separators=(",", ":")), encoding="utf-8")
+          if request_path.stat().st_size > 16384:
+              raise SystemExit("Graph request unexpectedly exceeds 16 KiB; refusing inline expansion.")
+          print(f"Prepared graph request with {len(evidence_ids)} evidence IDs ({request_path.stat().st_size} bytes).")
           PY
-                # REA accepts a JSON file path. Do not place the multi-megabyte Evidence JSON in argv.
-                rea project-android-application-graph "$REPORT_DIR/android-graph-request.json" --format json --full-output \
-                  > "$REPORT_DIR/android-application-graph.json" 2> "$REPORT_DIR/android-application-graph.stderr"
-                graph_status="$?"
-                printf '%s\n' "$graph_status" > "$REPORT_DIR/android-application-graph.exit-code.txt"
-                if [[ "$graph_status" -ne 0 || ! -s "$REPORT_DIR/android-application-graph.json" ]]; then
-                  echo "REA Android application graph projection failed (exit $graph_status)." >&2
-                  cat "$REPORT_DIR/android-application-graph.stderr" >&2 || true
-                  exit 1
-                fi
+              # Resolve Evidence IDs from the local bundle; never inline multi-megabyte Evidence records.
+              rea project-android-application-graph "$REPORT_DIR/android-graph-request.json" \
+                --evidence-bundle "$REPORT_DIR/merged-android-inventory-evidence.json" \
+                --format json --full-output \
+                > "$REPORT_DIR/android-application-graph.json" 2> "$REPORT_DIR/android-application-graph.stderr"
+              graph_status="$?"
+              printf '%s\n' "$graph_status" > "$REPORT_DIR/android-application-graph.exit-code.txt"
+              if [[ "$graph_status" -ne 0 || ! -s "$REPORT_DIR/android-application-graph.json" ]]; then
+                echo "REA Android application graph projection failed (exit $graph_status)." >&2
+                cat "$REPORT_DIR/android-application-graph.stderr" >&2 || true
+                exit 1
               fi
+              python3 - "$REPORT_DIR/android-application-graph.json" <<'PY'
+          import json, pathlib, sys
+          path = pathlib.Path(sys.argv[1])
+          value = json.loads(path.read_text(encoding="utf-8"))
+          if not isinstance(value, (dict, list)) or not value:
+              raise SystemExit("REA Android application graph output is empty or has an unexpected JSON shape.")
+          print(f"Validated Android application graph JSON ({path.stat().st_size} bytes).")
+          PY
             fi
           else
             echo "config.arm64_v8a.apk was not present in the XAPK." > "$REPORT_DIR/merged-abi-analysis.note.txt"
@@ -902,3 +920,416 @@ jobs:
               "~~~text\n" + source_index_text.rstrip() + "\n~~~\n",
               encoding="utf-8",
           )
+
+          selected_features = [
+              line for line in feature_lines
+              if re.search(
+                  r"helper|nann|family|carefinder|visa|interview|job|chat|message|profile|premium|subscription|booking|document|upload|login|register|payment|socket|firebase|revenuecat",
+                  line,
+                  re.I,
+              )
+          ]
+          (root / "docs/recovered-features.md").write_text(
+              "# Recovered feature vocabulary\n\n"
+              "The following strings were recovered from the compiled Flutter snapshot. "
+              "They help locate UI and business flows in lib/recovered/; they are not a verified screen map.\n\n"
+              + ("\n".join(f"- {line.strip()}" for line in selected_features[:300]) if selected_features else "_No feature strings found._")
+              + ("\n\nAdditional matching strings are preserved in forensics/jadart-feature-strings.txt.\n" if len(selected_features) > 300 else "\n"),
+              encoding="utf-8",
+          )
+
+          import_pattern = re.compile(r"(?m)^\s*(?:import|export|part)\s+['\"]package:([A-Za-z0-9_]+)/")
+          direct_dependencies = set()
+          for dart_file in dart_files:
+              source_text = dart_file.read_text(errors="replace")
+              direct_dependencies.update(import_pattern.findall(source_text))
+          sdk_dependencies = sorted(name for name in direct_dependencies if name in {"flutter", "flutter_test"})
+          external_dependencies = sorted(direct_dependencies - set(sdk_dependencies))
+
+          plugin_imports = set()
+          if plugin_registrant_included:
+              plugin_imports.update(import_pattern.findall(plugin_registrant.read_text(errors="replace")))
+
+          smali_registrant = root / "android/apktool/smali_classes3/io/flutter/plugins/GeneratedPluginRegistrant.smali"
+          plugin_registry = []
+          if smali_registrant.is_file():
+              smali_text = smali_registrant.read_text(errors="replace")
+              plugin_registry = sorted(set(re.findall(
+                  r'Error registering plugin ([^,"]+), ([^"]+)"',
+                  smali_text,
+              )))
+
+          plugin_table = "\n".join(
+              f"| {name} | {implementation} |"
+              for name, implementation in plugin_registry
+          )
+          (root / "docs/plugin-registry.md").write_text(
+              "# Recovered Android Flutter plugin registry\n\n"
+              f"Recovered {len(plugin_registry)} plugin registrations from the Android Smali class "
+              "GeneratedPluginRegistrant. This is direct evidence of plugins wired into the shipped Android build.\n\n"
+              "| Flutter plugin | Android implementation class |\n"
+              "|---|---|\n"
+              + (plugin_table if plugin_table else "| _Not recovered_ | — |")
+              + "\n",
+              encoding="utf-8",
+          )
+
+          (root / "docs/direct-dependency-candidates.md").write_text(
+              "# Direct dependency candidates\n\n"
+              "The Jadart AOT pseudocode does not reliably preserve Dart import/export directives. "
+              f"Only {len(external_dependencies)} external package imports were parsed from that output; "
+              "do not treat an empty list as proof that the app has no Dart dependencies.\n\n"
+              + ("## Dart package imports that survived decompilation\n\n"
+                 + "\n".join(f"- {name}" for name in external_dependencies) + "\n\n"
+                 if external_dependencies else "")
+              + "## Native Flutter plugin packages\n\n"
+              + (("\n".join(f"- {name}" for name in sorted({name for name, _ in plugin_registry}))) if plugin_registry else "_No plugin registry was parsed._")
+              + "\n\n"
+              + f"Generated Dart plugin registrant package imports: {len(plugin_imports)}.\n\n"
+              + "The complete 396-name NOTICES.Z package inventory is in dependencies.md. "
+              "Exact versions and original direct-vs-transitive constraints remain unknown.\n",
+              encoding="utf-8",
+          )
+
+          (root / "docs/android-layer.md").write_text(
+              "# Android packaging and resource layer\n\n"
+              f"- Apktool-decoded files copied: {decoded_count}\n"
+              f"- Smali files recovered: {sum(1 for p in (root / 'android/apktool').rglob('*.smali'))}\n"
+              f"- Flutter plugin registrations recovered: {len(plugin_registry)}\n"
+              "- The base APK's AndroidManifest.xml, resource XML, and Smali output are under android/apktool/.\n"
+              "- Flutter assets are kept separately under assets/flutter_assets/ to avoid duplicate copies.\n"
+              "- Raw native .so files and .env are excluded from the public workspace; native library names and hashes remain in forensics/.\n"
+              "- JNI evidence from the synthetic base-plus-arm64 analysis APK is retained in forensics/android-jni-bindings-merged.json. "
+              "That merged APK is an analysis-only container, not an installable or signed release.\n",
+              encoding="utf-8",
+          )
+
+          import xml.etree.ElementTree as ET
+          manifest_path = root / "android/apktool/AndroidManifest.xml"
+          if manifest_path.is_file():
+              manifest_root = ET.parse(manifest_path).getroot()
+              android_attr = "{http://schemas.android.com/apk/res/android}"
+              app_node = manifest_root.find("application")
+              permissions = sorted({
+                  node.get(android_attr + "name", "")
+                  for node in manifest_root
+                  if node.tag.endswith("uses-permission") and node.get(android_attr + "name")
+              })
+              components = []
+              if app_node is not None:
+                  for node in app_node:
+                      if node.tag not in {"activity", "activity-alias", "service", "receiver", "provider"}:
+                          continue
+                      name = node.get(android_attr + "name", "")
+                      exported = node.get(android_attr + "exported", "unspecified")
+                      filters = []
+                      for intent_filter in node.findall("intent-filter"):
+                          actions = [x.get(android_attr + "name", "") for x in intent_filter.findall("action")]
+                          categories = [x.get(android_attr + "name", "") for x in intent_filter.findall("category")]
+                          data_values = []
+                          for data_node in intent_filter.findall("data"):
+                              attrs = ("scheme", "host", "port", "path", "pathPrefix", "pathPattern", "mimeType")
+                              data_values.extend(
+                                  f"{key}={data_node.get(android_attr + key)}"
+                                  for key in attrs if data_node.get(android_attr + key)
+                              )
+                          filters.append("; ".join(
+                              part for part in (
+                                  "actions=" + ",".join(actions) if actions else "",
+                                  "categories=" + ",".join(categories) if categories else "",
+                                  "data=" + ",".join(data_values) if data_values else "",
+                              ) if part
+                          ))
+                      components.append((node.tag, name, exported, filters))
+              sdk_node = manifest_root.find("uses-sdk")
+              sdk_summary = []
+              if sdk_node is not None:
+                  for key in ("minSdkVersion", "targetSdkVersion", "maxSdkVersion"):
+                      value = sdk_node.get(android_attr + key)
+                      if value:
+                          sdk_summary.append(f"- {key}: {value}")
+              component_rows = []
+              for kind, name, exported, filters in components:
+                  component_rows.append(
+                      f"| {kind} | {name} | {exported} | "
+                      + ("<br>".join(filters) if filters else "—")
+                      + " |"
+                  )
+              (root / "docs/android-manifest-map.md").write_text(
+                  "# Android manifest reconstruction map\n\n"
+                  f"- Package: {manifest_root.get('package', 'unknown')}\n"
+                  f"- Version name: {manifest_root.get(android_attr + 'versionName', 'not declared')}\n"
+                  f"- Version code: {manifest_root.get(android_attr + 'versionCode', 'not declared')}\n"
+                  + ("\n".join(sdk_summary) + "\n" if sdk_summary else "")
+                  + f"- Application class: {app_node.get(android_attr + 'name', 'default') if app_node is not None else 'not found'}\n"
+                  + f"- Application label: {app_node.get(android_attr + 'label', 'not declared') if app_node is not None else 'not found'}\n"
+                  + f"- Declared permissions: {len(permissions)}\n\n"
+                  + "## Permissions\n\n"
+                  + ("\n".join(f"- {item}" for item in permissions) if permissions else "_None recovered._")
+                  + "\n\n## Android components\n\n"
+                  + "| Type | Name | Exported | Intent filters |\n|---|---|---|---|\n"
+                  + ("\n".join(component_rows) if component_rows else "| _None recovered_ | — | — | — |")
+                  + "\n\nAPI keys and credential-like manifest values are intentionally not copied into this summary.\n",
+                  encoding="utf-8",
+              )
+
+          asset_files = sorted(p for p in (root / "assets").rglob("*") if p.is_file())
+          extension_counts = collections.Counter(p.suffix.lower() or "[no extension]" for p in asset_files)
+          asset_rows = "\n".join(f"- {ext}: {count}" for ext, count in sorted(extension_counts.items()))
+          (root / "docs/asset-inventory.md").write_text(
+              "# Extracted Flutter assets\n\n"
+              f"- Primary Flutter asset files: {primary_asset_count}\n"
+              f"- Additional split asset files: {split_asset_count}\n"
+              f"- Total files in workspace assets/: {len(asset_files)}\n"
+              "- .env was deliberately excluded; only redacted environment-variable names are retained.\n\n"
+              "## File types\n\n" + asset_rows + "\n\n"
+              "The original Flutter asset directory is under assets/flutter_assets/. "
+              "Additional split-specific assets are preserved under assets/split-assets/.\n",
+              encoding="utf-8",
+          )
+
+          dependency_file = report / "flutter-dependencies.txt"
+          dependency_text = dependency_file.read_text(errors="replace") if dependency_file.is_file() else "Dependency inventory unavailable.\n"
+          (root / "docs/dependencies.md").write_text(
+              "# Flutter dependency inventory\n\n"
+              "Package names were extracted from NOTICES.Z. This does not reliably recover exact versions, "
+              "direct-vs-transitive status, or the original pubspec.lock; no guessed versions are inserted.\n\n"
+              "~~~text\n" + dependency_text.rstrip() + "\n~~~\n",
+              encoding="utf-8",
+          )
+
+          metadata = {}
+          for name in ("jadart-info.json", "jadart-export.json"):
+              path = report / name
+              if path.is_file():
+                  try:
+                      metadata[name] = json.loads(path.read_text(errors="replace"))
+                  except Exception:
+                      metadata[name] = {"parse_error": True}
+          export_meta = metadata.get("jadart-export.json", {})
+          (root / "docs/recovery-manifest.json").write_text(
+              json.dumps(
+                  {
+                      "package": "com.yaya.portal",
+                      "app_version": "5.6.2",
+                      "version_code": 228,
+                      "source_bundle": "XAPK",
+                      "dart_source_files": len(dart_files),
+                      "jadart_export_file_count": len(export_meta.get("files", [])),
+                      "generated_plugin_registrant_included": plugin_registrant_included,
+                      "direct_package_import_count": len(direct_dependencies),
+                      "plugin_package_import_count": len(plugin_imports),
+                      "native_plugin_count": len(plugin_registry),
+                      "apktool_decoded_file_count": decoded_count,
+                      "asset_files": len(asset_files),
+                      "native_library_count": native_count,
+                      "jadart_libraries": export_meta.get("libraries"),
+                      "jadart_classes": export_meta.get("classes"),
+                      "jadart_methods": export_meta.get("methods"),
+                      "jadart_strings": export_meta.get("strings"),
+                      "dart_snapshot": metadata.get("jadart-info.json", {}).get("snapshots", {}),
+                      "raw_native_libraries_included": False,
+                      "environment_file_included": False,
+                  },
+                  indent=2,
+                  ensure_ascii=False,
+              ) + "\n",
+              encoding="utf-8",
+          )
+
+          secret_key = re.compile(
+              r"(api[_-]?key|access[_-]?token|refresh[_-]?token|client[_-]?secret|password|secret|credential|authorization|private[_-]?key)",
+              re.I,
+          )
+
+          def scrub(value):
+              if isinstance(value, dict):
+                  result = {}
+                  for key, child in value.items():
+                      result[key] = "[REDACTED]" if secret_key.search(str(key)) else scrub(child)
+                  return result
+              if isinstance(value, list):
+                  return [scrub(child) for child in value]
+              return value
+
+          for json_path in sorted(root.rglob("*.json")):
+              try:
+                  parsed = json.loads(json_path.read_text(encoding="utf-8"))
+              except Exception:
+                  continue
+              json_path.write_text(
+                  json.dumps(scrub(parsed), indent=2, ensure_ascii=False) + "\n",
+                  encoding="utf-8",
+              )
+
+          (root / ".gitignore").write_text(
+              ".dart_tool/\nbuild/\n.gradle/\nlocal.properties\n"
+              "*.jks\n*.keystore\n*.p12\n*.pfx\n.env\n.env.*\n",
+              encoding="utf-8",
+          )
+          (root / ".vscode/extensions.json").write_text(
+              json.dumps(
+                  {"recommendations": ["Dart-Code.dart-code", "Dart-Code.flutter"]},
+                  indent=2,
+              ) + "\n",
+              encoding="utf-8",
+          )
+          (root / "README.md").write_text(
+              "# Yaya — recovered Flutter workspace\n\n"
+              "This workspace was generated from the Android XAPK for com.yaya.portal "
+              "(version 5.6.2, versionCode 228) using REA and Jadart.\n\n"
+              "## Work directly on GitHub\n\n"
+              "No local clone is required. Browse and edit this branch in the GitHub web interface, or open "
+              "the branch in github.dev: https://github.dev/dvd2pe/actions-probe/tree/yaya-recovered-source. "
+              "GitHub Actions performs extraction and verification in the cloud. The recovered Dart files "
+              "are in lib/recovered/; Flutter assets are in assets/flutter_assets/ and assets/split-assets/; "
+              "analysis evidence is in forensics/; navigation, route-to-source, feature-to-source and Android "
+              "manifest maps are in docs/. The decoded Android resource XML and Smali are in android/apktool/.\n\n"
+              "The Android plugin registry is documented in docs/plugin-registry.md, with its Smali implementation under android/apktool/smali_classes3/io/flutter/plugins/GeneratedPluginRegistrant.smali. Direct package candidates are in docs/direct-dependency-candidates.md.\n\n"
+              "## Important status\n\n"
+              "- lib/recovered/ contains generated decompilation output, not the original Dart repository.\n"
+              "- Dart identifiers and file names may be obfuscated; these files are preserved as raw evidence.\n"
+              "- This is an editor-ready recovery workspace, not yet a buildable Flutter application. "
+              "The original pubspec.yaml, exact dependency versions, Android project scaffolding, "
+              "and signing key have not been recovered.\n"
+              "- .env and raw native .so binaries are intentionally excluded from this public branch. "
+              "Their redacted key inventory, hashes, and string-analysis reports are retained where safe.\n"
+              "- Credential-like values in text/JSON reports are redacted before publication.\n\n"
+              "## Next reconstruction pass\n\n"
+              "Map important recovered classes to screens and controllers, recover the Android resource "
+              "tree and plugin configuration, infer dependency versions, then refactor selected flows into "
+              "clean, buildable Flutter code. Keep lib/recovered/ unchanged as the reference layer.\n",
+              encoding="utf-8",
+          )
+
+          print(
+              json.dumps(
+                  {
+                      "workspace": str(root),
+                      "dart_source_files": len(dart_files),
+                      "primary_asset_files": primary_asset_count,
+                      "additional_split_asset_files": split_asset_count,
+                      "native_libraries_indexed": native_count,
+                      "route_candidates": len(routes),
+                  },
+                  indent=2,
+              )
+          )
+          PY
+
+      - name: Redact credentials and API keys from public report
+        if: ${{ always() && steps.reports.outputs.directory != '' }}
+        shell: bash
+        env:
+          REPORT_DIR: ${{ steps.reports.outputs.directory }}
+        run: |
+          python3 - "$REPORT_DIR" <<'PY'
+          import pathlib, re, sys
+          root = pathlib.Path(sys.argv[1])
+          patterns = [
+              re.compile(r"AIza[0-9A-Za-z_-]{35}"),
+              re.compile(r"AKIA[0-9A-Z]{16}"),
+              re.compile(r"(?i)(Bearer\s+)[A-Za-z0-9._~+/=-]+"),
+              re.compile(r"eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}"),
+              re.compile(r"(?i)([?&](?:api[_-]?key|token|access_token|refresh_token|client_secret|password|secret)=)[^&\s\"']+"),
+              re.compile(r"(?i)(\b(?:api[_-]?key|client_secret|access_token|refresh_token|password|secret|token)\s*[:=]\s*[\"']?)[A-Za-z0-9_./+=-]{8,}"),
+          ]
+          summary = []
+          for path in root.rglob("*"):
+              if not path.is_file() or path.name == "redaction-summary.txt":
+                  continue
+              try:
+                  text = path.read_text(encoding="utf-8")
+              except (UnicodeDecodeError, OSError):
+                  continue
+              total = 0
+              for pattern in patterns:
+                  text, count = pattern.subn(lambda m: (m.group(1) if m.lastindex else "") + "[REDACTED]", text)
+                  total += count
+              if total:
+                  path.write_text(text, encoding="utf-8")
+                  summary.append(f"{path.relative_to(root)}: {total} value(s) redacted")
+          (root / "redaction-summary.txt").write_text(
+              "\n".join(summary) + ("\n" if summary else "No credential-like values matched the redaction rules.\n"),
+              encoding="utf-8"
+          )
+          PY
+
+      - name: Attach final redaction summary to workspace
+        if: ${{ always() && steps.reports.outputs.directory != '' }}
+        shell: bash
+        env:
+          REPORT_DIR: ${{ steps.reports.outputs.directory }}
+        run: |
+          if [[ -f "$REPORT_DIR/redaction-summary.txt" && -d "$REPORT_DIR/yaya-reconstructed/forensics" ]]; then
+            cp "$REPORT_DIR/redaction-summary.txt" "$REPORT_DIR/yaya-reconstructed/forensics/redaction-summary.txt"
+          fi
+
+      - name: Upload recovered Dart source and Flutter assets
+        if: ${{ success() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: yaya-recovered-workspace
+          path: ${{ steps.reports.outputs.directory }}/yaya-reconstructed
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload analysis report
+        if: ${{ always() && steps.reports.outputs.directory != '' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: rea-android-analysis
+          path: ${{ steps.reports.outputs.directory }}
+          if-no-files-found: warn
+          retention-days: 7
+  publish-recovered-workspace:
+    name: Publish recovered workspace branch
+    needs: android-analysis
+    if: ${{ needs.android-analysis.result == 'success' && github.event_name != 'pull_request' && (github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/rea-yaya-blutter-deep-analysis') }}
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - name: Download recovered workspace artifact
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v4.3.0
+        with:
+          name: yaya-recovered-workspace
+          path: ${{ runner.temp }}/yaya-recovered-workspace
+
+      - name: Checkout analysis branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.ref_name }}
+          path: publisher
+          persist-credentials: true
+
+      - name: Publish clean editor workspace to dedicated branch
+        working-directory: publisher
+        env:
+          SOURCE_DIR: ${{ runner.temp }}/yaya-recovered-workspace
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -d "$SOURCE_DIR/lib/recovered"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git ls-remote --exit-code --heads origin yaya-recovered-source >/dev/null 2>&1; then
+            git fetch origin yaya-recovered-source
+            git switch --create yaya-recovered-source --track origin/yaya-recovered-source
+            git rm -rf . --ignore-unmatch
+            git clean -fdx
+          else
+            git switch --orphan yaya-recovered-source
+            git rm -rf . --ignore-unmatch || true
+            git clean -fdx
+          fi
+
+          cp -a "$SOURCE_DIR"/. .
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Recovered workspace is unchanged; no commit required."
+            exit 0
+          fi
+          git commit -m "Publish recovered Yaya Flutter workspace"
+          git push origin yaya-recovered-source
