@@ -96,7 +96,7 @@ jobs:
           set +e
           rea --version --json > "$REPORT_DIR/rea-version.json" 2> "$REPORT_DIR/rea-version.stderr"
           rea --help > "$REPORT_DIR/rea-cli-help.txt" 2> "$REPORT_DIR/rea-cli-help.stderr"
-          for command in decode-android-resources inspect-android-jni-bindings identify-flutter-build; do
+          for command in decode-android-resources inspect-android-jni-bindings identify-flutter-build inspect-artifact project-android-application-graph audit-release-exposure build-reconstruction-obligation-ledger trace-application-feature; do
             rea "$command" --help > "$REPORT_DIR/rea-help-$command.txt" 2> "$REPORT_DIR/rea-help-$command.stderr"
             printf '%s\n' "$?" > "$REPORT_DIR/rea-help-$command.exit-code.txt"
           done
@@ -291,10 +291,34 @@ jobs:
               rea identify-flutter-build "$merged_apk" --format json --full-output \
                 > "$REPORT_DIR/flutter-build-identity-merged.json" 2> "$REPORT_DIR/flutter-build-identity-merged.stderr"
               printf '%s\n' "$?" > "$REPORT_DIR/flutter-build-identity-merged.exit-code.txt"
+
+              rea inspect-artifact "$merged_apk" --detail summary \
+                --evidence_output "$REPORT_DIR/merged-android-inventory-evidence.json" --json \
+                > "$REPORT_DIR/merged-android-inventory-summary.json" 2> "$REPORT_DIR/merged-android-inventory.stderr"
+              printf '%s\n' "$?" > "$REPORT_DIR/merged-android-inventory.exit-code.txt"
+
+              if [[ -s "$REPORT_DIR/merged-android-inventory-evidence.json" ]]; then
+                python3 - "$REPORT_DIR/merged-android-inventory-evidence.json" "$REPORT_DIR/android-graph-request.json" <<'PY'
+          import json, pathlib, sys
+          evidence = json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8"))
+          pathlib.Path(sys.argv[2]).write_text(
+              json.dumps({"inventory_evidence": [evidence]}, separators=(",", ":")),
+              encoding="utf-8",
+          )
+          PY
+                graph_request="$(cat "$REPORT_DIR/android-graph-request.json")"
+                rea project-android-application-graph "$graph_request" --format json --full-output \
+                  > "$REPORT_DIR/android-application-graph.json" 2> "$REPORT_DIR/android-application-graph.stderr"
+                printf '%s\n' "$?" > "$REPORT_DIR/android-application-graph.exit-code.txt"
+              fi
             fi
           else
             echo "config.arm64_v8a.apk was not present in the XAPK." > "$REPORT_DIR/merged-abi-analysis.note.txt"
           fi
+
+          rea audit-release-exposure "$APK_PATH" --format json --full-output \
+            > "$REPORT_DIR/audit-release-exposure.json" 2> "$REPORT_DIR/audit-release-exposure.stderr"
+          printf '%s\n' "$?" > "$REPORT_DIR/audit-release-exposure.exit-code.txt"
 
           # Full Apktool decode is kept outside REPORT_DIR until the workspace filters secrets and binaries.
           apktool_out="${RUNNER_TEMP}/rea-android/apktool-decoded"
@@ -654,6 +678,17 @@ jobs:
               "flutter-build-identity-merged.json",
               "flutter-build-identity-merged.stderr",
               "flutter-build-identity-merged.exit-code.txt",
+              "merged-android-inventory-evidence.json",
+              "merged-android-inventory-summary.json",
+              "merged-android-inventory.stderr",
+              "merged-android-inventory.exit-code.txt",
+              "android-graph-request.json",
+              "android-application-graph.json",
+              "android-application-graph.stderr",
+              "android-application-graph.exit-code.txt",
+              "audit-release-exposure.json",
+              "audit-release-exposure.stderr",
+              "audit-release-exposure.exit-code.txt",
               "redaction-summary.txt",
           )
           for name in report_files:
@@ -667,6 +702,9 @@ jobs:
               "android-resources.*",
               "android-jni-bindings.*",
               "flutter-build-identity.*",
+              "merged-android-inventory.*",
+              "android-application-graph.*",
+              "audit-release-exposure.*",
           ):
               for src in sorted(report.glob(pattern)):
                   if src.is_file():
