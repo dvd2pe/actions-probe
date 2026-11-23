@@ -9,6 +9,7 @@ on:
     branches:
       - main
       - rea-apk-lab
+      - rea-yaya-blutter-deep-analysis
   pull_request:
     branches:
       - main
@@ -76,6 +77,21 @@ jobs:
         run: |
           npm install --prefix "${RUNNER_TEMP}/rea-tool" --no-audit --no-fund --ignore-scripts --save-exact rea-agents@6.10.1
           echo "${RUNNER_TEMP}/rea-tool/node_modules/.bin" >> "$GITHUB_PATH"
+
+      - name: Record REA command catalog
+        if: ${{ success() }}
+        shell: bash
+        env:
+          REPORT_DIR: ${{ steps.reports.outputs.directory }}
+        run: |
+          set +e
+          rea --version --json > "$REPORT_DIR/rea-version.json" 2> "$REPORT_DIR/rea-version.stderr"
+          rea --help > "$REPORT_DIR/rea-cli-help.txt" 2> "$REPORT_DIR/rea-cli-help.stderr"
+          for command in decode-android-resources inspect-android-jni-bindings identify-flutter-build; do
+            rea "$command" --help > "$REPORT_DIR/rea-help-$command.txt" 2> "$REPORT_DIR/rea-help-$command.stderr"
+            printf '%s\n' "$?" > "$REPORT_DIR/rea-help-$command.exit-code.txt"
+          done
+          exit 0
 
       - name: Download and verify JADX and target APK/XAPK
         shell: bash
@@ -208,6 +224,26 @@ jobs:
               > "$REPORT_DIR/method-$slug.json" 2> "$REPORT_DIR/method-$slug.stderr"
             printf '%s\n' "$?" > "$REPORT_DIR/method-$slug.exit-code.txt"
           done
+          exit 0
+
+      - name: Capture Android resources, JNI bindings and Flutter build identity
+        if: ${{ success() }}
+        shell: bash
+        env:
+          REPORT_DIR: ${{ steps.reports.outputs.directory }}
+        run: |
+          set +e
+          rea decode-android-resources "$APK_PATH" --format json --full-output \
+            > "$REPORT_DIR/android-resources.json" 2> "$REPORT_DIR/android-resources.stderr"
+          printf '%s\n' "$?" > "$REPORT_DIR/android-resources.exit-code.txt"
+
+          rea inspect-android-jni-bindings "$APK_PATH" --format json --full-output \
+            > "$REPORT_DIR/android-jni-bindings.json" 2> "$REPORT_DIR/android-jni-bindings.stderr"
+          printf '%s\n' "$?" > "$REPORT_DIR/android-jni-bindings.exit-code.txt"
+
+          rea identify-flutter-build "$APK_PATH" --format json --full-output \
+            > "$REPORT_DIR/flutter-build-identity.json" 2> "$REPORT_DIR/flutter-build-identity.stderr"
+          printf '%s\n' "$?" > "$REPORT_DIR/flutter-build-identity.exit-code.txt"
           exit 0
 
       - name: Inventory Flutter assets and native libraries
@@ -463,6 +499,313 @@ jobs:
           PY
           exit 0
 
+      - name: Assemble editor-ready recovered workspace
+        if: ${{ success() }}
+        shell: bash
+        env:
+          REPORT_DIR: ${{ steps.reports.outputs.directory }}
+        run: |
+          set -euo pipefail
+          python3 - "$REPORT_DIR" "${RUNNER_TEMP}/jadart-export" "${RUNNER_TEMP}/rea-android/split-content" <<'PY'
+          import collections
+          import json
+          import pathlib
+          import re
+          import shutil
+          import sys
+
+          report, export, splits = map(pathlib.Path, sys.argv[1:])
+          source_dir = export / "sources"
+          if not source_dir.is_dir():
+              raise SystemExit("Jadart export did not contain sources/; refusing to publish an empty source workspace.")
+          dart_files = sorted(source_dir.rglob("*.dart"))
+          if not dart_files:
+              raise SystemExit("Jadart export contains no Dart source files.")
+
+          root = report / "yaya-reconstructed"
+          for folder in (
+              "lib/recovered",
+              "assets/flutter_assets",
+              "assets/split-assets",
+              "forensics",
+              "forensics/native-libraries",
+              "docs",
+              ".vscode",
+          ):
+              (root / folder).mkdir(parents=True, exist_ok=True)
+
+          shutil.copytree(source_dir, root / "lib/recovered", dirs_exist_ok=True)
+          (root / "lib/README.md").write_text(
+              "# Recovered Dart sources\n\n"
+              "Files in recovered/ were generated from the Flutter AOT snapshot by Jadart. "
+              "They are decompiled output, not the original authoring repository. "
+              "Identifiers and file names may be obfuscated; treat this directory as immutable evidence "
+              "and build cleaned code in sibling folders when reconstructing features.\n",
+              encoding="utf-8",
+          )
+
+          if (export / "strings.txt").is_file():
+              shutil.copy2(export / "strings.txt", root / "forensics/jadart-strings.txt")
+
+          report_files = (
+              "app-source.txt",
+              "apk-bundle.sha256",
+              "extracted-apk-files.txt",
+              "extracted-apk-sha256.txt",
+              "native-libraries.txt",
+              "native-libraries.sha256",
+              "flutter-assets.txt",
+              "flutter-dependencies.txt",
+              "flutter-env-keys-redacted.txt",
+              "libapp-interesting-strings.txt",
+              "native-url-candidates.txt",
+              "jadart-info.json",
+              "jadart-verify.json",
+              "jadart-export.json",
+              "jadart-summary.txt",
+              "jadart-source-index.txt",
+              "jadart-feature-strings.txt",
+              "jadart-source-revision.txt",
+              "rea-version.json",
+              "rea-cli-help.txt",
+              "android-resources.json",
+              "android-jni-bindings.json",
+              "flutter-build-identity.json",
+              "signature.json",
+              "analysis.json",
+              "redaction-summary.txt",
+          )
+          for name in report_files:
+              src = report / name
+              if src.is_file():
+                  shutil.copy2(src, root / "forensics" / name)
+
+          config_dir = report / "flutter-config"
+          if config_dir.is_dir():
+              shutil.copytree(config_dir, root / "forensics/flutter-config", dirs_exist_ok=True)
+
+          asset_roots = sorted(
+              p for p in splits.glob("*/assets/flutter_assets")
+              if p.is_dir()
+          )
+          if not asset_roots:
+              raise SystemExit("No extracted Flutter asset directory was found.")
+
+          primary = next(
+              (p for p in asset_roots if p.parents[1].name == "com.yaya.portal"),
+              next((p for p in asset_roots if (p / "AssetManifest.bin").is_file()), asset_roots[0]),
+          )
+
+          def copy_assets(source, destination):
+              copied = 0
+              for item in sorted(source.rglob("*")):
+                  if not item.is_file() or item.name.lower() == ".env":
+                      continue
+                  relative = item.relative_to(source)
+                  target = destination / relative
+                  target.parent.mkdir(parents=True, exist_ok=True)
+                  shutil.copy2(item, target)
+                  copied += 1
+              return copied
+
+          primary_asset_count = copy_assets(primary, root / "assets/flutter_assets")
+          split_asset_count = 0
+          for asset_root in asset_roots:
+              if asset_root == primary:
+                  continue
+              split_name = asset_root.parents[1].name
+              split_asset_count += copy_assets(
+                  asset_root,
+                  root / "assets/split-assets" / split_name / "flutter_assets",
+              )
+
+          # Keep native library identities and hashes, but not raw .so files in this public repository:
+          # a binary can embed credentials that cannot be safely redacted in-place.
+          native_count = sum(1 for _ in splits.rglob("*.so"))
+          for name in ("native-libraries.txt", "native-libraries.sha256"):
+              source = report / name
+              if source.is_file():
+                  shutil.copy2(source, root / "forensics" / name)
+
+          feature_file = report / "jadart-feature-strings.txt"
+          feature_lines = feature_file.read_text(errors="replace").splitlines() if feature_file.is_file() else []
+          route_pattern = re.compile(r"(?<![A-Za-z0-9_])/(?!/)[A-Za-z0-9_{}~.-]+(?:/[A-Za-z0-9_{}~.-]+)*")
+          routes = sorted({
+              match.group(0).rstrip(".,;")
+              for line in feature_lines
+              for match in route_pattern.finditer(line)
+          })
+
+          (root / "docs/navigation-map.md").write_text(
+              "# Recovered navigation and route strings\n\n"
+              "These are route-like string literals found in the AOT decompilation; "
+              "they are evidence, not proof that every route is currently reachable.\n\n"
+              + ("\n".join(f"- {route}" for route in routes) if routes else "_No route candidates were extracted._")
+              + "\n",
+              encoding="utf-8",
+          )
+
+          source_index = report / "jadart-source-index.txt"
+          source_index_text = source_index.read_text(errors="replace") if source_index.is_file() else "No source index was generated.\n"
+          (root / "docs/source-index.md").write_text(
+              "# Feature-to-source index\n\n"
+              "Selected string matches mapped back to generated Dart files:\n\n"
+              "~~~text\n" + source_index_text.rstrip() + "\n~~~\n",
+              encoding="utf-8",
+          )
+
+          selected_features = [
+              line for line in feature_lines
+              if re.search(
+                  r"helper|nann|family|carefinder|visa|interview|job|chat|message|profile|premium|subscription|booking|document|upload|login|register|payment|socket|firebase|revenuecat",
+                  line,
+                  re.I,
+              )
+          ]
+          (root / "docs/recovered-features.md").write_text(
+              "# Recovered feature vocabulary\n\n"
+              "The following strings were recovered from the compiled Flutter snapshot. "
+              "They help locate UI and business flows in lib/recovered/; they are not a verified screen map.\n\n"
+              + ("\n".join(f"- {line.strip()}" for line in selected_features[:300]) if selected_features else "_No feature strings found._")
+              + ("\n\nAdditional matching strings are preserved in forensics/jadart-feature-strings.txt.\n" if len(selected_features) > 300 else "\n"),
+              encoding="utf-8",
+          )
+
+          asset_files = sorted(p for p in (root / "assets").rglob("*") if p.is_file())
+          extension_counts = collections.Counter(p.suffix.lower() or "[no extension]" for p in asset_files)
+          asset_rows = "\n".join(f"- {ext}: {count}" for ext, count in sorted(extension_counts.items()))
+          (root / "docs/asset-inventory.md").write_text(
+              "# Extracted Flutter assets\n\n"
+              f"- Primary Flutter asset files: {primary_asset_count}\n"
+              f"- Additional split asset files: {split_asset_count}\n"
+              f"- Total files in workspace assets/: {len(asset_files)}\n"
+              "- .env was deliberately excluded; only redacted environment-variable names are retained.\n\n"
+              "## File types\n\n" + asset_rows + "\n\n"
+              "The original Flutter asset directory is under assets/flutter_assets/. "
+              "Additional split-specific assets are preserved under assets/split-assets/.\n",
+              encoding="utf-8",
+          )
+
+          dependency_file = report / "flutter-dependencies.txt"
+          dependency_text = dependency_file.read_text(errors="replace") if dependency_file.is_file() else "Dependency inventory unavailable.\n"
+          (root / "docs/dependencies.md").write_text(
+              "# Flutter dependency inventory\n\n"
+              "Package names were extracted from NOTICES.Z. This does not reliably recover exact versions, "
+              "direct-vs-transitive status, or the original pubspec.lock; no guessed versions are inserted.\n\n"
+              "~~~text\n" + dependency_text.rstrip() + "\n~~~\n",
+              encoding="utf-8",
+          )
+
+          metadata = {}
+          for name in ("jadart-info.json", "jadart-export.json"):
+              path = report / name
+              if path.is_file():
+                  try:
+                      metadata[name] = json.loads(path.read_text(errors="replace"))
+                  except Exception:
+                      metadata[name] = {"parse_error": True}
+          export_meta = metadata.get("jadart-export.json", {})
+          (root / "docs/recovery-manifest.json").write_text(
+              json.dumps(
+                  {
+                      "package": "com.yaya.portal",
+                      "app_version": "5.6.2",
+                      "version_code": 228,
+                      "source_bundle": "XAPK",
+                      "dart_source_files": len(dart_files),
+                      "asset_files": len(asset_files),
+                      "native_library_count": native_count,
+                      "jadart_libraries": export_meta.get("libraries"),
+                      "jadart_classes": export_meta.get("classes"),
+                      "jadart_methods": export_meta.get("methods"),
+                      "jadart_strings": export_meta.get("strings"),
+                      "dart_snapshot": metadata.get("jadart-info.json", {}).get("snapshots", {}),
+                      "raw_native_libraries_included": False,
+                      "environment_file_included": False,
+                  },
+                  indent=2,
+                  ensure_ascii=False,
+              ) + "\n",
+              encoding="utf-8",
+          )
+
+          secret_key = re.compile(
+              r"(api[_-]?key|access[_-]?token|refresh[_-]?token|client[_-]?secret|password|secret|credential|authorization|private[_-]?key)",
+              re.I,
+          )
+
+          def scrub(value):
+              if isinstance(value, dict):
+                  result = {}
+                  for key, child in value.items():
+                      result[key] = "[REDACTED]" if secret_key.search(str(key)) else scrub(child)
+                  return result
+              if isinstance(value, list):
+                  return [scrub(child) for child in value]
+              return value
+
+          for json_path in sorted(root.rglob("*.json")):
+              try:
+                  parsed = json.loads(json_path.read_text(encoding="utf-8"))
+              except Exception:
+                  continue
+              json_path.write_text(
+                  json.dumps(scrub(parsed), indent=2, ensure_ascii=False) + "\n",
+                  encoding="utf-8",
+              )
+
+          (root / ".gitignore").write_text(
+              ".dart_tool/\nbuild/\n.gradle/\nlocal.properties\n"
+              "*.jks\n*.keystore\n*.p12\n*.pfx\n.env\n.env.*\n",
+              encoding="utf-8",
+          )
+          (root / ".vscode/extensions.json").write_text(
+              json.dumps(
+                  {"recommendations": ["Dart-Code.dart-code", "Dart-Code.flutter"]},
+                  indent=2,
+              ) + "\n",
+              encoding="utf-8",
+          )
+          (root / "README.md").write_text(
+              "# Yaya — recovered Flutter workspace\n\n"
+              "This workspace was generated from the Android XAPK for com.yaya.portal "
+              "(version 5.6.2, versionCode 228) using REA and Jadart.\n\n"
+              "## Open in an editor\n\n"
+              "Clone this branch and open the folder in VS Code. The recovered Dart files are in "
+              "lib/recovered/; extracted Flutter assets are in assets/flutter_assets/; "
+              "additional split assets are in assets/split-assets/; analysis evidence is in forensics/ "
+              "and the navigation/feature indexes are in docs/.\n\n"
+              "## Important status\n\n"
+              "- lib/recovered/ contains generated decompilation output, not the original Dart repository.\n"
+              "- Dart identifiers and file names may be obfuscated; these files are preserved as raw evidence.\n"
+              "- This is an editor-ready recovery workspace, not yet a buildable Flutter application. "
+              "The original pubspec.yaml, exact dependency versions, Android project scaffolding, "
+              "and signing key have not been recovered.\n"
+              "- .env and raw native .so binaries are intentionally excluded from this public branch. "
+              "Their redacted key inventory, hashes, and string-analysis reports are retained where safe.\n"
+              "- Credential-like values in text/JSON reports are redacted before publication.\n\n"
+              "## Next reconstruction pass\n\n"
+              "Map important recovered classes to screens and controllers, recover the Android resource "
+              "tree and plugin configuration, infer dependency versions, then refactor selected flows into "
+              "clean, buildable Flutter code. Keep lib/recovered/ unchanged as the reference layer.\n",
+              encoding="utf-8",
+          )
+
+          print(
+              json.dumps(
+                  {
+                      "workspace": str(root),
+                      "dart_source_files": len(dart_files),
+                      "primary_asset_files": primary_asset_count,
+                      "additional_split_asset_files": split_asset_count,
+                      "native_libraries_indexed": native_count,
+                      "route_candidates": len(routes),
+                  },
+                  indent=2,
+              )
+          )
+          PY
+
       - name: Redact credentials and API keys from public report
         if: ${{ always() && steps.reports.outputs.directory != '' }}
         shell: bash
@@ -501,6 +844,15 @@ jobs:
           )
           PY
 
+      - name: Upload recovered Dart source and Flutter assets
+        if: ${{ success() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: yaya-recovered-workspace
+          path: ${{ steps.reports.outputs.directory }}/yaya-reconstructed
+          if-no-files-found: error
+          retention-days: 30
+
       - name: Upload analysis report
         if: ${{ always() && steps.reports.outputs.directory != '' }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
@@ -509,3 +861,54 @@ jobs:
           path: ${{ steps.reports.outputs.directory }}
           if-no-files-found: warn
           retention-days: 7
+publish-recovered-workspace:
+    name: Publish recovered workspace branch
+    needs: android-analysis
+    if: ${{ needs.android-analysis.result == 'success' && github.event_name != 'pull_request' && (github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/rea-yaya-blutter-deep-analysis') }}
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - name: Download recovered workspace artifact
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v4.3.0
+        with:
+          name: yaya-recovered-workspace
+          path: ${{ runner.temp }}/yaya-recovered-workspace
+
+      - name: Checkout analysis branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.ref_name }}
+          path: publisher
+          persist-credentials: true
+
+      - name: Publish clean editor workspace to dedicated branch
+        working-directory: publisher
+        env:
+          SOURCE_DIR: ${{ runner.temp }}/yaya-recovered-workspace
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -d "$SOURCE_DIR/lib/recovered"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git ls-remote --exit-code --heads origin yaya-recovered-source >/dev/null 2>&1; then
+            git fetch origin yaya-recovered-source
+            git switch --create yaya-recovered-source --track origin/yaya-recovered-source
+            git rm -rf . --ignore-unmatch
+            git clean -fdx
+          else
+            git switch --orphan yaya-recovered-source
+            git rm -rf . --ignore-unmatch || true
+            git clean -fdx
+          fi
+
+          cp -a "$SOURCE_DIR"/. .
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Recovered workspace is unchanged; no commit required."
+            exit 0
+          fi
+          git commit -m "Publish recovered Yaya Flutter workspace"
+          git push origin yaya-recovered-source
