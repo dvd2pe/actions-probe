@@ -1,5 +1,7 @@
 name: REA Android APK analysis
-# Default target: Yaya Middle East 5.6.2 (com.yaya.portal), distributed as XAPK.\n
+# Default target: Yaya Middle East 5.6.2 (com.yaya.portal), distributed as XAPK.
+# Follow-up static inventory covers app classes, Flutter assets and native library strings.
+
 on:
   push:
     branches:
