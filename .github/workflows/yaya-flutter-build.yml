@@ -77,6 +77,18 @@ jobs:
         working-directory: app
         run: flutter pub get
 
+      - name: Commit resolved dependency lockfile
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add app/pubspec.lock
+          if ! git diff --cached --quiet; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Lock Flutter reconstruction dependencies [skip ci]"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+
       - name: Analyze reconstructed app
         working-directory: app
         run: flutter analyze
@@ -88,6 +100,25 @@ jobs:
       - name: Build Android APK
         working-directory: app
         run: flutter build apk --release
+
+      - name: Verify APK package and signature
+        shell: bash
+        run: |
+          set -euo pipefail
+          apk="app/build/app/outputs/flutter-apk/app-release.apk"
+          sdk_root="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-}}"
+          if [[ -z "$sdk_root" ]]; then
+            echo "Android SDK path is not available." >&2
+            exit 1
+          fi
+          aapt="$(find "$sdk_root/build-tools" -type f -name aapt | sort -V | tail -n 1)"
+          apksigner="$(find "$sdk_root/build-tools" -type f -name apksigner | sort -V | tail -n 1)"
+          if [[ -z "$aapt" || -z "$apksigner" ]]; then
+            echo "Android build-tools aapt/apksigner were not found." >&2
+            exit 1
+          fi
+          "$aapt" dump badging "$apk" | grep -F "package: name='com.yaya.portal.reconstructed'"
+          "$apksigner" verify --verbose "$apk"
 
       - name: Build web bundle
         working-directory: app

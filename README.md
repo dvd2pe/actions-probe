@@ -13,6 +13,8 @@ https://github.dev/dvd2pe/actions-probe/tree/yaya-recovered-source
 
 The yaya-flutter-build GitHub Actions workflow generates the Android and web platform scaffolding, copies the original Outfit fonts into the app package, runs flutter analyze and widget tests, then builds an Android APK and web bundle.
 
+Latest verified build: [GitHub Actions run #45221045074](https://github.com/dvd2pe/actions-probe/actions/runs/45221045074). Its artifact, yaya-reconstructed-3, contains the Release APK and web bundle.
+
 ## Recovery boundaries
 
 - lib/recovered/ is decompiled pseudocode, not the original Dart source tree.

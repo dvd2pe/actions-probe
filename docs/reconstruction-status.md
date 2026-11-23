@@ -25,4 +25,8 @@ The original pubspec.yaml, exact dependency versions and official signing key we
 
 ## Verification
 
-The Android reverse-engineering workflow completed successfully in GitHub Actions. The Flutter build workflow is added with the app scaffold; its first run will establish the actual flutter analyze, widget-test, APK-build and web-build results. No visual screenshot inspection has been performed.
+- Android reverse-engineering workflow: successful; the Android application graph and Jadart decompilation were published to this branch.
+- Flutter CI run 45221045074: successful on Flutter 3.50.1. flutter analyze, the Yaya welcome widget test, flutter build apk --release and flutter build web --release all passed.
+- GitHub Actions artifact yaya-reconstructed-3 contains the Release APK and the complete web build.
+- The Android Gradle project declares application ID com.yaya.portal.reconstructed. A dedicated APK package/signature verification step is included in the next CI run.
+- No visual screenshot inspection has been performed.
