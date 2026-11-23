@@ -453,8 +453,8 @@ jobs:
               dart_files = list((out / "sources").rglob("*.dart")) if (out / "sources").exists() else []
               lines.append(f"  Dart source files generated: {len(dart_files)}")
               class_names, method_names = set(), set()
-              class_re = re.compile(r"(?m)^\\s*(?:abstract\\s+|sealed\\s+)?(?:class|mixin|enum|extension)\\s+([A-Za-z_$][A-Za-z0-9_$]*)")
-              method_re = re.compile(r"(?m)^\\s{2,}(?:static\\s+)?(?:[A-Za-z_$][A-Za-z0-9_$<>?,.\\[\\] ]*\\s+)?([A-Za-z_$][A-Za-z0-9_$]*)\\s*\\(")
+              class_re = re.compile(r"(?m)^\s*(?:abstract\s+|sealed\s+)?(?:class|mixin|enum|extension)\s+([A-Za-z_$][A-Za-z0-9_$]*)")
+              method_re = re.compile(r"(?m)^\s{2,}(?:static\s+)?(?:[A-Za-z_$][A-Za-z0-9_$<>?,.\[\] ]*\s+)?([A-Za-z_$][A-Za-z0-9_$]*)\s*\(")
               keywords = re.compile(r"auth|login|profile|helper|nann|job|chat|message|payment|premium|subscr|visa|interview|booking|search|filter|video|document|upload|firebase|api|socket|notification|family|care", re.I)
               for p in dart_files:
                   txt = p.read_text(errors="replace")
@@ -470,7 +470,7 @@ jobs:
               if len(method_names) > 500:
                   lines.append(f"  ... {len(method_names)-500} additional candidates omitted")
           lines.append("")
-          (report / "jadart-summary.txt").write_text("\\n".join(lines), encoding="utf-8")
+          (report / "jadart-summary.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
           PY
           exit 0
 
