@@ -175,6 +175,21 @@ jobs:
               > "$REPORT_DIR/class-$slug.json" 2> "$REPORT_DIR/class-$slug.stderr"
             printf '%s\n' "$?" > "$REPORT_DIR/class-$slug.exit-code.txt"
           done
+          for class_name in "com.pairip.licensecheck.LicenseClient"; do
+            slug="$(printf '%s' "$class_name" | tr '. ' '__')"
+            rea inspect-android-class "$APK_PATH" "$class_name" --format json --full-output \
+              > "$REPORT_DIR/class-$slug.json" 2> "$REPORT_DIR/class-$slug.stderr"
+            printf '%s\n' "$?" > "$REPORT_DIR/class-$slug.exit-code.txt"
+          done
+
+          for selector in "com.yaya.portal.MainActivity|onCreate" "com.pairip.application.Application|attachBaseContext"; do
+            class_name="${selector%%|*}"
+            method_name="${selector#*|}"
+            slug="$(printf '%s_%s' "$class_name" "$method_name" | tr '. ' '__')"
+            rea inspect-android-method "$APK_PATH" "$class_name" "$method_name" --format json --full-output \
+              > "$REPORT_DIR/method-$slug.json" 2> "$REPORT_DIR/method-$slug.stderr"
+            printf '%s\n' "$?" > "$REPORT_DIR/method-$slug.exit-code.txt"
+          done
           exit 0
 
       - name: Inventory Flutter assets and native libraries
@@ -210,6 +225,16 @@ jobs:
               | head -n 5000 >> "$REPORT_DIR/libapp-interesting-strings.txt" || true
           done < <(find "$split_dir" -type f -name 'libapp.so' | sort)
           sort -u "$REPORT_DIR/native-url-candidates.txt" -o "$REPORT_DIR/native-url-candidates.txt"
+
+          mkdir -p "$REPORT_DIR/flutter-config"
+          while IFS= read -r config; do
+            relative="${config#"$split_dir"/}"
+            destination="$REPORT_DIR/flutter-config/$relative"
+            mkdir -p "$(dirname "$destination")"
+            cp "$config" "$destination"
+          done < <(find "$split_dir" -type f \
+            \( -name '.env' -o -name 'app_config.json' -o -name 'countries.json' \
+               -o -name 'NativeAssetsManifest.json' -o -name 'FontManifest.json' \) | sort)
 
       - name: Upload analysis report
         if: ${{ always() && steps.reports.outputs.directory != '' }}
