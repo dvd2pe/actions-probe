@@ -1,0 +1,296 @@
+{
+  "ok": true,
+  "data": {
+    "evidence_id": "ev_b5c45f374f6d7ad0dc6064a9b082b4d604da2e992696a73cb4e52362738c3cd6",
+    "evidence_format": 2,
+    "subject": {
+      "identity": {
+        "kind": "file",
+        "sha256": "ea38a4a2b7f9d4c5f0254091da3c7e6410210d3c70ddb3653bf39b8a5c7ec9d8",
+        "selection": null,
+        "format": "apk",
+        "architecture": null
+      },
+      "name": "yaya-merged-arm64-analysis.apk",
+      "local_path": "/home/runner/work/_temp/rea-android/yaya-merged-arm64-analysis.apk"
+    },
+    "provider": {
+      "id": "rea-android-application",
+      "name": "REA Android application workflows",
+      "version": "1"
+    },
+    "analysis_profile": null,
+    "predicate_type": "rea.android-application-graph",
+    "operation": "project_android_application_graph",
+    "parameters": {
+      "inventory_evidence_ids": [
+        "ev_027c4daee419ed37e28d9010c9bdbb9e22b9295ccc2b896e51d5740d93f32d5a"
+      ]
+    },
+    "raw_result": null,
+    "normalized_result": {
+      "projection_id": "adp_7f047e6b802ba9aa5c13b1d39578734daab9d2ff99d01526b7a7a08160617c1b",
+      "root_sha256": "ea38a4a2b7f9d4c5f0254091da3c7e6410210d3c70ddb3653bf39b8a5c7ec9d8",
+      "root_format": "apk",
+      "source_evidence_ids": [
+        "ev_027c4daee419ed37e28d9010c9bdbb9e22b9295ccc2b896e51d5740d93f32d5a"
+      ],
+      "components": {
+        "manifests": [
+          {
+            "path": "AndroidManifest.xml",
+            "artifact_id": "art_9c538cacbeab73836f6803019a027396c0ec78a6bb5a7485f4d3a7758a17e100",
+            "sha256": "795c6e3a2b3cbd15d49c6af18f99c033cbc5ce6093e401ead59a2c878b055839",
+            "format": "file"
+          }
+        ],
+        "resources": [
+          {
+            "path": "resources.arsc",
+            "artifact_id": "art_31462d738dc231351e9451576301a05ba9805b98114966bf0916fd608a628ab8",
+            "sha256": "49a657c03107e5e854a45407dbf796cf78d739f0bb2c876d84c436039df5b9b8",
+            "format": "file"
+          }
+        ],
+        "dex": [
+          {
+            "path": "classes.dex",
+            "artifact_id": "art_223a3dec4a26557f268c977899e4a71a8e0a452583f7a45630d6c1e7cc44e8bf",
+            "sha256": "2c5d0436e274a953b5561ffb9352eff0c15e18c448402940bb6e89c39d277b58",
+            "format": "file"
+          },
+          {
+            "path": "classes2.dex",
+            "artifact_id": "art_32be3882a32ec49dbc0563dd92fded119498aadc2dd78611dee71d246d1d092b",
+            "sha256": "69e6e6ccaf1b3b52416ec8a607321583c4f42f83e273bdab82dd87153e1a57dd",
+            "format": "file"
+          },
+          {
+            "path": "classes3.dex",
+            "artifact_id": "art_58d4dab287ff8358c8c036d28292a88fad1f558c8e5f54572b2a47264ced668a",
+            "sha256": "9d16127d87ca85f72e19cce4baac4ab153a7ed955c668466e471b4700bff4a36",
+            "format": "file"
+          }
+        ],
+        "jvm_classes": [],
+        "native_libraries": [
+          {
+            "path": "lib/arm64-v8a/libandroidx.graphics.path.so",
+            "artifact_id": "art_a1f03ee97d9ef64b1ecad19c2724d047b8de1c55c2d21206eeac230bfa522d86",
+            "sha256": "41e9a793c43a0f4fddb19e33f346bace464f30f888ba7b9eaf96294ea115bfb6",
+            "format": "elf"
+          },
+          {
+            "path": "lib/arm64-v8a/libapp.so",
+            "artifact_id": "art_234f9b71544a9945910704b6f70d86e865197b729e171b87b6f5337f51e76260",
+            "sha256": "d2d15ee67221096b206d449b32d952f651577e29dee05b55e23c76ec3ff19587",
+            "format": "elf"
+          },
+          {
+            "path": "lib/arm64-v8a/libdatastore_shared_counter.so",
+            "artifact_id": "art_d3bf150676400bf6b72e6314b7b54dfac05c830455b8afca961d6193c95fc56e",
+            "sha256": "d3e48717c9aa147e0ab21063ba0e8e0211cabf8bf40b222640829519edbf58e1",
+            "format": "elf"
+          },
+          {
+            "path": "lib/arm64-v8a/libflutter.so",
+            "artifact_id": "art_afb893fe98ba34b5a3b58a929e590bf975c158a92551e6198d846e33542a2d4c",
+            "sha256": "d12fd96d667d5bac111f9c7d5fed6cf37805d896b9f69fa30c09198d3f6eb594",
+            "format": "elf"
+          },
+          {
+            "path": "lib/arm64-v8a/libmediakitandroidhelper.so",
+            "artifact_id": "art_09da345f2a4dfdbb2dada19d07e3e298ed47a405dbf42a39ffd24baee45d9a8f",
+            "sha256": "ab55b1d34665dba8fa7a451e82c466ee71b9698e7da6c9a3cb68a7c0ee7610d4",
+            "format": "elf"
+          },
+          {
+            "path": "lib/arm64-v8a/libmpv.so",
+            "artifact_id": "art_47fa0fc98fce486b5b140b5cfe88f7753aef5d9fb0a1287ff4b7c36c584f737e",
+            "sha256": "adf83fde58a9f6751ce6e83b9b187f651425d53ec0e20da04deb8dfb4aa775e1",
+            "format": "elf"
+          },
+          {
+            "path": "lib/arm64-v8a/libpdfium.so",
+            "artifact_id": "art_6aa59e983115231777473f0cf513558e04b349e60e3b54294bea6fd5d56cc22a",
+            "sha256": "ef8c440d29e2a0820a65554487d23020bd88756ee2d6aad8f8fb59bab3b2eb14",
+            "format": "elf"
+          }
+        ],
+        "javascript": [
+          {
+            "path": "assets/flutter_assets/packages/flutter_inappwebview_web/assets/web/web_support.js",
+            "artifact_id": "art_8ad7d85d8017ede0840f5d99e331a3a66535390cdf6baef9a681ecbd2d43cc24",
+            "sha256": "2f9ccef9db4da6b73d3c678ffe570aad402791b00dfa520730fdb66d0dc209fc",
+            "format": "javascript-bundle"
+          },
+          {
+            "path": "assets/flutter_assets/packages/media_kit/assets/web/hls1.4.10.js",
+            "artifact_id": "art_d008303097ffc6ba91161d5c4ae6200324329bb2ae71ced440d2394357265205",
+            "sha256": "30b278794fd3f269a47e6dc7b76ae9a04f08acffdd72f9b8cc26d49d3ba09c38",
+            "format": "javascript-bundle"
+          },
+          {
+            "path": "assets/flutter_assets/packages/wakelock_plus/assets/no_sleep.js",
+            "artifact_id": "art_6d326965be7d633b89f9b6e9a08d6d4fecf5e0d08930898edd7deabbe1d20f61",
+            "sha256": "dce4eef0b197b640ad6aaab2228ee1ee7dccf8bd6d6b5de5484dd1bd16430a78",
+            "format": "javascript-bundle"
+          }
+        ],
+        "signing": []
+      },
+      "unavailable_components": [],
+      "runtime_families": [
+        "dalvik-art",
+        "flutter",
+        "javascript",
+        "native"
+      ],
+      "bridge_candidates": [
+        {
+          "managed_path": "classes.dex",
+          "native_path": "lib/arm64-v8a/libandroidx.graphics.path.so",
+          "basis": "jni-library-convention"
+        },
+        {
+          "managed_path": "classes.dex",
+          "native_path": "lib/arm64-v8a/libapp.so",
+          "basis": "jni-library-convention"
+        },
+        {
+          "managed_path": "classes.dex",
+          "native_path": "lib/arm64-v8a/libdatastore_shared_counter.so",
+          "basis": "jni-library-convention"
+        },
+        {
+          "managed_path": "classes.dex",
+          "native_path": "lib/arm64-v8a/libflutter.so",
+          "basis": "flutter-convention"
+        },
+        {
+          "managed_path": "classes.dex",
+          "native_path": "lib/arm64-v8a/libmediakitandroidhelper.so",
+          "basis": "jni-library-convention"
+        },
+        {
+          "managed_path": "classes.dex",
+          "native_path": "lib/arm64-v8a/libmpv.so",
+          "basis": "jni-library-convention"
+        },
+        {
+          "managed_path": "classes.dex",
+          "native_path": "lib/arm64-v8a/libpdfium.so",
+          "basis": "jni-library-convention"
+        },
+        {
+          "managed_path": "classes2.dex",
+          "native_path": "lib/arm64-v8a/libandroidx.graphics.path.so",
+          "basis": "jni-library-convention"
+        },
+        {
+          "managed_path": "classes2.dex",
+          "native_path": "lib/arm64-v8a/libapp.so",
+          "basis": "jni-library-convention"
+        },
+        {
+          "managed_path": "classes2.dex",
+          "native_path": "lib/arm64-v8a/libdatastore_shared_counter.so",
+          "basis": "jni-library-convention"
+        },
+        {
+          "managed_path": "classes2.dex",
+          "native_path": "lib/arm64-v8a/libflutter.so",
+          "basis": "flutter-convention"
+        },
+        {
+          "managed_path": "classes2.dex",
+          "native_path": "lib/arm64-v8a/libmediakitandroidhelper.so",
+          "basis": "jni-library-convention"
+        },
+        {
+          "managed_path": "classes2.dex",
+          "native_path": "lib/arm64-v8a/libmpv.so",
+          "basis": "jni-library-convention"
+        },
+        {
+          "managed_path": "classes2.dex",
+          "native_path": "lib/arm64-v8a/libpdfium.so",
+          "basis": "jni-library-convention"
+        },
+        {
+          "managed_path": "classes3.dex",
+          "native_path": "lib/arm64-v8a/libandroidx.graphics.path.so",
+          "basis": "jni-library-convention"
+        },
+        {
+          "managed_path": "classes3.dex",
+          "native_path": "lib/arm64-v8a/libapp.so",
+          "basis": "jni-library-convention"
+        },
+        {
+          "managed_path": "classes3.dex",
+          "native_path": "lib/arm64-v8a/libdatastore_shared_counter.so",
+          "basis": "jni-library-convention"
+        },
+        {
+          "managed_path": "classes3.dex",
+          "native_path": "lib/arm64-v8a/libflutter.so",
+          "basis": "flutter-convention"
+        },
+        {
+          "managed_path": "classes3.dex",
+          "native_path": "lib/arm64-v8a/libmediakitandroidhelper.so",
+          "basis": "jni-library-convention"
+        },
+        {
+          "managed_path": "classes3.dex",
+          "native_path": "lib/arm64-v8a/libmpv.so",
+          "basis": "jni-library-convention"
+        },
+        {
+          "managed_path": "classes3.dex",
+          "native_path": "lib/arm64-v8a/libpdfium.so",
+          "basis": "jni-library-convention"
+        }
+      ],
+      "bridge_candidate_coverage": {
+        "status": "complete",
+        "total_candidates": 21,
+        "emitted_candidates": 21,
+        "omitted_candidates": 0
+      },
+      "coverage": {
+        "status": "complete-within-inventory",
+        "inventory_complete": true
+      },
+      "limitations": [
+        "ZIP inventory lists central-directory entries only. Non-entry bytes, including leading bytes before the first entry such as a self-extractor stub, an APK Signing Block before the central directory or a ZIP comment after it, are not occurrences.",
+        "Manifest, resource, signing, and bytecode semantics require a dedicated Android provider; this projection reports exact inventory paths and hashes only.",
+        "Runtime families are inferred from inventory formats and paths; filename suffixes do not establish valid DEX or JVM class bytes.",
+        "Bridge candidates are path-based hypotheses, not decoded JNI declarations or observed runtime calls.",
+        "A bridge basis is inferred from the native path and is repeated for every managed component.",
+        "ZIP inventory cannot see the APK Signing Block, so an empty signing array does not mean the APK is unsigned."
+      ]
+    },
+    "confidence": "inferred",
+    "authority": "analyst-inference",
+    "environment": null,
+    "limitations": [
+      "ZIP inventory lists central-directory entries only. Non-entry bytes, including leading bytes before the first entry such as a self-extractor stub, an APK Signing Block before the central directory or a ZIP comment after it, are not occurrences.",
+      "Manifest, resource, signing, and bytecode semantics require a dedicated Android provider; this projection reports exact inventory paths and hashes only.",
+      "Runtime families are inferred from inventory formats and paths; filename suffixes do not establish valid DEX or JVM class bytes.",
+      "Bridge candidates are path-based hypotheses, not decoded JNI declarations or observed runtime calls.",
+      "A bridge basis is inferred from the native path and is repeated for every managed component.",
+      "ZIP inventory cannot see the APK Signing Block, so an empty signing array does not mean the APK is unsigned."
+    ],
+    "relationship_coverage": null,
+    "locations": [],
+    "evidence_links": [
+      "ev_027c4daee419ed37e28d9010c9bdbb9e22b9295ccc2b896e51d5740d93f32d5a"
+    ]
+  },
+  "meta": {
+    "command": "project-android-application-graph",
+    "duration": "237ms"
+  }
+}

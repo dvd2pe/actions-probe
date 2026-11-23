@@ -1,0 +1,176 @@
+args:
+  type: object
+  properties:
+    inputJson:
+      type: string
+      description: Inline workflow JSON or JSON file path
+      contentMediaType: application/json
+      contentSchema:
+        type: object
+        properties:
+          native_observations:
+            default: []
+            type: array
+            items:
+          seed:
+            anyOf[4]:
+              - type: object
+                properties:
+                  kind:
+                    type: string
+                    enum[6]: node-id,route,string,channel,module,native-export
+                  value:
+                    type: string
+                    minLength: 1
+                  match:
+                    default: null
+                    anyOf[2]:
+                      - type: string
+                        enum[2]: exact,contains
+                      - type: "null"
+                  case_sensitive:
+                    default: false
+                    type: boolean
+                required[2]: kind,value
+                additionalProperties: false
+              - type: object
+                properties:
+                  kind:
+                    type: string
+                    enum[5]: route,string,channel,module,native-export
+                  value:
+                    type: string
+                    const: ""
+                  match:
+                    type: string
+                    const: exact
+                  case_sensitive:
+                    default: false
+                    type: boolean
+                required[3]: kind,value,match
+                additionalProperties: false
+              - anyOf[2]:
+                  - type: object
+                    properties:
+                      kind:
+                        type: string
+                        const: api
+                      value:
+                        type: string
+                        minLength: 1
+                      match:
+                        default: null
+                        anyOf[2]:
+                          - type: string
+                            enum[2]: exact,contains
+                          - type: "null"
+                      case_sensitive:
+                        default: false
+                        type: boolean
+                    required[2]: kind,value
+                    additionalProperties: false
+                  - type: object
+                    properties:
+                      kind:
+                        type: string
+                        const: api
+                      value:
+                        type: string
+                        const: ""
+                      match:
+                        type: string
+                        const: exact
+                      case_sensitive:
+                        default: false
+                        type: boolean
+                    required[3]: kind,value,match
+                    additionalProperties: false
+              - anyOf[2]:
+                  - type: object
+                    properties:
+                      kind:
+                        type: string
+                        const: api
+                      value:
+                        type: string
+                        minLength: 1
+                      match:
+                        default: null
+                        anyOf[2]:
+                          - type: string
+                            enum[2]: exact,contains
+                          - type: "null"
+                      case_sensitive:
+                        default: false
+                        type: boolean
+                      entry_path:
+                        minItems: 1
+                        type: array
+                        items:
+                          type: string
+                    required[3]: kind,value,entry_path
+                    additionalProperties: false
+                  - type: object
+                    properties:
+                      kind:
+                        type: string
+                        const: api
+                      value:
+                        type: string
+                        const: ""
+                      match:
+                        type: string
+                        const: exact
+                      case_sensitive:
+                        default: false
+                        type: boolean
+                      entry_path:
+                        minItems: 1
+                        type: array
+                        items:
+                          type: string
+                    required[4]: kind,value,match,entry_path
+                    additionalProperties: false
+            description: "Typed literal starting point. kind is one of node-id, route, string, channel, module, native-export, or api; value is the literal text. match defaults to contains for string seeds and exact otherwise; an empty value requires match exact. api seeds may add entry_path. Example: {\"kind\":\"module\",\"value\":\"search.js\",\"match\":\"exact\"}."
+          semantic_page:
+            description: Page retained semantic label matches when a string seed has no application match. Defaults to offset 0 and limit 64.
+            type: object
+            properties:
+              offset:
+                default: 0
+                type: integer
+                minimum: 0
+                maximum: 9007199254740991
+              limit:
+                default: 64
+                type: integer
+                exclusiveMinimum: 0
+                maximum: 9007199254740991
+            additionalProperties: false
+          direction:
+            default: both
+            type: string
+            enum[3]: outgoing,incoming,both
+          application:
+        required[2]: seed,application
+        additionalProperties: false
+  required[1]: inputJson
+  additionalProperties: false
+options:
+  type: object
+  properties:
+    evidenceBundle:
+      description: Resolve exact retained Evidence IDs from this local Evidence bundle without reopening an analysis target
+      type: string
+      minLength: 1
+      pattern: "^[^\\x00]*$"
+  additionalProperties: false
+globals:
+  type: object
+  properties:
+    timings:
+      default: false
+      description: Write measured command timing to stderr.
+      type: boolean
+  required[1]: timings
+  additionalProperties: false

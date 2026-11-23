@@ -1,0 +1,36 @@
+args:
+  type: object
+  properties:
+    inputJson:
+      type: string
+      description: Inline workflow JSON or JSON file path
+      contentMediaType: application/json
+      contentSchema:
+        type: object
+        properties:
+          inventory_evidence:
+            minItems: 1
+            type: array
+            items:
+        required[1]: inventory_evidence
+        additionalProperties: false
+  required[1]: inputJson
+  additionalProperties: false
+options:
+  type: object
+  properties:
+    evidenceBundle:
+      description: Resolve exact retained Evidence IDs from this local Evidence bundle without reopening an analysis target
+      type: string
+      minLength: 1
+      pattern: "^[^\\x00]*$"
+  additionalProperties: false
+globals:
+  type: object
+  properties:
+    timings:
+      default: false
+      description: Write measured command timing to stderr.
+      type: boolean
+  required[1]: timings
+  additionalProperties: false

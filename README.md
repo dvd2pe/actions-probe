@@ -2,9 +2,9 @@
 
 This workspace was generated from the Android XAPK for com.yaya.portal (version 5.6.2, versionCode 228) using REA and Jadart.
 
-## Open in an editor
+## Work directly on GitHub
 
-Clone this branch and open the folder in VS Code. The recovered Dart files are in lib/recovered/; extracted Flutter assets are in assets/flutter_assets/; additional split assets are in assets/split-assets/; analysis evidence is in forensics/ and the navigation/feature indexes are in docs/. The decoded Android manifest, resource XML and Smali are in android/apktool/.
+No local clone is required. Browse and edit this branch in the GitHub web interface, or open the branch in github.dev: https://github.dev/dvd2pe/actions-probe/tree/yaya-recovered-source. GitHub Actions performs extraction and verification in the cloud. The recovered Dart files are in lib/recovered/; Flutter assets are in assets/flutter_assets/ and assets/split-assets/; analysis evidence is in forensics/; navigation, route-to-source, feature-to-source and Android manifest maps are in docs/. The decoded Android resource XML and Smali are in android/apktool/.
 
 The Android plugin registry is documented in docs/plugin-registry.md, with its Smali implementation under android/apktool/smali_classes3/io/flutter/plugins/GeneratedPluginRegistrant.smali. Direct package candidates are in docs/direct-dependency-candidates.md.
 

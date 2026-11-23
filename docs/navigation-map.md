@@ -1,12 +1,19 @@
 # Recovered navigation and route strings
 
-These are route-like string literals found in the AOT decompilation; they are evidence, not proof that every route is currently reachable.
+Route-like literals recovered from the compiled Flutter snapshot. These strings are evidence, not proof that every route is reachable in the current UI.
 
+- /ApplicationDetails
 - /ChildcareDashboard
 - /ChooseEmployerProfileType
 - /ChooseHelperProfileType
 - /ChooseProfileType
+- /EmployerDetails
 - /EmployerMessages
+- /EmployerOnboarding
+- /Employers
+- /EmployersSearch
+- /EventDetailsScreen
+- /F
 - /FamilyCandidatePrefs
 - /FamilyChooseStart
 - /FamilyFoundersLetter
@@ -31,14 +38,23 @@ These are route-like string literals found in the AOT decompilation; they are ev
 - /HelperVerificationVideo
 - /Helpers
 - /HelpersSearch
+- /I
+- /Intro
 - /JobTipsScreen
 - /Login
 - /MaidsCcNanniesList
 - /MaidsCcNannyDetails
 - /MaidsCcNannyVideo
+- /MerchantDetailsScreen
+- /MerchantsSearchScreen
 - /MyYayaScreen
 - /OTP
+- /P
 - /ReferencesList
+- /ServiceDetailsScreen
+- /Signup
+- /SubCategoriesListScreen
+- /TeamMemberDetailsScreen
 - /VisaSupportScreen
 - /carefinder/nannies
 - /docs.flutter.dev/release/breaking-changes/network-policy-ios-android
