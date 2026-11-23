@@ -155,6 +155,62 @@ jobs:
             | select(.package == $expected)
           ' "$REPORT_DIR/analysis.json" >/dev/null
 
+      - name: Inventory app classes and inspect Android entry points
+        if: ${{ success() }}
+        shell: bash
+        env:
+          REPORT_DIR: ${{ steps.reports.outputs.directory }}
+        run: |
+          set +e
+          for query in "com.yaya.portal" "com.pairip"; do
+            slug="$(printf '%s' "$query" | tr '. ' '__')"
+            rea search-android-classes "$APK_PATH" "$query" --format json --full-output \
+              > "$REPORT_DIR/classes-$slug.json" 2> "$REPORT_DIR/classes-$slug.stderr"
+            printf '%s\n' "$?" > "$REPORT_DIR/classes-$slug.exit-code.txt"
+          done
+
+          for class_name in "com.yaya.portal.MainActivity" "com.pairip.application.Application"; do
+            slug="$(printf '%s' "$class_name" | tr '. ' '__')"
+            rea inspect-android-class "$APK_PATH" "$class_name" --format json --full-output \
+              > "$REPORT_DIR/class-$slug.json" 2> "$REPORT_DIR/class-$slug.stderr"
+            printf '%s\n' "$?" > "$REPORT_DIR/class-$slug.exit-code.txt"
+          done
+          exit 0
+
+      - name: Inventory Flutter assets and native libraries
+        if: ${{ success() }}
+        shell: bash
+        env:
+          REPORT_DIR: ${{ steps.reports.outputs.directory }}
+        run: |
+          set -euo pipefail
+          android_dir="${RUNNER_TEMP}/rea-android"
+          split_dir="$android_dir/split-content"
+          mkdir -p "$split_dir"
+          while IFS= read -r apk; do
+            [[ -f "$apk" ]] || continue
+            destination="$split_dir/$(basename "$apk" .apk)"
+            mkdir -p "$destination"
+            unzip -qq "$apk" 'lib/*' 'assets/flutter_assets/*' -d "$destination" || true
+          done < "$REPORT_DIR/extracted-apk-files.txt"
+
+          find "$split_dir" -type f -name '*.so' -printf '%P\t%s bytes\n' | sort \
+            > "$REPORT_DIR/native-libraries.txt"
+          find "$split_dir" -type f -name '*.so' -print0 | sort -z | xargs -0 -r sha256sum \
+            > "$REPORT_DIR/native-libraries.sha256"
+          find "$split_dir" -type f -path '*/assets/flutter_assets/*' -printf '%P\n' | sort \
+            > "$REPORT_DIR/flutter-assets.txt"
+
+          : > "$REPORT_DIR/native-url-candidates.txt"
+          : > "$REPORT_DIR/libapp-interesting-strings.txt"
+          while IFS= read -r lib; do
+            strings -a "$lib" | grep -Eo 'https?://[^[:space:]"<>]+' \
+              | sed -E 's/[),.;]+$//' >> "$REPORT_DIR/native-url-candidates.txt" || true
+            strings -a "$lib" | grep -Ei 'yaya|api|graphql|oauth|socket|firebase|revenuecat|onesignal|appsflyer' \
+              | head -n 5000 >> "$REPORT_DIR/libapp-interesting-strings.txt" || true
+          done < <(find "$split_dir" -type f -name 'libapp.so' | sort)
+          sort -u "$REPORT_DIR/native-url-candidates.txt" -o "$REPORT_DIR/native-url-candidates.txt"
+
       - name: Upload analysis report
         if: ${{ always() && steps.reports.outputs.directory != '' }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
