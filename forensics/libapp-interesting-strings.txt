@@ -1,0 +1,508 @@
+These Top Yaya Picks are available only to subscribers.
+ApiProvider
+OneSignal#preventDefault
+_signOutAuthProviders.firebase
+assets/icons/yayaPickIcon.svg
+contact yaya support for assistance
+https://yaya.sgp1.cdn.digitaloceanspaces.com/helpers/videos
+PlatformConfigurationNativeApi::SetNeedsReportTimings
+/yaya_onboarding_crop_
+Yaya AI is having trouble right now. Please try again in a moment.
+PlatformConfigurationNativeApi::ScheduleFrame
+yaya pick
+http://ip-api.com/json
+$onesignalUserId
+dev.flutter.pigeon.google_maps_flutter_android.MapsCallbackApi.onMarkerTap
+Your documents are verified by Yaya
+applePayAPIEnabled
+Yaya Chat conversations
+package:yaya_app/
+Socket connect cancelled
+yaya_ai_event 
+yaya-52baa.appspot.com
+YayaAiGuestQueryType.
+RevenueCatUI: Error - onFeedbackSurveyCompleted called with invalid arguments: 
+RevenueCatUI: Error - onRestoreFailed called with invalid arguments: 
+What are Top Yaya Picks?
+Yaya Promo Code
+SecureSocket_Connect
+https://wa.me/97147060100?text=Hello%2C%20I%20came%20through%20Yaya%20and%20would%20like%20to%20learn%20more%20about%20your%20services.
+Sec-WebSocket-Key
+OneSignal#proceedWithWillDisplay
+Yaya is a candidate discovery platform and marketplace. Visa sponsorship, employment arrangements and related services are provided directly by maids.cc.
+apiException
+Yaya Academy Screen
+socket => approved
+OneSignal#permission
+, your profile on Yaya Middle East: https://yayamiddleeast.com/nannies-in-uae/user/
+Socket has been closed
+dev.flutter.pigeon.google_maps_flutter_android.MapsApi.moveCamera
+You must call `databaseFactory = databaseFactoryFfi;` before using global openDatabase API
+websocket error
+dev.flutter.pigeon.google_maps_flutter_android.MapsApi.updateHeatmaps
+dev.flutter.pigeon.google_maps_flutter_android.MapsApi.updateMarkers
+Verified details are managed by Yaya.
+AppsFlyer init deferred: no activity attached
+Yes, I found a helper through Yaya
+RevenueCatUI: Error - onRestoreCompleted called with invalid arguments: 
+firebase_auth
+/socket.io
+, I found your profile on Yaya and would like to talk about a role with our family.
+socket 
+plugins.flutter.io/firebase_analytics
+OneSignal#onWillDisplayNotification
+Unexpected socket payload type: 
+I recently used Yaya to find a nanny and the experience was extremely positive. I've been recommending the app to anyone.
+dev.flutter.pigeon.google_maps_flutter_android.MapsCallbackApi.onCameraMoveStarted
+dev.flutter.pigeon.url_launcher_android.UrlLauncherApi.openUrlInApp
+FirebaseAuth user is null after credential sign-in
+https://yayamiddleeast.com/terms-and-conditions.html
+Please update Yaya to the latest version and verify your phone number to continue messaging.
+PlatformConfigurationNativeApi::SetSemanticsTreeEnabled
+To help families explore Yaya before subscribing, every new account starts with a limited number of free tokens.
+YayaAiController: FetchDataException
+Invalid offset parameter in SecureSocket.read (offset: 
+                        'enablejsapi': 1,
+https://yaya.sgp1.cdn.digitaloceanspaces.com/common-files
+_getYayaPicksHelpers()
+One-off service fee. Separate from your Yaya subscription.
+RevenueCatUI: Error parsing PurchasesError in onRestoreFailed: 
+onesignalId
+_TopYayaPicksSheet
+' was not upgraded to websocket
+api_server_url
+socket closing - telling transport to close
+napid;
+Yaya Home
+Error saving AppsFlyer ID: 
+Create an account or log in to manage your settings and personalise your Yaya experience.
+dev.flutter.pigeon.google_maps_flutter_android.MapsCallbackApi.onMarkerDrag
+AppsFlyer ID set in RevenueCat: 
+www.yayamiddleeast.com
+Yaya keeps the official booking. If it changes or is cancelled, we will notify you, but your calendar will not update by itself.
+Yaya Middle East
+https://yaya.sgp1.cdn.digitaloceanspaces.com/common-files/yaya-verify-video.mp4
+initSocket.isUserLiveProbe
+yaya-52baa
+A quick guide to the roles families hire on Yaya. Tap one to select it.
+socket connect cancelled
+Windowing APIs are not enabled.
+Windowing APIs are currently experimental. Do not use windowing APIs in
+To try experimental windowing APIs:
+REVENUECAT
+SocketService
+ignoring socket cache for 
+dev.flutter.pigeon.shared_preferences_android.SharedPreferencesApi.getAll
+Your documents were rejected by Yaya
+updateAppsflyerId => statusCode: 
+SecureSocket_RegisterBadCertificateCallback
+RevenueCatUI: Error - onCustomActionSelected called with invalid purchaseIdentifier: 
+How profiles are verified on Yaya
+Response header 'Sec-WebSocket-Accept' is the wrong length
+Your account has been deleted. If you believe this is an error, please contact support@yayamiddleeast.com
+https://api.whatsapp.com/send?phone=971568578544&text=
+https://yaya.sgp1.cdn.digitaloceanspaces.com/helpers/identity-docs
+ID Verified By Yaya
+AppConfigLoader.fetchFromFirebase() failed: 
+OneSignal#getOnesignalId
+Unlock Yaya Picks
+RevenueCatUI: Error - onRefundRequestStarted called with invalid arguments: 
+yaya.widgets
+RawSocketEvent.read
+These employers have been active on Yaya recently (viewing profiles, saving, or messaging).
+WebSocketException: 
+firebase_
+Error initializing AppsFlyer SDK: Code m
+ 2026 Yaya Middle East FZ-LLC
+Top Yaya Picks
+You are not authorized to use Yaya AI right now.
+About 7 days, all online. Quote YAYABONUS when you message them
+https://yaya.sgp1.cdn.digitaloceanspaces.com/merchant-files
+OneSignal#inappmessages
+You must be in a supported country to register as a nanny on Yaya.
+dev.flutter.pigeon.google_maps_flutter_android.MapsCallbackApi.onPointOfInterestTap
+RevenueCatUI: Error - onPromotionalOfferSucceeded called with missing or invalid data
+yaya_family_2month_web
+RevenueCatUI: Error - onManagementOptionSelected called without a valid optionId: 
+mapId
+updateAppsflyerId
+dev.flutter.pigeon.google_maps_flutter_android.MapsCallbackApi.onLongPress
+. Booked in Yaya: if the interview changes, this event will not update by itself.
+getAppsFlyerUID
+appsflyer_id
+https://www.yayamiddleeast.com/find-a-job/
+dev.flutter.pigeon.google_maps_flutter_android.MapsCallbackApi.onPolylineTap
+yaya-middle-east-v2
+newApi
+plugins.flutter.io/firebase_performance
+Yaya AI is in beta
+Yaya is verifying your documents
+socket_io_client:Transport
+Your profile has been approved. You can now start connecting with families on the Yaya app. Welcome to the community!
+OneSignal#optIn
+socket_io_client:Socket
+ is planning her day around this. Please arrive on time. If you can't come, cancel here at least 12 hours before. If you miss it without telling her, she can report it. If Yaya confirms the report, it will show on your profile.
+dev.flutter.pigeon.google_maps_flutter_android.MapsApi.updatePolylines
+API_BASE_URL
+Sec-WebSocket-Accept
+users/update-appsflyer-id
+Your profile is under review. Feel free to explore the Yaya app, but messaging families will be available after approval.
+dev.flutter.pigeon.google_maps_flutter_android.MapsCallbackApi.onInfoWindowTap
+Yaya Pick
+This happens when a plugin sends messages to the framework side before the framework has had an opportunity to register a listener. See the ChannelBuffers API documentation for details on how to configure the channel to expect more messages, or to expect messages to get discarded:
+  https://api.flutter.dev/flutter/dart-ui/ChannelBuffers-class.html
+socketexception
+OneSignal#onClickInAppMessage
+yaya_ai_event analytics failed
+dev.flutter.pigeon.google_maps_flutter_android.MapsCallbackApi.getTileOverlayTile
+dev.flutter.pigeon.firebase_auth_platform_interface.FirebaseAuthHostApi.registerAuthStateListener
+ for Yaya families.
+Response did not contain a 'Sec-WebSocket-Accept' header
+OneSignal#displayNotification
+YayaAiController: network request failed
+socket error 
+Yaya is a marketplace that connects families and caregivers, giving you the tools to explore, compare, and choose who feels right for your home.
+socket_io_client:Manager
+socket_io:parser.Encoder
+NotificationCard: ApiEndpoints not registered
+socket_io_client
+dev.flutter.pigeon.firebase_auth_platform_interface.FirebaseAuthHostApi.registerIdTokenListener
+PlatformConfigurationNativeApi::SendPlatformMessage
+dev.flutter.pigeon.google_maps_flutter_android.MapsApi.updateCircles
+initSocket
+Socket_CreateBindConnect
+OneSignal#onWillDisplayInAppMessage
+RevenueCatUI: Error - onCustomActionSelected called without a valid actionId: 
+textCapitalization
+FamilyOnboardingController.configureRevenueCatAndLoadPlans error: 
+Help keep Yaya safe
+dev.flutter.pigeon.url_launcher_android.UrlLauncherApi.canLaunchUrl
+Yaya 
+dev.flutter.pigeon.google_maps_flutter_android.MapsCallbackApi.onClusterTap
+https://yaya-api.akbhxa.easypanel.host/api/
+dev.flutter.pigeon.firebase_analytics_platform_interface.FirebaseAnalyticsHostApi.logEvent@
+dev.flutter.pigeon.firebase_performance_platform_interface.FirebasePerformanceHostApi.startTrace
+socket_io_client:engine.Socket
+firebaseUserId
+PlatformConfigurationNativeApi::GetScaledFontSize
+_SocketControlMessageImpl@16069316
+dev.flutter.pigeon.firebase_analytics_platform_interface.FirebaseAnalyticsHostApi.setUserProperty
+my_yaya_country
+Socket emit skipped: session data is incomplete.
+apiKey
+_wrapImage@23065589
+$appsflyerId
+https://www.yayamiddleeast.com/babysitting
+AED 500 exclusive Yaya discount on the visa contract
+Socket connect timed out after 20s
+RevenueCatUI: Error handling method call 
+YayaAiController: dropped duplicate parse (same text)
+Socket_Read
+This sends a report to Yaya. Our team reviews it before doing anything.
+Yaya Picks
+Any agreement is strictly between the family and the nanny. Yaya does not employ caregivers and is not responsible for any arrangements, obligations, or disputes.
+OneSignal
+Yaya Picked
+AppConfigLoader: FIREBASE_APP_CONFIG_URL is not set in .env
+apid;
+Socket closed before request was sent
+https://yayamiddleeast.com/carefinder/nannies/visa_ready/
+ appsflyer_id=
+AppsFlyer deferred deep link ignored: 
+\?|^\s*(how\s+(do\s+i|can\s+i|much|long|to)|what\s+(is|are|does|should|salary)|why\s+|when\s+|can\s+i\s+(change|get|pay|cancel|sponsor)|does\s+yaya|is\s+yaya)\b|famil\w*.{0,40}(replied|reply|replies|respond|response)|(not|no|never).{0,20}(replied|reply|replies|respond)|(replied|reply|replies).{0,20}(famil|me)|get\s+hired\s+faster|hired\s+faster|not\s+getting\s+hired|(profile\s+)?verif\w*|approve\s+my\s+(account|profile)|what\s+salary\s+should\s+i|salary\s+should\s+i\s+ask|how\s+much\s+(salary\s+)?(can|should)\s+i\s+(ask|expect|earn)"
+RevenueCatUI: Error - onFeedbackSurveyCompleted called without a valid optionId: 
+Socket_Available
+dev.flutter.pigeon.google_maps_flutter_android.MapsCallbackApi.onCameraMove
+CapitalDifferentialD;
+dev.flutter.pigeon.path_provider_android.PathProviderApi.getTemporaryPath
+Yaya Verified
+ONESIGNAL_API_KEY
+Update your country in My Yaya to search in a different region.
+OneSignal#addTags
+dev.flutter.pigeon.image_picker_android.ImagePickerApi.pickVideos
+socketPayloadSummary(keys:
+dev.flutter.pigeon.google_maps_flutter_android.MapsApi.waitForMap
+logout error (Purchases/OneSignal): 
+Socket_GetError
+SocketConnectionStatus.
+Every profile on Yaya is reviewed before going live on the app.
+ApiEndpoints.loadAppConfigData() timed out for socket connect; using defaults
+https://www.yayamiddleeast.com/carefinder/
+dev.flutter.pigeon.firebase_performance_platform_interface.FirebasePerformanceHostApi.stopTrace
+ApplicationCard: ApiEndpoints not available for photo url
+yayaPicked
+assets/icons/yayaPickLabel.svg
+Socket_SetOption
+RenderSliverOverlapInjector
+@yayamiddleeast.com
+Access to Top Yaya Picks
+Yaya is currently live in the UAE and Bahrain only.
+OneSignal#addNativeClickListener
+FIREBASE_APP_CONFIG_URL
+FirebaseAuth(app: 
+SecureSocket_RegisterHandshakeCompleteCallback
+SecureSocket_MarkAsTrusted
+https://wa.me/+971568578544?text=Hi Yaya team, I need your assistance.
+socket close with reason: "
+ packets in socket
+OneSignal#onNotificationPermissionDidChange
+YayaAiMsgRole.
+Clear, compliant visa options through Yaya's approved partners
+helpers/get-yaya-pick-helpers
+appsflyerID
+Chat server URL is empty. Check ApiEndpoints.chatServerUrl.
+References have not been verified by Yaya. Please contact them directly during your face-to-face interviews to confirm.
+https://wa.me/+971568578544?text=Hi%20Yaya%20team%2C%20I%20would%20like%20to%20request%20a%20change%20to%20my%20verified%20profile%20details.
+https://yayamiddleeast.com
+api provider
+setOnesignalID
+AppsFlyer deep link: 
+dev.flutter.pigeon.google_maps_flutter_android.MapsApi.updateGroundOverlays
+yaya_ai_event
+PlatformConfigurationNativeApi::EndWarmUpFrame9
+MediaKitAndroidHelperGetAPILevel
+[OneSignal] 
+dev.flutter.pigeon.google_maps_flutter_android.MapsCallbackApi.onCameraIdle
+https://maids.cc/mv-yayame
+yayaPick
+Yes, I found a helper on Yaya
+dev.flutter.pigeon.google_maps_flutter_android.MapsCallbackApi.onGroundOverlayTap
+ApiError
+YAYA PARTNER SERVICES
+firebase_crashlytics
+OneSignal#onClickNotification
+dev.flutter.pigeon.url_launcher_android.UrlLauncherApi.launchUrl
+Socket_CreateUnixDomainConnect
+Please disable it to ensure Yaya loads correctly.
+            tag.src = "https://www.youtube.com/iframe_api";
+            function onYouTubeIframeAPIReady() {
+dev.flutter.pigeon.google_sign_in_android.GoogleSignInApi.clearCredentialState
+ on Yaya?
+websocket
+RevenueCatUI: Error - onRefundRequestStarted called without a valid productId: 
+OneSignal#clearAll
+It seems you are trying to reach a Socket.IO server in v2.x with a v3.x client, but they are not compatible (more information here: https://socket.io/docs/v3/migrating-from-2-x-to-3-0/)
+Yaya is only available in 
+https://yaya-52baa-default-rtdb.firebaseio.com
+yaya_ai
+A Firebase App named "[DEFAULT]" already exists
+https://yaya.sgp1.cdn.digitaloceanspaces.com
+_MyYayaLinkTrailing.
+How much does Yaya cost?
+How to succeed on Yaya 
+plugins.flutter.io/firebase_crashlytics
+. Ensure Get.put(ApiEndpoints()) before connect.
+dev.flutter.pigeon.image_picker_android.ImagePickerApi.pickImages
+dev.flutter.pigeon.firebase_performance_platform_interface.FirebasePerformanceHostApi.setPerformanceCollectionEnabled
+PlatformConfigurationNativeApi::SendChannelUpdate
+API base URL is not configured
+AppsFlyer deep link error: 
+Yaya Middle East: Family Care
+apiEndpointBlocked
+firebase_analytics
+SliverOverlapInjector
+https://yayamiddleeast.com/privacy-policy.html
+https://wa.me/+971568578544?text=Hi%20Yaya%20team%2C%20I%20would%20like%20to%20update%20the%20email%20on%20my%20account.
+ won't see your name or that you reported them, and nothing appears on their profile. The Yaya care team reviews every report.
+_SocketControlMessageImpl@16069316.
+dev.flutter.pigeon.shared_preferences_android.SharedPreferencesApi.clear
+OneSignal#onPushSubscriptionChange
+It's why we founded Yaya here in the UAE. Today, we're building CareFinder to help families in our community find the support we once needed ourselves.
+SocketException
+dev.flutter.pigeon.google_maps_flutter_android.MapsCallbackApi.onTap
+RevenueCatUI: Error - onRefundRequestCompleted called with invalid arguments: 
+Visa fees are paid to maids.cc directly. The AED 500 discount applies when you mention you found her on Yaya.
+Contact Yaya Support
+This number is already linked to another Yaya account.
+AppsFlyer ID not available yet, retry 
+PlatformConfigurationNativeApi::SetApplicationLocale
+RevenueCatUI: Error - onRefundRequestCompleted called without a valid status: 
+ Co-founders of Yaya
+Invalid bytes parameter in SecureSocket.read (bytes: 
+OneSignal#pushsubscription
+OneSignal#onWillDismissInAppMessage
+YayaAiController: dropped duplicate parse (in-flight)
+Socket_GetPort
+Sec-WebSocket-Extensions
+https://www.yayamiddleeast.com/download/
+dev.flutter.pigeon.google_maps_flutter_android.MapsCallbackApi.onPolygonTap
+"firebase_" prefix is reserved
+RawSocketEvent.closed
+dev.flutter.pigeon.google_maps_flutter_android.MapsApi.updateMapConfiguration
+ why. She can report a late cancellation, and if Yaya confirms it, it will show on your profile.
+https://yayamiddleeast.com/privacy-policy
+MediaKit.ensureInitialized must be called before using any API from package:media_kit.
+OneSignal#onUserStateChange
+dev.flutter.pigeon.google_maps_flutter_android.MapsApi.animateCamera
+ you confirm you understand this risk. Yaya is a marketplace and takes no responsibility for arrangements made outside the legal framework.
+packet received with socket readyState "
+dev.flutter.pigeon.google_maps_flutter_android.MapsCallbackApi.onMarkerDragStart
+SecureSocket_Init
+RevenueCatUI: Error - onRefundRequestCompleted called without a valid productId: 
+My Yaya Screen
+PlatformConfigurationNativeApi::RequestDartPerformanceMode
+Cannot send errors on sockets
+Socket Event Handler
+yaya_family_weekly_web
+yaya_family_monthly_web
+OneSignal#liveactivities
+How did you find Yaya?
+/MyYayaScreen
+Error setting AppsFlyer ID in RevenueCat: 
+YayaAiMsgType.
+AppsFlyer ID saved to database
+firebase_performance
+Writing to a closed socket
+OneSignal#requestPermission
+Yaya is currently live in the UAE and Bahrain only. We can't search caregivers in cities outside those countries yet.
+OneSignal#pushSubscriptionOptedIn
+WebSocket transformer already used
+AppsFlyer SDK initialized successfully.
+dev.flutter.pigeon.google_maps_flutter_android.MapsCallbackApi.onCircleTap
+dev.flutter.pigeon.firebase_auth_platform_interface.FirebaseAuthHostApi.signOut
+Failed to get AppsFlyer ID after 3 attempts
+User not logged in, skipping AppsFlyer ID save
+https://www.yayamiddleeast.com
+A Yaya Chat conversation
+https://yaya-api.akbhxa.easypanel.host
+dev.flutter.pigeon.google_maps_flutter_android.MapsApi.updatePolygons
+Sec-WebSocket-Version
+PlatformConfigurationNativeApi::RespondToPlatformMessage
+PlatformConfigurationNativeApi::UpdateSemantics
+You must agree to Yaya's Privacy Policy and Terms & Conditions before continuing.
+You can continue chatting with helpers in Yaya Chat, or subscribe to unlock WhatsApp and phone calls.
+RevenueCatUI: Error - onManagementOptionSelected called with invalid arguments: 
+Invalid length parameter in SecureSocket.read (length: 
+YAYA CONCIERGE 
+Your guide to success on Yaya 
+  https://api.flutter.dev/flutter/material/Scaffold/of.html
+PlatformConfigurationNativeApi::DefaultRouteName
+This sends a no-show report to Yaya. Our team reviews it before anything shows on 
+WebSocket transformer already used.
+Failed to resolve ApiEndpoints: 
+RevenueCatUI: Error parsing CustomerInfo in onRestoreCompleted: 
+Prefix "firebase_" is reserved and cannot be used.
+RevenueCatUI: Error - onCustomActionSelected called with invalid arguments: 
+onesignalID
+assets/images/yayaVerifiedBgImage.png
+https://www.yayamiddleeast.com/concierge
+dev.flutter.pigeon.wakelock_plus_platform_interface.WakelockPlusApi.toggle
+socket_io_client:transport.IOWebSocketTransport
+Socket_AvailableDatagram
+Hi Yaya team, I need your assistance.
+Reading from a closed socket
+socket connection failed: 
+com.yaya.portal.
+dev.flutter.pigeon.path_provider_android.PathProviderApi.getApplicationSupportPath
+dev.flutter.pigeon.google_maps_flutter_android.MapsApi.updateClusterManagers
+https://yayamiddleeast.com/terms-and-conditions
+my yaya
+yayapicked
+Exclusive Yaya Pricing
+Error in _saveAppsFlyerIdWithRetry: 
+Please tell us how you found Yaya.
+AppsFlyer Error => 
+https://yayamiddleeast.com/careguide
+OneSignal#logout
+setAppsflyerID
+No Firebase App '[DEFAULT]' has been created - call Firebase.initializeApp()
+Yaya AI: openHelperDetailsProfile failed
+Bad response 'Sec-WebSocket-Accept' header
+{{{yaya_ai_md_prot_
+https:/yayamiddleeast.com/nannies-in-uae/user/
+assets/icons/yayaPickLabel2.svg
+OneSignal#onDidDisplayInAppMessage
+Reports are confidential and help us keep Yaya safe.
+refresh my yaya
+websocket closed before onclose event
+PlatformConfigurationNativeApi::GetRootIsolateToken
+dev.flutter.pigeon.google_sign_in_android.GoogleSignInApi.getCredential
+I found your profile on Yaya and would like to learn more about your services! Could you please provide more details?
+socket
+Yaya Academy
+SecureSocket_GetSelectedProtocol
+It looks like this profile is no longer available. The user you previously contacted has either deleted their account or is no longer active on Yaya.
+https://www.google.com/maps/search/?api=1&query=
+https://yaya.sgp1.cdn.digitaloceanspaces.com/common-files/founders_family_then.png
+RawSocketEvent.write
+dev.flutter.pigeon.shared_preferences_android.SharedPreferencesApi.setString
+dev.flutter.pigeon.firebase_core_platform_interface.FirebaseCoreHostApi.initializeApp
+PlatformConfigurationNativeApi::RequestViewFocusChange
+OneSignal#initialize
+Socket_CreateUnixDomainBindConnect
+OneSignal#user
+https://api.whatsapp.com/send/?phone=97145497311&text=Hello%2C+I+came+through+Yaya+%28code+YAYABONUS%29+and+would+like+to+arrange+a+2-year+visa+for+my+nanny.&type=phone_number&app_absent=0
+Socket emit skipped: socket is not connected.
+socket open
+dev.flutter.pigeon.firebase_auth_platform_interface.FirebaseAuthHostApi.signInWithCredential
+socket closed
+Tell us what your family needs. Our Concierge team searches Yaya, contacts matching caregivers and introduces those who are interested, available and suited to your role.
+plugins.flutter.io/firebase_firestore
+Included with your Yaya Premium subscriptionw
+OneSignal#optOut
+FamilyOnboardingController.configureRevenueCatAndLoadPlans: ensureRcConfiguredOnly returned false
+ on Yaya
+Yaya verification
+OneSignal#login
+af-api
+SecureSocket_NewX509CertificateWrapper
+yaya_ai_results_anchor
+https://yaya.sgp1.cdn.digitaloceanspaces.com/profile-images
+PlatformHeatmap(heatmapId: 
+Read more on Yaya
+dev.flutter.pigeon.firebase_core_platform_interface.FirebaseCoreHostApi.initializeCore
+No, I did not find a helper on Yaya
+Dedicated account manager & support team for Yaya clients
+ID verified by Yaya
+, applePayAPIEnabled: 
+Socket_WriteList
+OneSignal#pushSubscriptionId
+Download the Yaya App to message 
+SecureSocket_FilterPointer
+yaya
+https://yaya.sgp1.cdn.digitaloceanspaces.com/helpers/cv
+file:///Volumes/Projects/flutter%20projects/yaya_app/.dart_tool/flutter_build/dart_plugin_registrant.dart
+Did you find a helper on Yaya?
+RevenueCatUI: Error parsing onPromotionalOfferSucceeded data: 
+RevenueCatUI: Error - onPromotionalOfferSucceeded called with invalid arguments: 
+TextCapitalization.
+dev.flutter.pigeon.google_maps_flutter_android.MapsApi.updateTileOverlays
+cloudMapId
+RawSocketEvent.readClosed
+OneSignal#pushSubscriptionToken
+AppsFlyer deep link not handled: 
+ApiEndpoints not registered. Call Get.put(ApiEndpoints()) before SocketService.connect().
+SecureSocket_Destroy
+PlatformConfigurationNativeApi::Render
+, mapId: 
+OneSignal#notifications
+plugins.flutter.io/firebase_auth
+Failed to get AppsFlyer ID after 
+Socket_CreateConnect
+Sec-WebSocket-Protocol
+ is no longer available on Yaya.
+yaya://settings/country?target=
+SecureSocket_Handshake
+https://yaya.sgp1.cdn.digitaloceanspaces.com/helpers/images
+onesignal request failed
+RevenueCatUI: Error - onManagementOptionSelected called with invalid url: 
+Top Yaya Picks are a curated list of the very best profiles on Yaya.
+We reserve Top Yaya Picks exclusively for our subscribers, and families often find great matches here first.
+OneSignal#lifecycleInit
+Yaya may show a notice on this profile so other families know.
+OneSignal#onDidDismissInAppMessage
+socket receive: type "
+fonts.googleapis.com
+com.yaya.portal.auth_token
+AppsFlyer ID obtained: 
+Added to Yaya 
+_YayaVerifiedSheet
+dev.flutter.pigeon.google_maps_flutter_android.MapsCallbackApi.onMarkerDragEnd
+No api calls are allowed while unwind is in progress
+TapI
+TApI
+TApI
+TApI
+TApI
+TApI
+ 7ApI

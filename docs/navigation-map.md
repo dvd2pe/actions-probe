@@ -1,0 +1,54 @@
+# Recovered navigation and route strings
+
+These are route-like string literals found in the AOT decompilation; they are evidence, not proof that every route is currently reachable.
+
+- /ChildcareDashboard
+- /ChooseEmployerProfileType
+- /ChooseHelperProfileType
+- /ChooseProfileType
+- /EmployerMessages
+- /FamilyCandidatePrefs
+- /FamilyChooseStart
+- /FamilyFoundersLetter
+- /FamilyJobPost
+- /FamilyOnboarding
+- /FamilyPaywallDeepLink
+- /FamilyPlansPricing
+- /FamilyProfileInfo
+- /FamilySecurity
+- /FamilySubscribePlans
+- /FamilySubscriptionStatus
+- /FamilyTrialStarted
+- /FamilyWelcome
+- /HelperDetailsScreenRedesigned
+- /HelperInboxScreen
+- /HelperMessages
+- /HelperOnboarding
+- /HelperOnboardingSubmitted
+- /HelperProfileImages
+- /HelperProfileImagesNew
+- /HelperReference
+- /HelperVerificationVideo
+- /Helpers
+- /HelpersSearch
+- /JobTipsScreen
+- /Login
+- /MaidsCcNanniesList
+- /MaidsCcNannyDetails
+- /MaidsCcNannyVideo
+- /MyYayaScreen
+- /OTP
+- /ReferencesList
+- /VisaSupportScreen
+- /carefinder/nannies
+- /docs.flutter.dev/release/breaking-changes/network-policy-ios-android
+- /helperOnboardingNew
+- /helperWelcome
+- /myCV
+- /pub.dev
+- /socket.io
+- /svg
+- /text
+- /www.w3.org/2000/svg
+- /yaya_onboarding_crop_
+- /yayamiddleeast.com/nannies-in-uae/user

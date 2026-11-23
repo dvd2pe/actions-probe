@@ -1,0 +1,600 @@
+  <no message available>
+ (confirmed literals: "Visa provided" / "Visa not provided" — §6.2)
+ CV
+ Domestic Worker Law, domestic workers must be sponsored by the family employing them.
+ Domestic helpers must be sponsored by a family or Tadbeer to work legally. Pick 
+ Uploaded
+ accepted your interview invitation
+ can accept or decline in your chat.
+ can provide references from the following families:
+ caregiver
+ caught my eye. Are you still looking for a job?\n
+ family
+ fontFamily:
+ for Yaya families.
+ free credits to explore and connect with nannies. After that, you'll need a subscription to continue.
+ free credits to review applicants and connect with nannies. After that, you'll need a subscription to continue.
+ gets this message and a notification straight away.
+ has ended. Resubscribe to continue.
+ helperId=
+ helpers match your family
+ helpers=
+ if you're open to transferring your visa to your new employer.
+ in AI search yet — try CareFinder for those.
+ in HTTP header
+ in chat.
+ invited you to an interview. Please reply.
+ is no longer available on Yaya.
+ is planning her day around this. Please arrive on time. If you can't come, cancel here at least 12 hours before. If you miss it without telling her, she can report it. If Yaya confirms the report, it will show on your profile.
+ jobId=
+ keys from SharedPreferences
+ may already be on her way. Please add a message so she knows why.
+ message
+ message=
+ nannyId=
+ nannyType=
+ on Yaya
+ on Yaya?
+ or explore other profiles instantly.
+ packets in socket
+ phoneCode: 
+ profile
+ roles are part-time, so we've set the job type for you.
+ who already hold a valid UAE Domestic Worker Visa sponsored by maids.cc, a licensed Tadbeer agency. 
+ why. She can report a late cancellation, and if Yaya confirms it, it will show on your profile.
+ won't see your name or that you reported them, and nothing appears on their profile. The Yaya care team reviews every report.
+ won't see your name.\nYaya may show a notice on this profile so other families know.
+ you confirm you understand this risk. Yaya is a marketplace and takes no responsibility for arrangements made outside the legal framework.
+ — switch countries in your app settings to find caregivers there.
+! I found your job post
+" is not registered
+" is not registered.
+" is not supported by the platform. Refer to https://docs.flutter.dev/release/breaking-changes/network-policy-ios-android.
+" requires a reference dimension (viewport width/height) but none was available.
+"No visa provided,"
+"firebase_" prefix is reserved
+#document
+#document-fragment
+$onesignalUserId
+' was not upgraded to websocket
+'s app is out of date. She'll get your invitation as a message and may need to update to accept.
+'s first name is included. Her phone number and profile are not shared.
+'s profile. She will not see your name.
+(for example: “Available to interview today after 6pm, can start from Monday”).
+(profile\\s+)?verif\\w*|approve\\s+my\\s+(account|profile)|how\\s+long.{0,20}(approv|verif)
+) so the family knows you’re a good fit.
+**Create your free Nanny account** — joining Yaya is always free for caregivers.
+**Gumawa ng libreng Nanny account** — laging libre ang pag-join sa Yaya para sa mga caregiver.
++ Add another reference
+, HTTP status code: 
+, I found your profile on Yaya and would like to talk about a role with our family.
+, \n\nI found your profile on Yaya and would like to learn more about your services! Could you please provide more details?\n
+, and reference one detail from the job post in your first message.
+, applePayAPIEnabled: 
+, assumesHTTP3Capable: 
+, cursiveFontFamily: 
+, fantasyFontFamily: 
+, fixedFontFamily: 
+, hasChatId:
+, httpHeaders: 
+, httpShouldHandleCookies: 
+, httpShouldUsePipelining: 
+, is interested in your profile. Tap to view!
+, mainDocumentURL: 
+, mapId: 
+, message: 
+, minMaxZoomPreference: 
+, or use CareFinder for broader filters.
+, phoneNumber: 
+, pitchFamily: 
+, profile: 
+, sansSerifFontFamily: 
+, serifFontFamily: 
+, so their job post is new.
+, standardFontFamily: 
+, upgradeKnownHostsToHTTPS: 
+, you're letting families know you can transfer your visa to their sponsorship if hired.
+, your profile on Yaya Middle East: https://yayamiddleeast.com/nannies-in-uae/user/
+-moz-document
+. Booked in Yaya: if the interview changes, this event will not update by itself.
+. Details are in your chat.
+. Ensure Get.put(ApiEndpoints()) before connect.
+.ai
+/ChildcareDashboard
+/ChooseEmployerProfileType
+/ChooseHelperProfileType
+/ChooseProfileType
+/EmployerMessages
+/FamilyCandidatePrefs
+/FamilyChooseStart
+/FamilyFoundersLetter
+/FamilyJobPost
+/FamilyOnboarding
+/FamilyPaywallDeepLink
+/FamilyPlansPricing
+/FamilyProfileInfo
+/FamilySecurity
+/FamilySubscribePlans
+/FamilySubscriptionStatus
+/FamilyTrialStarted
+/FamilyWelcome
+/HelperDetailsScreenRedesigned
+/HelperInboxScreen
+/HelperMessages
+/HelperOnboarding
+/HelperOnboardingSubmitted
+/HelperProfileImages
+/HelperProfileImagesNew
+/HelperReference
+/HelperVerificationVideo
+/Helpers
+/HelpersSearch
+/JobTipsScreen
+/Login
+/MaidsCcNanniesList
+/MaidsCcNannyDetails
+/MaidsCcNannyVideo
+/MyYayaScreen
+/OTP
+/ReferencesList
+/VisaSupportScreen
+/carefinder/nannies/
+/helperOnboardingNew
+/helperWelcome
+/myCV
+/socket.io
+/yaya_onboarding_crop_
+1 token = 1 helper of your choice
+10_off_premium
+2-Month Plan (Premium)
+2-Year Domestic-Worker Visa
+2-year Tadbeer visa, processed end to end under their licence
+2-year visa — with Yaya discount
+20_off_premium
+30–40 new nannies join every day
+6–8 helpers
+<(https?://[^\\s<>]+)>
+<svg width="260" height="124" viewBox="0 0 270 114" xmlns="http://www.w3.org/2000/svg">\n            <text x="15" y="100" font-size="120" font-weight="600">BHD</text>\n        </svg>\n        
+<svg xmlns="http://www.w3.org/2000/svg" width="
+@yayamiddleeast.com
+A Firebase App named "[DEFAULT]" already exists
+A Yaya Chat conversation
+A family has reported your profile
+A free token is used whenever you take an action that shows interest in a nanny — not only when you send a written message.
+A message on the 
+A nanny with specialised training or certifications — e.g. nursing assistant, early-childhood education, special-needs care or midwifery.
+A quick guide to the roles families hire on Yaya. Tap one to select it.
+A second family has reported your profile
+A short video lets families see and hear you — it's required and one of the strongest things on your profile.
+A start date more than 2 months away may reduce your profile visibility.
+AED 250 Yaya discount — included in both prices
+AED 500 exclusive Yaya discount on the visa contract
+AI
+AI (ChatGPT, Gemini, etc.)
+AI is still polishing your description.
+ALL-INCLUSIVE VISA FEE
+API base URL is not configured
+API_BASE_URL
+AT_DOCUMENT_END
+AT_DOCUMENT_START
+About 7 days, all online. Quote YAYABONUS when you message them
+About The Family
+About The family
+About the job
+About your family
+Accept & Chat
+Access to Top Yaya Picks
+Activate Job Post
+Active visa · legal to join from day 1
+Add a family photo
+Add another reference
+Add job 
+Added to Yaya · 
+Added to your preferences:
+Address family not supported by protocol family, sourceAddress.type must be 
+Ages of kids you cared for (optional)
+Agree a new time in chat.
+Agree on salary and employment terms with your chosen nanny
+AiSearchRepository.ask HTTP 
+All Helpers
+All profile changes must be done by our Care Team. Please send us the details of what you'd like to modify — whether it's your photo, video, or bio — via WhatsApp, and we'll make the necessary updates for you.
+All suitable helpers can apply. We'll use your preferences to rank your best matches first.
+Allow camera access in Settings to scan your document, or pick a photo from your gallery instead.
+Allow camera access to scan your document, or pick a photo from your gallery.
+Allow photo library access in Settings to add profile photos.
+Allow photo library access in Settings to choose a document image.
+Almost done. After submit, our team reviews profiles in 1–2 days. We'll WhatsApp you the moment families can see you.
+Already have a CV? Upload it and we'll help build a better profile.
+Already legally in the UAE with an active Domestic Worker Visa
+Also send a courtesy message
+Also show nannies open to relocating
+Ana is a newer profile but highly rated. Note she prefers part-time and is based in Abu Dhabi — worth considering if flexibility on work type works for you.
+Another family account was recently subscribed on this device. Restore is blocked to protect that subscription. Sign in with that account, or contact support.
+Anyone not already tied to a job above — e.g. an agency, or a family not in your work history. Past employers only, please.
+ApiEndpoints not registered. Call Get.put(ApiEndpoints()) before SocketService.connect().
+ApiEndpoints.loadAppConfigData() timed out for socket connect; using defaults
+ApiError
+ApiProvider
+AppConfigLoader.fetchFromFirebase() failed: 
+AppConfigLoader: FIREBASE_APP_CONFIG_URL is not set in .env
+AppDeepLinks: opening paywall over "
+ApplicationCard: ApiEndpoints not available for photo url
+Applications include the candidate's full profile and contact details, so opening one counts toward your free credits.
+Applications you send appear here until a family accepts them.
+Apply for Job
+ApplyForJobScreen submit failed: 
+AppsFlyer→RC blocked: identity not safe (expected userId=
+Are you looking for a driver only, or a nanny who can also drive?
+Are you sure you want to deactivate your profile?
+Arrange an interview from your chat with a nanny.
+Arrange interview
+ArrangeInterviewChipVariant.
+As a nanny, housemaid, au pair or similar role.
+Ask AI
+Ask Yaya AI 💬
+Ask anything about Yaya…
+At least one job entry is required.
+Auth Controller => _processSuccessfulLogin
+Avoid copy-paste applications. Mention something specific from the family’s post and explain how your experience matches their needs.
+Avoid generic messages
+Awaiting means the nanny has not accepted yet. Only confirmed interviews are booked.
+Bad response 'Sec-WebSocket-Accept' header
+Based on your job post, I can see you're a family 
+Be truthful about your experience and skills. Dress neatly for interviews, be friendly, and engage naturally with children.
+Best Matches are designed to help you start your search faster, but you can always browse all profiles and decide who feels right for your home.
+Best Matches are personalised recommendations based on what you’re looking for and who’s currently active on Yaya.
+Best deal per week. Ideal for interviewing and trialling helpers.
+Browse helpers
+Browse part-time nannies →
+Browse profiles free of charge
+Browse verified helpers
+ButtonClickedHireANanny
+By continuing, you agree to Yaya’s
+By creating an account or signing in, you understand and agree to Yaya’s Terms. You also acknowledge our 
+CARE GUIDE
+CLIENT_CERTIFICATE_REJECTED
+CLIENT_CERTIFICATE_REQUIRED
+CV
+CV / Resume
+CV not available
+CV not uploaded
+CV unavailable
+CVAPattern
+CVa
+CVe
+CVo
+CVp
+CVs & job applications
+CVs include personal details like contact numbers, so opening one counts toward your free credits.
+Can I change my nanny?
+Cancel & Delete Profile
+Cancel interview
+Cancel this interview?
+Cancelled Visa
+Cancelled Visa (grace period)
+Cancelled because the chat was closed.
+Candidate removed from active messages
+Cannot load MediaKitAndroidHelperGetJavaVM (libmediakitandroidhelper.so).
+Cannot send errors on sockets
+CapitalDifferentialD;
+Care Guide
+CareFinder
+CareFinder™
+Caregiver
+Caregivers may communicate differently — clarify expectations early and ask follow-ups.
+CertificateException
+CertificateException.
+Certificates
+Certifications are self-reported. Families may ask to see proof during interviews.
+Certifications are self-reported. Yaya doesn't independently verify them — ask to see proof during your interview.
+Changes apply immediately. Cancel anytime from Manage Subscription.
+Chat not found
+Chat server URL is empty. Check ApiEndpoints.chatServerUrl.
+Chat with Helper
+Check the location, duties, schedule, and requirements. Only apply if the job truly fits you — families respond faster to relevant applications.
+Chemistry and communication style are much easier to judge in person than over chat.
+Childcare
+Childcare & general housekeeping
+Childcare plus general housekeeping — the most common all-round role.
+Childcare with specialist training
+Choose Employer Profile => Create Job Post
+Choose Employer Profile Screen
+Choose Helper Profile => Create My Profile
+Choose Helper Profile Screen
+Choose Profile Type Screen
+Choose Your Visa Partner
+Choose a job type
+Choose carefully.
+Choose one — or leave on no preference.
+Choose whether anyone can apply, or only helpers who match your preferences.
+Clear, compliant visa options through Yaya's approved partners
+Confirm Profile Deactivation
+Confirm interview
+Confirm interview with 
+Congratulations on your new job!\nLog back in any time and tell us you’re looking for work.
+Consider deactivating your profile instead.
+Contact Yaya Support
+Contact and interview nannies directly
+Conversation restored to active messages
+Could not build the CV PDF. Please try again.
+Could not create CV PDF.
+Could not refresh profile. Pull to try again.
+Could not verify your family subscription account.
+Couldn't upload your photo. Please try again.
+CountryDropdownController not registered or getAvailableCountries failed
+Create Job Post
+Create My Profile
+Create Profile
+Create a free account to message nannies, use filters, and keep track of your search.
+Create an account or log in to manage your settings and personalise your Yaya experience.
+Create an account to save profiles and access them anytime.
+Create job post
+CunningDocumentScannerException(
+Current Visa
+Current Visa · sponsored by maids.cc
+Current visa
+Cva
+Cvb
+Cvd
+Cvp
+DISCOUNTED_RECURRING_PAYMENT
+DOCUMENT
+DOCUMENT_TYPE
+Dates will use this job once you set them.
+Dates will use this job: 
+Deactivate Job Post
+Decompressed permessage-deflate frame exceeds 
+Dedicated account manager & support team for Yaya clients
+Deleting your account removes your job post, chats and data permanently.
+Deleting your account removes your profile, chats and data permanently.
+Describe your family and the role in your own words — your household, the children's ages, a typical day, working hours, and the kind of person who'd fit in.
+Dial Phone Number: 
+Did you find a helper on Yaya?
+Direct Call with Helper
+DirectionalCaretMovementIntent
+DisplayFeatureSubScreen
+Do you have a gender preference?
+Do you have a nationality preference? 🌍
+Document type (optional)
+DocumentName
+Documents, labour contract & renewal reminders handled for you
+Domestic Worker Visa — Active
+Don't miss important messages from prospective families.
+Don't pin your hopes on one profile — comparing a few makes the right fit clearer.
+Don’t send a generic message. Read the family profile first, then personalise your first note (mention something like the 
+Double subscript
+Double-check whether the map was used in a place that documents support for WidgetStateProperty objects. If so, please file a bug report. (The https://pub.dev/ page for a package contains a link to "View/report issues".)
+Download the Yaya App to message 
+Drives the family and runs errands.
+Driving License Uploaded
+Edit Identity
+Edit Preferences
+Email with OTP
+Email with password
+Email, password & account
+Employer Chats Screen
+Employer Visa
+EmployerFavouritesResponse: failed to parse maids_cc nanny
+EmployerMessagesFilter.
+Employment Visa
+Empty XML document
+End year must be after start year for reference 
+Enhance your job application by providing detailed information about your experience. Include your work history, specifying the number of families you’ve worked for and the number of children you’ve cared for, along with your unique qualities. The more specific, the better!
+Entity used with illegal number (windows-1252 reference).
+Error :: Error while getting the merchant profile
+Error :: updateProfilePhoto statusCode: 
+Error :: updateUserProfile statusCode: 
+Error => HelperOnboardingNewController => 
+Error => HelpersListingController => 
+Error => JobFavoritesController => 
+Error => JobsController => 
+Error => ReportProfilesController => 
+Error logging login. Error: 
+Every helper is verified before you meet them.
+Every profile on Yaya is reviewed before going live on the app.
+Exclusive Yaya Pricing
+Exclusive discounted visa services through Yaya’s trusted partner
+Exclusive visa discount
+ExpandSelectionToDocumentBoundaryIntent
+Experience, skills, CV & references
+Explore Concierge  →
+Explore verified nanny profiles, set filters, and connect directly with experienced caregivers who meet your family’s needs.
+ExtendSelectionToDocumentBoundaryIntent
+ExtendSelectionToNextParagraphBoundaryOrCaretLocationIntent
+ExtendSelectionToNextWordBoundaryOrCaretLocationIntent
+FAMILY_CLASH
+FAMILY_SHARED
+FIREBASE_APP_CONFIG_URL
+FPDF_CloseDocument
+FPDF_ERR_PASSWORD
+FPDF_LoadCustomDocument
+FPDF_LoadDocument
+FPDF_LoadMemDocument
+FREE NANNY TRAINING
+Face-to-face interview with 
+Failed to fetch file: HTTP 
+Failed to load PDF document 
+Failed to load PDF document.
+Failed to load profile image
+Failed to parse HTTP, 
+Failed to resolve ApiEndpoints: 
+False or misleading profile information
+FamPaywallCellValue.
+Families are far more likely to contact nannies who set realistic, accurate salaries. Please don't state one figure here and a different one in interviews — it's the fastest way to lose a match.
+Families can sponsor a nanny privately or through a licensed agency. Both are legal when set up correctly, but they work very differently in terms of cost, paperwork and responsibility.
+Families make time for interviews. If you cannot attend, inform them as early as possible. Repeated no-shows may lead to deactivation.
+Families may skip profiles with this visa type.
+Families must approve your job application before you can chat with them.
+Family Onboarding => Founders Letter Screen
+Family Onboarding => Purchase Success Screen
+Family Visa Support
+Family employer log recorded
+Family meals & kitchen
+Family name
+Family online now
+Family photo added
+Family profiles are only visible to registered helpers
+FamilyCancelReason.
+FamilyCare
+FamilyCare will be launching here soon.
+FamilyJobPostBannerKind.
+FamilyOnboardingController => _setupAboutStepData
+FamilyOnboardingController => hydrateFormFromCachedProfile
+FamilyOnboardingController => setCountryData
+FamilyOnboardingController._ensureFamDropdownCatalogsLoaded error: 
+FamilyOnboardingController._loadFamSubscriptionPlans error: 
+FamilyOnboardingController._refreshFamIntroEligibility error: 
+FamilyOnboardingController._restorePurchasesQuietly error: 
+FamilyOnboardingController._submitOrToast error: 
+FamilyOnboardingController._updateFamSubscriptionOnBackend failed: 
+FamilyOnboardingController.browseHelpersFromTrialStartedPhase1 error: 
+FamilyOnboardingController.checkFamActiveSubscriptionStatus error: 
+FamilyOnboardingController.configureRevenueCatAndLoadPlans error: 
+FamilyOnboardingController.configureRevenueCatAndLoadPlans: bail — invalid rc_app_user_id on file (anonymous or unknown shape)
+FamilyOnboardingController.configureRevenueCatAndLoadPlans: bail — live userId empty (session not ready)
+FamilyOnboardingController.configureRevenueCatAndLoadPlans: ensureRcConfiguredOnly returned false
+FamilyOnboardingController.configureRevenueCatAndLoadPlans: skipped setRcAttributes — identifiedAs=
+FamilyOnboardingController.enterAppFromFamilyWelcome error: 
+FamilyOnboardingController.finalizeAndRoute error: 
+FamilyOnboardingController.hydrateFormFromCachedProfile error: 
+FamilyOnboardingController.loadMatchedHelpersAfterIdealSave error: 
+FamilyOnboardingController.loadPerfectMatchedHelpers bodyKeys=
+FamilyOnboardingController.loadPerfectMatchedHelpers error: 
+FamilyOnboardingController.loadPerfectMatchedHelpers failed: 
+FamilyOnboardingController.loadPerfectMatchedHelpers: HelpersListingController not registered — skip
+FamilyOnboardingController.loadPerfectMatchedHelpers: total=
+FamilyOnboardingController.manageFamSubscriptions error: 
+FamilyOnboardingController.prepareResumeFromServer: dbIndex=
+FamilyOnboardingController.purchaseSelectedFamPlan error: 
+FamilyOnboardingController.recordMyLog error: 
+FamilyOnboardingController.recordMyLog failed: 
+FamilyOnboardingController.refreshProfile error: 
+FamilyOnboardingController.refreshProfile failed: 
+FamilyOnboardingController.refreshProfile: discarded stale response (session cleared mid-flight)
+FamilyOnboardingController.restoreFamPurchase error: 
+FamilyOnboardingController.restoreFamPurchase: blocked silent restore — use checkFamActiveSubscriptionStatus()
+FamilyOnboardingController.restoreOnboardingDraft: 
+FamilyOnboardingController.rewordAboutWithAi error: 
+FamilyOnboardingController.rewordAboutWithAi payload: 
+FamilyOnboardingController.rewordAboutWithAi transport error: 
+FamilyOnboardingController.rewordAboutWithAi unexpected status=
+FamilyOnboardingController.saveOnboardingDraftNow: 
+FamilyOnboardingController.sendWhatsappWelcome error: 
+FamilyOnboardingController.sendWhatsappWelcome failed: 
+FamilyOnboardingController.sendWhatsappWelcome: 
+FamilyOnboardingController.sendWhatsappWelcome: skipped — empty userId
+FamilyOnboardingController.submitAboutFamily payload: 
+FamilyOnboardingController.submitHome childrenAges=
+FamilyOnboardingController.submitHome payload: 
+FamilyOnboardingController.submitJobPreferences hasOnboardingStatus=
+FamilyOnboardingController.submitJobPreferences payload: 
+FamilyOnboardingController.submitOffer payload: 
+FamilyOnboardingController.submitOffer visa=
+FamilyOnboardingController.submitProfilePhoto error: 
+FamilyOnboardingController.submitProfilePhoto payload: 
+FamilyOnboardingController.submitProfilePhoto: could not save photo (save-family-photo failed) — 
+FamilyOnboardingController.submitProfilePhoto: could not upload photo — not calling save-family-photo
+FamilyOnboardingController.submitProfilePhoto: no imageUrl after upload step — aborting save
+FamilyOnboardingController.submitProfilePhoto: skipping RC/plans — famResolvedUserId empty
+FamilyOnboardingController.submitRole payload: 
+FamilyOnboardingController.updateFamilyJobActiveStatus error: 
+FamilyOnboardingController.updateFamilySettingsCandidatePrefs error: 
+FamilyOnboardingController.updateFamilySettingsCandidatePrefs payload: 
+FamilyOnboardingController.updateFamilySettingsJobPost error: 
+FamilyOnboardingController.updateFamilySettingsJobPost payload: 
+FamilyOnboardingController.updateFamilySettingsProfileInfo error: 
+FamilyOnboardingController.updateFamilySettingsProfileInfo payload: 
+FamilyOnboardingController.updateFreeMessages error: 
+FamilyOnboardingController.updateFreeMessages failed: 
+FamilyOnboardingController.updateFreeMessages skipped: empty helperId
+FamilyOnboardingController.updateFreeMessages skipped: profileType=
+FamilyOnboardingController.updateFreeMessages skipped: status=
+FamilyOnboardingController.uploadProfilePhotoRaw error: 
+FamilyOnboardingController.uploadProfilePhotoRaw failed: 
+FamilyOnboardingController.uploadProfilePhotoRaw: no photo selected
+FamilyOnboardingController.validateFamPromoCode error: 
+FamilyOnboardingController: navigating to subscribe plans
+FamilySubscriptionScreenKind.
+FeaturedHelperCard: openHelperDetailsProfile failed
+Fetching helper onboarding account data: 
+Filter by visa, experience, skills, certifications, Schengen & more.
+FiltersController._persistHelperFilters: 
+FiltersController.restoreSavedHelperFilters: 
+Find a Job
+Find matches based on my job post
+Find me a nanny
+Find someone your\nfamily will love
+Find the right nanny, anytime.
+Finding Care, Made Easy
+Finish Setting Up Your Profile
+FirebaseAuth user is null after credential sign-in
+FirebaseAuth(app: 
+For privacy reasons, family profiles are only visible to helpers.
+For privacy reasons, helper profiles are only visible to families.
+Free KHDA training for your nanny
+From nannies to newborn care, tutors to therapists – everything your family needs is just a tap away.
+From our family\nto yours.
+From your job post
+From your job post I found: 
+From your profile. Change it if you're meeting somewhere else.
+Full access to all filters, profiles and video intros
+Full-time nannies open to part-time
+Get a Maids Visa
+Get started fast — great for short-term access or trying Yaya first.
+Go to Jobs
+Got it! Here's what I picked up from your message:
+Got it! Which city are you looking for a nanny in? 📍
+Great — your CV will help us highlight your experience.
+HTTP
+HTTP connection timed out after 
+HTTP headers are not mutable
+HTTP headers too large
+HTTP request failed, statusCode: 
+HTTP request failed. Client is already closed.
+HTTP status code
+HTTPS
+HTTPS_PROXY
+HTTP_PROXY
+HTTP_STATUS_CODE
+Has contactable references
+Hashing is unsupported for messages with more than 2^53 bits.
+Have References
+Have a CV?
+Have you already found a helper?
+Haven’t received the OTP?
+Heads up: Families will ask to see proof of these before hiring — please don't claim certifications you can't show a document for.
+Hello! I'm a warm and patient nanny from Manila with 6 years of experience caring for newborns and toddlers. I love cooking healthy meals, reading stories, and turning bath time into giggles. I'm looking for a kind family in Dubai where I can feel at home.
+Help keep Yaya safe
+Helper
+Helper Applications Screen
+Helper Chats Screen
+Helper Filters Screen
+Helper Media Screen
+Helper New Onboarding => Background
+Helper New Onboarding => Experience
+Helper New Onboarding => Identity
+Helper New Onboarding => Looking For
+Helper New Onboarding => Story
+Helper New Onboarding => Submitted
+Helper Profile => See what's left
+Helper Video
+Helper detail native ad closed
+Helper detail native ad failed to load: 
+Helper detail native ad loaded
+Helper detail native ad opened
+Helper log recorded
+Helper profile reported successfully.
+Helper verification video duration timed out
+Helper verification video preload failed: 
+HelperCVBuilderController: Share.shareXFiles failed: 
+HelperCVBuilderController: generateHelperCV failed: 
+HelperCVBuilderController: profile image FetchDataException: 
+HelperCVBuilderController: profile image load failed: 
+HelperCard2: favourite tap failed
+HelperCard2: openHelperDetailsProfile failed
+HelperCard: favourite tap failed
+HelperCard: openHelperDetailsProfile failed
+HelperFavouritesController
+HelperFilterNoteTone.
+HelperFiltersStrip: getAllFilteredHelpers failed
+HelperFiltersStrip: navigation or filter setup failed

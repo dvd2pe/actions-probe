@@ -1,0 +1,14 @@
+// jadart tier 3, epoch objectheader-3.13, dart 3.13.0
+// lib: nsp
+
+class :: {
+  xoi;
+
+  <anonymous closure>();  // no code (inlined, abstract, or no range)
+}
+
+class cTa {
+}
+
+class dTa {
+}

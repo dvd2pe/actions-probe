@@ -1,0 +1,162 @@
+{
+  "ok": true,
+  "epoch": "objectheader-3.13",
+  "target": "arm64/compressed-pointers",
+  "gates": [
+    {
+      "gate": "G3 class table roots vs class ids",
+      "tier": "A",
+      "status": "PASS",
+      "passed": true,
+      "checks": 161,
+      "detail": "161 roots are the Class of the cid read for",
+      "skipped": ""
+    },
+    {
+      "gate": "G4 string alloc/fill lengths",
+      "tier": "A",
+      "status": "PASS",
+      "passed": true,
+      "checks": 45001,
+      "detail": "45001 strings agree on (length, is_two_byte) in both passes",
+      "skipped": ""
+    },
+    {
+      "gate": "G17 sized alloc/fill lengths",
+      "tier": "A",
+      "status": "PASS",
+      "passed": true,
+      "checks": 444,
+      "detail": "444 closures, scopes and descriptors agree on their length in both passes",
+      "skipped": ""
+    },
+    {
+      "gate": "G4b rodata string objects",
+      "tier": "A",
+      "status": "SKIP",
+      "passed": false,
+      "checks": 0,
+      "detail": "",
+      "skipped": "no ROData string cluster (compressed target)"
+    },
+    {
+      "gate": "G5 ref ids in range",
+      "tier": "A",
+      "status": "PASS",
+      "passed": true,
+      "checks": 43268,
+      "detail": "0 <= ref <= 186391",
+      "skipped": ""
+    },
+    {
+      "gate": "G6 instance size vs class",
+      "tier": "A",
+      "status": "PASS",
+      "passed": true,
+      "checks": 1327,
+      "detail": "1327 INSTANCE clusters matched to their Class",
+      "skipped": ""
+    },
+    {
+      "gate": "G7 code_index vs instr slot",
+      "tier": "A",
+      "status": "PASS",
+      "passed": true,
+      "checks": 1817,
+      "detail": "16% of functions have both halves",
+      "skipped": ""
+    },
+    {
+      "gate": "G8 instr_table_len vs rodata",
+      "tier": "A",
+      "status": "PASS",
+      "passed": true,
+      "checks": 1,
+      "detail": "header 9924 == 42468 - 32544 = 9924",
+      "skipped": ""
+    },
+    {
+      "gate": "G10 canonical-set shape",
+      "tier": "A",
+      "status": "PASS",
+      "passed": true,
+      "checks": 6,
+      "detail": "6 canonical sets",
+      "skipped": ""
+    },
+    {
+      "gate": "G11 dispatch anchor + exact end",
+      "tier": "A",
+      "status": "PASS",
+      "passed": true,
+      "checks": 104805,
+      "detail": "table at 0x2f72d8, 104805 entries, ends exactly at 0x3093f2",
+      "skipped": ""
+    },
+    {
+      "gate": "G12 field offset vs instance size",
+      "tier": "A",
+      "status": "PASS",
+      "passed": true,
+      "checks": 1102,
+      "detail": "1102 instance fields inside their class",
+      "skipped": ""
+    },
+    {
+      "gate": "G14 getter code vs field offset",
+      "tier": "A",
+      "status": "PASS",
+      "passed": true,
+      "checks": 3,
+      "detail": "3 implicit getters load the offset their Field records",
+      "skipped": ""
+    },
+    {
+      "gate": "G15 unboxed bitmap vs load width",
+      "tier": "A",
+      "status": "PASS",
+      "passed": true,
+      "checks": 3,
+      "detail": "3 getters load the width the bitmap implies",
+      "skipped": ""
+    },
+    {
+      "gate": "G16 stub roots vs Code fill refs",
+      "tier": "A",
+      "status": "PASS",
+      "passed": true,
+      "checks": 2,
+      "detail": "LazyCompile, UnknownDartCode are the roots the stub list puts them at",
+      "skipped": ""
+    },
+    {
+      "gate": "G13 base objects vs fixed roots",
+      "tier": "B",
+      "status": "PASS",
+      "passed": true,
+      "checks": 1,
+      "detail": "base_objects 7 == the 7 this release fixes",
+      "skipped": ""
+    },
+    {
+      "gate": "G2 cluster tags decode",
+      "tier": "B",
+      "status": "PASS",
+      "passed": true,
+      "checks": 1380,
+      "detail": "1380 clusters, all cids non-negative",
+      "skipped": ""
+    },
+    {
+      "gate": "G9 instr table monotonic",
+      "tier": "B",
+      "status": "PASS",
+      "passed": true,
+      "checks": 42468,
+      "detail": "strictly increasing, last pc inside the image",
+      "skipped": ""
+    }
+  ],
+  "passed": 16,
+  "failed": []
+}

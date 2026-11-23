@@ -1,0 +1,13 @@
+{
+  "profiles_images_url": "https://yaya.sgp1.cdn.digitaloceanspaces.com/profile-images",
+  "helper_files_url": "https://akbhxa.easypanel.host/uploads/helper-files",
+  "helper_images_url": "https://yaya.sgp1.cdn.digitaloceanspaces.com/helpers/images",
+  "helper_videos_url": "https://yaya.sgp1.cdn.digitaloceanspaces.com/helpers/videos",
+  "helper_docs_url": "https://yaya.sgp1.cdn.digitaloceanspaces.com/helpers/identity-docs",
+  "helper_cv_url": "https://yaya.sgp1.cdn.digitaloceanspaces.com/helpers/cv",
+  "app_files_url": "https://yaya.sgp1.cdn.digitaloceanspaces.com/common-files",
+  "api_server_url": "https://yaya-api.akbhxa.easypanel.host/api/",
+  "chat_server_url": "http://206.189.82.251",
+  "merchant_files_url": "https://yaya.sgp1.cdn.digitaloceanspaces.com/merchant-files",
+  "show_online_filter": true
+}

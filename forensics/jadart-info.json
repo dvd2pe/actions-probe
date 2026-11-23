@@ -1,0 +1,30 @@
+{
+  "ok": true,
+  "file": "/home/runner/work/_temp/rea-android/split-content/config.arm64_v8a/lib/arm64-v8a/libapp.so",
+  "anchor": {
+    "symbol": "_kDartSnapshotText",
+    "va": 4587520,
+    "file_offset": 4587520,
+    "size": 12377328,
+    "container": "elf"
+  },
+  "address_rule": "va = anchor.va + pc_offset; file_offset = anchor.file_offset + pc_offset",
+  "snapshots": {
+    "isolate": {
+      "kind": "kFullAOT",
+      "version_hash": "0451907c2eaa8467e848c0067bfe8ed4",
+      "epoch": "objectheader-3.13",
+      "dart": "3.13.0",
+      "target": "arm64/compressed-pointers",
+      "arch": "arm64",
+      "word_size": 8,
+      "compressed_pointers": true,
+      "features": "product no-asan no-msan no-tsan no-shared_data no-code_comments dwarf_stack_traces arm64 android compressed-pointers",
+      "base_objects": 7,
+      "objects": 186391,
+      "clusters": 1380,
+      "instr_table_len": 9924,
+      "first_cid": 61
+    }
+  }
+}

@@ -1,0 +1,14 @@
+// jadart tier 3, epoch objectheader-3.13, dart 3.13.0
+// lib: qHp
+
+class :: {
+}
+
+class Osb extends HN {
+}
+
+class _Psb@1955505205 extends Ir {
+  GWe;   // @0x14
+
+  <anonymous closure>();  // no code (inlined, abstract, or no range)
+}

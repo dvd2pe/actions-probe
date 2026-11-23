@@ -1,0 +1,12 @@
+API_BASE_URL=[REDACTED]
+# Debug/profile only — ignored in release builds. Comment out to hit production locally.
+#API_BASE_URL_DEV=[REDACTED]
+ONESIGNAL_API_KEY=[REDACTED]
+GOOGLE_MAPS_API_KEY=[REDACTED]
+FIREBASE_APP_CONFIG_URL=[REDACTED]
+# AppsFlyer attribution
+APP_FLYER_DEV_ID=[REDACTED]
+APP_FLYER_V2_TOKEN=[REDACTED]
+
+# Interview booking UI (family Arrange chip + nanny invite card). Default off.
+INTERVIEW_BOOKING_ENABLED=[REDACTED]

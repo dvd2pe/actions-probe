@@ -1,0 +1,5 @@
+APK_SOURCE=https://d.apkpure.net/b/XAPK/com.yaya.portal?version=latest
+EXPECTED_PACKAGE=com.yaya.portal
+REA_VERSION=6.10.1
+JADX_VERSION=0.7.1
+APK_SELECTED=/home/runner/work/_temp/rea-android/extracted/com.yaya.portal.apk

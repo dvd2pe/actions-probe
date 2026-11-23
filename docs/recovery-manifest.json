@@ -1,0 +1,33 @@
+{
+  "package": "com.yaya.portal",
+  "app_version": "5.6.2",
+  "version_code": 228,
+  "source_bundle": "XAPK",
+  "dart_source_files": 2366,
+  "asset_files": 728,
+  "native_library_count": 7,
+  "jadart_libraries": 2366,
+  "jadart_classes": 8557,
+  "jadart_methods": 7931,
+  "jadart_strings": 45001,
+  "dart_snapshot": {
+    "isolate": {
+      "kind": "kFullAOT",
+      "version_hash": "0451907c2eaa8467e848c0067bfe8ed4",
+      "epoch": "objectheader-3.13",
+      "dart": "3.13.0",
+      "target": "arm64/compressed-pointers",
+      "arch": "arm64",
+      "word_size": 8,
+      "compressed_pointers": true,
+      "features": "product no-asan no-msan no-tsan no-shared_data no-code_comments dwarf_stack_traces arm64 android compressed-pointers",
+      "base_objects": 7,
+      "objects": 186391,
+      "clusters": 1380,
+      "instr_table_len": 9924,
+      "first_cid": 61
+    }
+  },
+  "raw_native_libraries_included": false,
+  "environment_file_included": false
+}

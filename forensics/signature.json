@@ -1,0 +1,182 @@
+{
+  "ok": true,
+  "data": {
+    "evidence_id": "ev_5a57254c57afebcb02d9b6baf29e89e5baadd307993a28e3b4c1bba1967b2784",
+    "evidence_format": 2,
+    "subject": {
+      "identity": {
+        "kind": "file",
+        "sha256": "50e1d3bb6ab1ebaf48735ad33581680966d4372f36f89dfaf4ba1868cc2e59d2",
+        "selection": null,
+        "format": "apk",
+        "architecture": null
+      },
+      "name": "com.yaya.portal.apk",
+      "local_path": "/home/runner/work/_temp/rea-android/extracted/com.yaya.portal.apk"
+    },
+    "provider": {
+      "id": "apk-signature",
+      "name": "REA APK signature reader",
+      "version": null
+    },
+    "analysis_profile": null,
+    "predicate_type": "rea.analysis",
+    "operation": "inspect_apk_signature",
+    "parameters": {
+      "path": "/home/runner/work/_temp/rea-android/extracted/com.yaya.portal.apk"
+    },
+    "raw_result": null,
+    "normalized_result": {
+      "artifact": {
+        "path": "/home/runner/work/_temp/rea-android/extracted/com.yaya.portal.apk",
+        "sha256": "50e1d3bb6ab1ebaf48735ad33581680966d4372f36f89dfaf4ba1868cc2e59d2",
+        "bytes": 46900922
+      },
+      "schemes": {
+        "v1": {
+          "present": false,
+          "has_manifest": false,
+          "signature_files": [],
+          "block_files": [],
+          "signers": []
+        },
+        "v2": {
+          "present": true,
+          "signers": [
+            {
+              "uninterpreted_signed_data_bytes": 4,
+              "uninterpreted_signer_bytes": 0,
+              "certificate": {
+                "sha256_fingerprint": "38a4a5280ac87449c48637f115fc77c1490737408e252b76ef7d474a3443a3a5",
+                "subject": "C=US\nST=California\nL=Mountain View\nO=Google Inc.\nOU=Android\nCN=Android",
+                "issuer": "C=US\nST=California\nL=Mountain View\nO=Google Inc.\nOU=Android\nCN=Android",
+                "serial_number": "4B9C4ED4A402BFCE00626643EBBE7400D87D3B72",
+                "not_before": "2023-12-06T09:49:57.000Z",
+                "not_after": "2053-12-06T09:49:57.000Z",
+                "public_key_algorithm": "rsa"
+              },
+              "digests": [
+                {
+                  "uninterpreted_bytes": 0,
+                  "signature_algorithm_id": 260,
+                  "algorithm": "sha512",
+                  "declared_digest_hex": "2d6ab608f6eb255449b40b10d8063a0172b98d4693d75d9a6d92fc95836eceb8aa11d654936e26765731d564401c82a9df0f62cf26d2237879a1a69ee7e426a7",
+                  "matches_apk": true
+                }
+              ],
+              "signatures": [
+                {
+                  "signature_algorithm_id": 260,
+                  "algorithm": "sha512",
+                  "signature_bytes": 512,
+                  "uninterpreted_bytes": 0
+                }
+              ],
+              "public_key_bytes": 550,
+              "min_sdk": null,
+              "max_sdk": null
+            }
+          ],
+          "uninterpreted_bytes": 0
+        },
+        "v3": {
+          "present": true,
+          "signers": [
+            {
+              "uninterpreted_signed_data_bytes": 0,
+              "uninterpreted_signer_bytes": 0,
+              "certificate": {
+                "sha256_fingerprint": "38a4a5280ac87449c48637f115fc77c1490737408e252b76ef7d474a3443a3a5",
+                "subject": "C=US\nST=California\nL=Mountain View\nO=Google Inc.\nOU=Android\nCN=Android",
+                "issuer": "C=US\nST=California\nL=Mountain View\nO=Google Inc.\nOU=Android\nCN=Android",
+                "serial_number": "4B9C4ED4A402BFCE00626643EBBE7400D87D3B72",
+                "not_before": "2023-12-06T09:49:57.000Z",
+                "not_after": "2053-12-06T09:49:57.000Z",
+                "public_key_algorithm": "rsa"
+              },
+              "digests": [
+                {
+                  "uninterpreted_bytes": 0,
+                  "signature_algorithm_id": 260,
+                  "algorithm": "sha512",
+                  "declared_digest_hex": "2d6ab608f6eb255449b40b10d8063a0172b98d4693d75d9a6d92fc95836eceb8aa11d654936e26765731d564401c82a9df0f62cf26d2237879a1a69ee7e426a7",
+                  "matches_apk": true
+                }
+              ],
+              "signatures": [
+                {
+                  "signature_algorithm_id": 260,
+                  "algorithm": "sha512",
+                  "signature_bytes": 512,
+                  "uninterpreted_bytes": 0
+                }
+              ],
+              "public_key_bytes": 550,
+              "min_sdk": 24,
+              "max_sdk": 2147483647,
+              "rotation": {
+                "present": false,
+                "lineage": [],
+                "decode_error": null
+              }
+            }
+          ],
+          "uninterpreted_bytes": 0
+        },
+        "v3.1": {
+          "present": false,
+          "signers": [],
+          "uninterpreted_bytes": 0
+        }
+      },
+      "source_stamp": {
+        "present": true,
+        "certificate": {
+          "sha256_fingerprint": "3257d599a49d2c961a471ca9843f59d341a405884583fc087df4237b733bbd6d",
+          "subject": "C=US\nST=California\nL=Mountain View\nO=Google Inc.\nOU=Android\nCN=Android",
+          "issuer": "C=US\nST=California\nL=Mountain View\nO=Google Inc.\nOU=Android\nCN=Android",
+          "serial_number": "BF53FABB0B4E907F8F2A22A1B0E0D77F6DEF1060",
+          "not_before": "2020-05-19T10:35:21.000Z",
+          "not_after": "2050-05-19T10:35:21.000Z",
+          "public_key_algorithm": "rsa"
+        },
+        "decode_error": null
+      },
+      "posture": {
+        "v1_only": false,
+        "schemes_agree_on_signer": true,
+        "signer_change_declared_by_rotation": false,
+        "v1_signers_match_block_signers": null,
+        "rotation_present": false,
+        "source_stamp_present": true,
+        "strongest_scheme": "v3",
+        "self_consistent": true
+      },
+      "runtime_execution": "not-performed"
+    },
+    "confidence": "observed",
+    "authority": "shipped-artifact",
+    "environment": null,
+    "limitations": [
+      "4 bytes outside known signing fields were not interpreted; suffixes do not by themselves establish malformed signing.",
+      "Static structural inspection only. No Android code executes, no device or adb is involved, and odex/vdex/oat/cdex are not read.",
+      "No signature is verified: signer, rotation-lineage and source-stamp signatures are NOT cryptographically checked, and certificate chains, revocation and authenticity are NOT evaluated. Certificates and lineages are what the APK declares.",
+      "matches_apk and self_consistent only show that the declared content digest equals the digest of the current bytes. This is not a signature verification: anyone who changes the bytes can recompute the digest and write it into the signed data. SHA-256 identifies the exact bytes, not the producer.",
+      "v1 signers are what each signature block's outer PKCS#7 SignedData declares. Signer unsigned attributes, including nested signatures and timestamps, are not decoded; signatures, the .SF and MANIFEST.MF digests and entry coverage are NOT verified.",
+      "Not read: v4 .apk.idsig, verity digests (matches_apk null), and the v1 X-Android-APK-Signed marker, so v1_only cannot distinguish a v1-only APK from one whose v2/v3 block was removed."
+    ],
+    "relationship_coverage": null,
+    "locations": [
+      {
+        "kind": "artifact-path",
+        "path": "/home/runner/work/_temp/rea-android/extracted/com.yaya.portal.apk"
+      }
+    ],
+    "evidence_links": [],
+    "caller_input_path": "/home/runner/work/_temp/rea-android/extracted/com.yaya.portal.apk"
+  },
+  "meta": {
+    "command": "inspect-apk-signature",
+    "duration": "190ms"
+  }
+}

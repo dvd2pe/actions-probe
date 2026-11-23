@@ -1,0 +1,49 @@
+Jadart Flutter Dart AOT analysis
+Snapshot: isolate
+  Dart: 3.13.0
+  Epoch: objectheader-3.13
+  Target: arm64/compressed-pointers
+  Version hash: 0451907c2eaa8467e848c0067bfe8ed4
+  Objects: 186391
+  Clusters: 1380
+  Instruction table length: 9924
+
+Acceptance gates:
+  G3 class table roots vs class ids: PASS
+  G4 string alloc/fill lengths: PASS
+  G17 sized alloc/fill lengths: PASS
+  G4b rodata string objects: SKIP
+  G5 ref ids in range: PASS
+  G6 instance size vs class: PASS
+  G7 code_index vs instr slot: PASS
+  G8 instr_table_len vs rodata: PASS
+  G10 canonical-set shape: PASS
+  G11 dispatch anchor + exact end: PASS
+  G12 field offset vs instance size: PASS
+  G14 getter code vs field offset: PASS
+  G15 unboxed bitmap vs load width: PASS
+  G16 stub roots vs Code fill refs: PASS
+  G13 base objects vs fixed roots: PASS
+  G2 cluster tags decode: PASS
+  G9 instr table monotonic: PASS
+  passed: 16; failed: 0
+
+Export summary:
+  libraries: 2366
+  classes: 8557
+  methods: 7931
+  strings: 45001
+  selectors: 6
+  Dart source files generated: 2366
+
+Recovered Dart classes: 5982
+Feature-related method names: 1
+Feature-related method candidates:
+  - fontFamily
+
+Feature-related string literals: 2469
+String inventory: jadart-feature-strings.txt
+
+Source-index matches: 8
+Source index: jadart-source-index.txt
+

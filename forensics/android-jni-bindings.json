@@ -1,0 +1,937 @@
+{
+  "ok": true,
+  "data": {
+    "evidence_id": "ev_cc2b1d33a97a295fe1936bc9b74a77c4bdb627bcaf4f04d6d5896f040a02a574",
+    "evidence_format": 2,
+    "subject": {
+      "identity": {
+        "kind": "file",
+        "sha256": "50e1d3bb6ab1ebaf48735ad33581680966d4372f36f89dfaf4ba1868cc2e59d2",
+        "selection": null,
+        "format": "apk",
+        "architecture": null
+      },
+      "name": "com.yaya.portal.apk",
+      "local_path": "/home/runner/work/_temp/rea-android/extracted/com.yaya.portal.apk"
+    },
+    "provider": {
+      "id": "jadx",
+      "name": "JADX headless",
+      "version": "0.7.1"
+    },
+    "analysis_profile": null,
+    "predicate_type": "rea.analysis",
+    "operation": "inspect_android_jni_bindings",
+    "parameters": {
+      "path": "/home/runner/work/_temp/rea-android/extracted/com.yaya.portal.apk"
+    },
+    "raw_result": {
+      "server": {
+        "name": "rea-jadx-bridge",
+        "version": "11"
+      },
+      "bridge_sha256": "08de17c12c68adf077aaccba84c6d53b6c9ac86ff2d2e581e35b9b03618003f2",
+      "jar_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+      "calls": [
+        {
+          "operation": "rea_jvm_status",
+          "input": {},
+          "response": {
+            "content": [
+              {
+                "type": "text",
+                "text": "{\"max_heap_bytes\":4190109696,\"java_version\":\"21.0.13\",\"available_processors\":4,\"engine_reported_version\":\"0.7.1\",\"metadata_scope\":\"parsed_members\"}"
+              }
+            ],
+            "isError": false
+          }
+        },
+        {
+          "operation": "rea_native_declarations",
+          "input": {
+            "path": "/tmp/rea-android-nLH83w/target.apk"
+          },
+          "response": {
+            "content": [
+              {
+                "type": "text",
+                "text": "{\"unknowns\":[],\"methods\":[{\"class_name\":\"androidx.datastore.core.NativeSharedCounter\",\"descriptor\":\"(I)J\",\"source_index\":0,\"dex_entry_index\":865,\"class_index\":525,\"dex_entry\":\"classes.dex\",\"method_name\":\"nativeCreateSharedCounter\",\"method_index\":7333},{\"class_name\":\"androidx.datastore.core.NativeSharedCounter\",\"descriptor\":\"(J)I\",\"source_index\":1,\"dex_entry_index\":865,\"class_index\":525,\"dex_entry\":\"classes.dex\",\"method_name\":\"nativeGetCounterValue\",\"method_index\":7334},{\"class_name\":\"androidx.datastore.core.NativeSharedCounter\",\"descriptor\":\"(J)I\",\"source_index\":2,\"dex_entry_index\":865,\"class_index\":525,\"dex_entry\":\"classes.dex\",\"method_name\":\"nativeIncrementAndGetCounterValue\",\"method_index\":7335},{\"class_name\":\"androidx.datastore.core.NativeSharedCounter\",\"descriptor\":\"(I)I\",\"source_index\":3,\"dex_entry_index\":865,\"class_index\":525,\"dex_entry\":\"classes.dex\",\"method_name\":\"nativeTruncateFile\",\"method_index\":7336},{\"class_name\":\"androidx.graphics.path.ConicConverter\",\"descriptor\":\"([FI[FFF)I\",\"source_index\":4,\"dex_entry_index\":865,\"class_index\":689,\"dex_entry\":\"classes.dex\",\"method_name\":\"internalConicToQuadratics\",\"method_index\":8339},{\"class_name\":\"androidx.graphics.path.PathIteratorPreApi34Impl\",\"descriptor\":\"(Landroid/graphics/Path;IF)J\",\"source_index\":5,\"dex_entry_index\":865,\"class_index\":690,\"dex_entry\":\"classes.dex\",\"method_name\":\"createInternalPathIterator\",\"method_index\":8341},{\"class_name\":\"androidx.graphics.path.PathIteratorPreApi34Impl\",\"descriptor\":\"(J)V\",\"source_index\":6,\"dex_entry_index\":865,\"class_index\":690,\"dex_entry\":\"classes.dex\",\"method_name\":\"destroyInternalPathIterator\",\"method_index\":8342},{\"class_name\":\"androidx.graphics.path.PathIteratorPreApi34Impl\",\"descriptor\":\"(J)Z\",\"source_index\":7,\"dex_entry_index\":865,\"class_index\":690,\"dex_entry\":\"classes.dex\",\"method_name\":\"internalPathIteratorHasNext\",\"method_index\":8344},{\"class_name\":\"androidx.graphics.path.PathIteratorPreApi34Impl\",\"descriptor\":\"(J[FI)I\",\"source_index\":8,\"dex_entry_index\":865,\"class_index\":690,\"dex_entry\":\"classes.dex\",\"method_name\":\"internalPathIteratorNext\",\"method_index\":8345},{\"class_name\":\"androidx.graphics.path.PathIteratorPreApi34Impl\",\"descriptor\":\"(J)I\",\"source_index\":9,\"dex_entry_index\":865,\"class_index\":690,\"dex_entry\":\"classes.dex\",\"method_name\":\"internalPathIteratorPeek\",\"method_index\":8346},{\"class_name\":\"androidx.graphics.path.PathIteratorPreApi34Impl\",\"descriptor\":\"(J)I\",\"source_index\":10,\"dex_entry_index\":865,\"class_index\":690,\"dex_entry\":\"classes.dex\",\"method_name\":\"internalPathIteratorRawSize\",\"method_index\":8347},{\"class_name\":\"androidx.graphics.path.PathIteratorPreApi34Impl\",\"descriptor\":\"(J)I\",\"source_index\":11,\"dex_entry_index\":865,\"class_index\":690,\"dex_entry\":\"classes.dex\",\"method_name\":\"internalPathIteratorSize\",\"method_index\":8348},{\"class_name\":\"com.alexmercerind.mediakitandroidhelper.MediaKitAndroidHelper\",\"descriptor\":\"(Ljava/lang/String;)Ljava/lang/String;\",\"source_index\":12,\"dex_entry_index\":865,\"class_index\":1418,\"dex_entry\":\"classes.dex\",\"method_name\":\"copyAssetToFilesDir\",\"method_index\":11917},{\"class_name\":\"com.alexmercerind.mediakitandroidhelper.MediaKitAndroidHelper\",\"descriptor\":\"(J)V\",\"source_index\":13,\"dex_entry_index\":865,\"class_index\":1418,\"dex_entry\":\"classes.dex\",\"method_name\":\"deleteGlobalObjectRef\",\"method_index\":11918},{\"class_name\":\"com.alexmercerind.mediakitandroidhelper.MediaKitAndroidHelper\",\"descriptor\":\"(Ljava/lang/Object;)J\",\"source_index\":14,\"dex_entry_index\":865,\"class_index\":1418,\"dex_entry\":\"classes.dex\",\"method_name\":\"newGlobalObjectRef\",\"method_index\":11919},{\"class_name\":\"com.alexmercerind.mediakitandroidhelper.MediaKitAndroidHelper\",\"descriptor\":\"(Ljava/lang/String;)I\",\"source_index\":15,\"dex_entry_index\":865,\"class_index\":1418,\"dex_entry\":\"classes.dex\",\"method_name\":\"openFileDescriptorNative\",\"method_index\":11921},{\"class_name\":\"com.alexmercerind.mediakitandroidhelper.MediaKitAndroidHelper\",\"descriptor\":\"(Landroid/content/Context;)V\",\"source_index\":16,\"dex_entry_index\":865,\"class_index\":1418,\"dex_entry\":\"classes.dex\",\"method_name\":\"setApplicationContextNative\",\"method_index\":11923},{\"class_name\":\"com.appsflyer.AppsFlyer2dXConversionCallback\",\"descriptor\":\"(Ljava/lang/Object;)V\",\"source_index\":17,\"dex_entry_index\":865,\"class_index\":1855,\"dex_entry\":\"classes.dex\",\"method_name\":\"onAppOpenAttributionNative\",\"method_index\":14349},{\"class_name\":\"com.appsflyer.AppsFlyer2dXConversionCallback\",\"descriptor\":\"(Ljava/lang/Object;)V\",\"source_index\":18,\"dex_entry_index\":865,\"class_index\":1855,\"dex_entry\":\"classes.dex\",\"method_name\":\"onAttributionFailureNative\",\"method_index\":14351},{\"class_name\":\"com.appsflyer.AppsFlyer2dXConversionCallback\",\"descriptor\":\"(Lcom/appsflyer/deeplink/DeepLinkResult;)V\",\"source_index\":19,\"dex_entry_index\":865,\"class_index\":1855,\"dex_entry\":\"classes.dex\",\"method_name\":\"onDeepLinkingNative\",\"method_index\":14355},{\"class_name\":\"com.appsflyer.AppsFlyer2dXConversionCallback\",\"descriptor\":\"(Ljava/lang/Object;)V\",\"source_index\":20,\"dex_entry_index\":865,\"class_index\":1855,\"dex_entry\":\"classes.dex\",\"method_name\":\"onInstallConversionDataLoadedNative\",\"method_index\":14356},{\"class_name\":\"com.appsflyer.AppsFlyer2dXConversionCallback\",\"descriptor\":\"(Ljava/lang/Object;)V\",\"source_index\":21,\"dex_entry_index\":865,\"class_index\":1855,\"dex_entry\":\"classes.dex\",\"method_name\":\"onInstallConversionFailureNative\",\"method_index\":14357},{\"class_name\":\"com.appsflyer.AppsFlyer2dXConversionCallback\",\"descriptor\":\"(Ljava/lang/String;)V\",\"source_index\":22,\"dex_entry_index\":865,\"class_index\":1855,\"dex_entry\":\"classes.dex\",\"method_name\":\"onResponseErrorNative\",\"method_index\":14360},{\"class_name\":\"com.appsflyer.AppsFlyer2dXConversionCallback\",\"descriptor\":\"(Ljava/lang/String;)V\",\"source_index\":23,\"dex_entry_index\":865,\"class_index\":1855,\"dex_entry\":\"classes.dex\",\"method_name\":\"onResponseNative\",\"method_index\":14361},{\"class_name\":\"com.google.android.gms.tasks.NativeOnCompleteListener\",\"descriptor\":\"(JLjava/lang/Object;ZZLjava/lang/String;)V\",\"source_index\":24,\"dex_entry_index\":867,\"class_index\":776,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeOnComplete\",\"method_index\":7001},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(Lio/flutter/embedding/engine/FlutterJNI;)J\",\"source_index\":25,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeAttach\",\"method_index\":22376},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(J)V\",\"source_index\":26,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeCleanupMessageData\",\"method_index\":22377},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(ILjava/lang/String;Z)V\",\"source_index\":27,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeDeferredComponentInstallFailure\",\"method_index\":22378},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(J)V\",\"source_index\":28,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeDestroy\",\"method_index\":22379},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(JLjava/lang/String;I)V\",\"source_index\":29,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeDispatchEmptyPlatformMessage\",\"method_index\":22380},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(JLjava/lang/String;Ljava/nio/ByteBuffer;II)V\",\"source_index\":30,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeDispatchPlatformMessage\",\"method_index\":22381},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(JLjava/nio/ByteBuffer;I)V\",\"source_index\":31,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeDispatchPointerDataPacket\",\"method_index\":22382},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(JIILjava/nio/ByteBuffer;I)V\",\"source_index\":32,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeDispatchSemanticsAction\",\"method_index\":22383},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(I)Z\",\"source_index\":33,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeFlutterTextUtilsIsEmoji\",\"method_index\":22384},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(I)Z\",\"source_index\":34,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeFlutterTextUtilsIsEmojiModifier\",\"method_index\":22385},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(I)Z\",\"source_index\":35,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeFlutterTextUtilsIsEmojiModifierBase\",\"method_index\":22386},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(I)Z\",\"source_index\":36,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeFlutterTextUtilsIsRegionalIndicator\",\"method_index\":22387},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(I)Z\",\"source_index\":37,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeFlutterTextUtilsIsVariationSelector\",\"method_index\":22388},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(J)Landroid/graphics/Bitmap;\",\"source_index\":38,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeGetBitmap\",\"method_index\":22389},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"()Z\",\"source_index\":39,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeGetIsSoftwareRenderingEnabled\",\"method_index\":22390},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(JII)V\",\"source_index\":40,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeImageHeaderCallback\",\"method_index\":22391},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(Landroid/content/Context;[Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JI)V\",\"source_index\":41,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeInit\",\"method_index\":22392},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(JI)V\",\"source_index\":42,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeInvokePlatformMessageEmptyResponseCallback\",\"method_index\":22393},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(JILjava/nio/ByteBuffer;I)V\",\"source_index\":43,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeInvokePlatformMessageResponseCallback\",\"method_index\":22394},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(J)Z\",\"source_index\":44,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeIsSurfaceControlEnabled\",\"method_index\":22395},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(JI[Ljava/lang/String;)V\",\"source_index\":45,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeLoadDartDeferredLibrary\",\"method_index\":22396},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(J)Lio/flutter/view/FlutterCallbackInformation;\",\"source_index\":46,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeLookupCallbackInformation\",\"method_index\":22397},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(JJ)V\",\"source_index\":47,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeMarkTextureFrameAvailable\",\"method_index\":22398},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(J)V\",\"source_index\":48,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeNotifyLowMemoryWarning\",\"method_index\":22399},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(JJJ)V\",\"source_index\":49,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeOnVsync\",\"method_index\":22400},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"()V\",\"source_index\":50,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativePrefetchDefaultFontManager\",\"method_index\":22401},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(JJLjava/lang/ref/WeakReference;Z)V\",\"source_index\":51,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeRegisterImageTexture\",\"method_index\":22402},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(JJLjava/lang/ref/WeakReference;)V\",\"source_index\":52,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeRegisterTexture\",\"method_index\":22403},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Landroid/content/res/AssetManager;Ljava/util/List;J)V\",\"source_index\":53,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeRunBundleAndSnapshotFromLibrary\",\"method_index\":22404},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(J)V\",\"source_index\":54,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeScheduleFrame\",\"method_index\":22405},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(JI)V\",\"source_index\":55,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeSetAccessibilityFeatures\",\"method_index\":22406},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(JZ)V\",\"source_index\":56,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeSetSemanticsEnabled\",\"method_index\":22407},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(JFIIIIIIIIIIIIIII[I[I[IIIIIIIII)V\",\"source_index\":57,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeSetViewportMetrics\",\"method_index\":22408},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;J)Lio/flutter/embedding/engine/FlutterJNI;\",\"source_index\":58,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeSpawn\",\"method_index\":22409},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(JII)V\",\"source_index\":59,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeSurfaceChanged\",\"method_index\":22410},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(JLandroid/view/Surface;)V\",\"source_index\":60,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeSurfaceCreated\",\"method_index\":22411},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(J)V\",\"source_index\":61,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeSurfaceDestroyed\",\"method_index\":22412},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(JLandroid/view/Surface;)V\",\"source_index\":62,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeSurfaceWindowChanged\",\"method_index\":22413},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(JJ)V\",\"source_index\":63,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeUnregisterTexture\",\"method_index\":22414},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(J)V\",\"source_index\":64,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeUpdateDisplayMetrics\",\"method_index\":22415},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(JLandroid/content/res/AssetManager;Ljava/lang/String;)V\",\"source_index\":65,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeUpdateJavaAssetManager\",\"method_index\":22416},{\"class_name\":\"io.flutter.embedding.engine.FlutterJNI\",\"descriptor\":\"(F)V\",\"source_index\":66,\"dex_entry_index\":867,\"class_index\":3987,\"dex_entry\":\"classes3.dex\",\"method_name\":\"nativeUpdateRefreshRate\",\"method_index\":22417}],\"scope\":\"apk-root-dex-declarations\",\"coverage\":{\"status\":\"complete\",\"examined_methods\":95190,\"examined_classes\":21094,\"dex_entries\":3,\"examined_dex_entries\":3},\"manifest_splits\":{\"status\":\"observed\",\"split_required\":false,\"required_split_types\":[\"base__abi\",\"base__density\"]}}"
+              }
+            ],
+            "isError": false
+          }
+        }
+      ]
+    },
+    "normalized_result": {
+      "apk": {
+        "path": "/home/runner/work/_temp/rea-android/extracted/com.yaya.portal.apk",
+        "sha256": "50e1d3bb6ab1ebaf48735ad33581680966d4372f36f89dfaf4ba1868cc2e59d2"
+      },
+      "selection": {},
+      "native_inventory": {
+        "scope": "apk-root-dex-declarations",
+        "coverage": {
+          "status": "complete",
+          "dex_entries": 3,
+          "examined_dex_entries": 3,
+          "examined_classes": 21094,
+          "examined_methods": 95190
+        },
+        "unknowns": [],
+        "manifest_splits": {
+          "status": "observed",
+          "required_split_types": [
+            "base__abi",
+            "base__density"
+          ],
+          "split_required": false
+        }
+      },
+      "library_inventory": {
+        "status": "partial",
+        "examined_entries": 1396,
+        "selected_libraries": 0,
+        "unknowns": [
+          "The manifest requires split APKs (base__abi, base__density); native libraries in those splits are not in this APK."
+        ]
+      },
+      "declarations": [
+        {
+          "source_index": 0,
+          "class_name": "androidx.datastore.core.NativeSharedCounter",
+          "method_name": "nativeCreateSharedCounter",
+          "descriptor": "(I)J",
+          "dex_entry": "classes.dex",
+          "dex_entry_index": 865,
+          "class_index": 525,
+          "method_index": 7333,
+          "declaration_id": "jni_method_3e48f0267f71800df39c09132987e0ed05bb9d54779db71cd1c3c9c78ad1f876"
+        },
+        {
+          "source_index": 1,
+          "class_name": "androidx.datastore.core.NativeSharedCounter",
+          "method_name": "nativeGetCounterValue",
+          "descriptor": "(J)I",
+          "dex_entry": "classes.dex",
+          "dex_entry_index": 865,
+          "class_index": 525,
+          "method_index": 7334,
+          "declaration_id": "jni_method_17130166e0322e1985979d6c0dc4046960767cd6c0531fc3fac6619d890b0db6"
+        },
+        {
+          "source_index": 2,
+          "class_name": "androidx.datastore.core.NativeSharedCounter",
+          "method_name": "nativeIncrementAndGetCounterValue",
+          "descriptor": "(J)I",
+          "dex_entry": "classes.dex",
+          "dex_entry_index": 865,
+          "class_index": 525,
+          "method_index": 7335,
+          "declaration_id": "jni_method_7b1f01a9c51f51aba8ab779666395da6df1546014df995bce351b1807d1096ba"
+        },
+        {
+          "source_index": 3,
+          "class_name": "androidx.datastore.core.NativeSharedCounter",
+          "method_name": "nativeTruncateFile",
+          "descriptor": "(I)I",
+          "dex_entry": "classes.dex",
+          "dex_entry_index": 865,
+          "class_index": 525,
+          "method_index": 7336,
+          "declaration_id": "jni_method_885e49c682539e218a3609f738002cfbcd39c10d30e4a29bfbbd4a5ad8e013b7"
+        },
+        {
+          "source_index": 4,
+          "class_name": "androidx.graphics.path.ConicConverter",
+          "method_name": "internalConicToQuadratics",
+          "descriptor": "([FI[FFF)I",
+          "dex_entry": "classes.dex",
+          "dex_entry_index": 865,
+          "class_index": 689,
+          "method_index": 8339,
+          "declaration_id": "jni_method_f77dc1c90bf14bd9faeb1e2be6a65608b765151ed2451eb391f6e00783a5b953"
+        },
+        {
+          "source_index": 5,
+          "class_name": "androidx.graphics.path.PathIteratorPreApi34Impl",
+          "method_name": "createInternalPathIterator",
+          "descriptor": "(Landroid/graphics/Path;IF)J",
+          "dex_entry": "classes.dex",
+          "dex_entry_index": 865,
+          "class_index": 690,
+          "method_index": 8341,
+          "declaration_id": "jni_method_ec294fe87cdd02bf0a8933aefdfa2f0782cc570845e5a1497043173d4db93f66"
+        },
+        {
+          "source_index": 6,
+          "class_name": "androidx.graphics.path.PathIteratorPreApi34Impl",
+          "method_name": "destroyInternalPathIterator",
+          "descriptor": "(J)V",
+          "dex_entry": "classes.dex",
+          "dex_entry_index": 865,
+          "class_index": 690,
+          "method_index": 8342,
+          "declaration_id": "jni_method_af65218d5286adf0f7bf0d7b86ba645d9f1e3c5b2c1757b7090a50ca4e55860a"
+        },
+        {
+          "source_index": 7,
+          "class_name": "androidx.graphics.path.PathIteratorPreApi34Impl",
+          "method_name": "internalPathIteratorHasNext",
+          "descriptor": "(J)Z",
+          "dex_entry": "classes.dex",
+          "dex_entry_index": 865,
+          "class_index": 690,
+          "method_index": 8344,
+          "declaration_id": "jni_method_c307551764ba3b85484dcbb6bf8ee15d1ac367c57100844f8823c1e913a1accf"
+        },
+        {
+          "source_index": 8,
+          "class_name": "androidx.graphics.path.PathIteratorPreApi34Impl",
+          "method_name": "internalPathIteratorNext",
+          "descriptor": "(J[FI)I",
+          "dex_entry": "classes.dex",
+          "dex_entry_index": 865,
+          "class_index": 690,
+          "method_index": 8345,
+          "declaration_id": "jni_method_369def42f387ffe814cf230d6faeaa816b786fd4b4061e6bd8353b0c954a9e8a"
+        },
+        {
+          "source_index": 9,
+          "class_name": "androidx.graphics.path.PathIteratorPreApi34Impl",
+          "method_name": "internalPathIteratorPeek",
+          "descriptor": "(J)I",
+          "dex_entry": "classes.dex",
+          "dex_entry_index": 865,
+          "class_index": 690,
+          "method_index": 8346,
+          "declaration_id": "jni_method_fd7c44a34dcd963e8766b48777081dcb175e06424f94edf2e72a436c32fb80fd"
+        },
+        {
+          "source_index": 10,
+          "class_name": "androidx.graphics.path.PathIteratorPreApi34Impl",
+          "method_name": "internalPathIteratorRawSize",
+          "descriptor": "(J)I",
+          "dex_entry": "classes.dex",
+          "dex_entry_index": 865,
+          "class_index": 690,
+          "method_index": 8347,
+          "declaration_id": "jni_method_36b423d74ded1bfc52d5c7ec1e071d5ed7b5eddd21b774ec3b1872a06dd26800"
+        },
+        {
+          "source_index": 11,
+          "class_name": "androidx.graphics.path.PathIteratorPreApi34Impl",
+          "method_name": "internalPathIteratorSize",
+          "descriptor": "(J)I",
+          "dex_entry": "classes.dex",
+          "dex_entry_index": 865,
+          "class_index": 690,
+          "method_index": 8348,
+          "declaration_id": "jni_method_651996ad0c0506fe5402b7aca86fb9b7958227dfec5c7fa25251ec4303993dcc"
+        },
+        {
+          "source_index": 12,
+          "class_name": "com.alexmercerind.mediakitandroidhelper.MediaKitAndroidHelper",
+          "method_name": "copyAssetToFilesDir",
+          "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+          "dex_entry": "classes.dex",
+          "dex_entry_index": 865,
+          "class_index": 1418,
+          "method_index": 11917,
+          "declaration_id": "jni_method_6e3884521d6e9038bc21eeeb6fe93ccd05c6f5f11120fe6851ac2bbfd3bc5f89"
+        },
+        {
+          "source_index": 13,
+          "class_name": "com.alexmercerind.mediakitandroidhelper.MediaKitAndroidHelper",
+          "method_name": "deleteGlobalObjectRef",
+          "descriptor": "(J)V",
+          "dex_entry": "classes.dex",
+          "dex_entry_index": 865,
+          "class_index": 1418,
+          "method_index": 11918,
+          "declaration_id": "jni_method_68b6e085c4000bca74c5975200e448730f39e0bd251649776aca0a910d8b128c"
+        },
+        {
+          "source_index": 14,
+          "class_name": "com.alexmercerind.mediakitandroidhelper.MediaKitAndroidHelper",
+          "method_name": "newGlobalObjectRef",
+          "descriptor": "(Ljava/lang/Object;)J",
+          "dex_entry": "classes.dex",
+          "dex_entry_index": 865,
+          "class_index": 1418,
+          "method_index": 11919,
+          "declaration_id": "jni_method_ddae50a1d8d4901d298617a7b826c07ae3fb25a39e37988dab66913ab4e7b6ba"
+        },
+        {
+          "source_index": 15,
+          "class_name": "com.alexmercerind.mediakitandroidhelper.MediaKitAndroidHelper",
+          "method_name": "openFileDescriptorNative",
+          "descriptor": "(Ljava/lang/String;)I",
+          "dex_entry": "classes.dex",
+          "dex_entry_index": 865,
+          "class_index": 1418,
+          "method_index": 11921,
+          "declaration_id": "jni_method_b6329dbd21deaa3b9931a40f05d4252448e6feb93cc4e3c141cf9cc0badf80e8"
+        },
+        {
+          "source_index": 16,
+          "class_name": "com.alexmercerind.mediakitandroidhelper.MediaKitAndroidHelper",
+          "method_name": "setApplicationContextNative",
+          "descriptor": "(Landroid/content/Context;)V",
+          "dex_entry": "classes.dex",
+          "dex_entry_index": 865,
+          "class_index": 1418,
+          "method_index": 11923,
+          "declaration_id": "jni_method_2efca546c92f21e0b9a48bba73db145c09038bdb5770fb43145a493c4bef41ee"
+        },
+        {
+          "source_index": 17,
+          "class_name": "com.appsflyer.AppsFlyer2dXConversionCallback",
+          "method_name": "onAppOpenAttributionNative",
+          "descriptor": "(Ljava/lang/Object;)V",
+          "dex_entry": "classes.dex",
+          "dex_entry_index": 865,
+          "class_index": 1855,
+          "method_index": 14349,
+          "declaration_id": "jni_method_3bb87760cbd1b4c2411f427c166ab615dca8ce553e529bca0aa6074432b68d20"
+        },
+        {
+          "source_index": 18,
+          "class_name": "com.appsflyer.AppsFlyer2dXConversionCallback",
+          "method_name": "onAttributionFailureNative",
+          "descriptor": "(Ljava/lang/Object;)V",
+          "dex_entry": "classes.dex",
+          "dex_entry_index": 865,
+          "class_index": 1855,
+          "method_index": 14351,
+          "declaration_id": "jni_method_8cb6dca1a4809bbba5f7bdc3035f2ec04adde0aa4cd5e6de2548634d635c9783"
+        },
+        {
+          "source_index": 19,
+          "class_name": "com.appsflyer.AppsFlyer2dXConversionCallback",
+          "method_name": "onDeepLinkingNative",
+          "descriptor": "(Lcom/appsflyer/deeplink/DeepLinkResult;)V",
+          "dex_entry": "classes.dex",
+          "dex_entry_index": 865,
+          "class_index": 1855,
+          "method_index": 14355,
+          "declaration_id": "jni_method_03cc1c8a9c5c443f131cd3dfec83806d294cd524e04a3d29edce38d50f49dce8"
+        },
+        {
+          "source_index": 20,
+          "class_name": "com.appsflyer.AppsFlyer2dXConversionCallback",
+          "method_name": "onInstallConversionDataLoadedNative",
+          "descriptor": "(Ljava/lang/Object;)V",
+          "dex_entry": "classes.dex",
+          "dex_entry_index": 865,
+          "class_index": 1855,
+          "method_index": 14356,
+          "declaration_id": "jni_method_75cc3f2c0d60a4b251283240b2ea4c9aa4ed8fce4b1d0ce591386d537b3cf77b"
+        },
+        {
+          "source_index": 21,
+          "class_name": "com.appsflyer.AppsFlyer2dXConversionCallback",
+          "method_name": "onInstallConversionFailureNative",
+          "descriptor": "(Ljava/lang/Object;)V",
+          "dex_entry": "classes.dex",
+          "dex_entry_index": 865,
+          "class_index": 1855,
+          "method_index": 14357,
+          "declaration_id": "jni_method_3978d1cf8993c1b5329178f25a76b1d37c00e7bece305cfb143c499ecee64eb7"
+        },
+        {
+          "source_index": 22,
+          "class_name": "com.appsflyer.AppsFlyer2dXConversionCallback",
+          "method_name": "onResponseErrorNative",
+          "descriptor": "(Ljava/lang/String;)V",
+          "dex_entry": "classes.dex",
+          "dex_entry_index": 865,
+          "class_index": 1855,
+          "method_index": 14360,
+          "declaration_id": "jni_method_d49b099e78658e574a8c0747db6833f045d93a4570beed41ef5ea5222c706b7d"
+        },
+        {
+          "source_index": 23,
+          "class_name": "com.appsflyer.AppsFlyer2dXConversionCallback",
+          "method_name": "onResponseNative",
+          "descriptor": "(Ljava/lang/String;)V",
+          "dex_entry": "classes.dex",
+          "dex_entry_index": 865,
+          "class_index": 1855,
+          "method_index": 14361,
+          "declaration_id": "jni_method_0dcab78396aee85f70296858f0df294dd98b44c20da49300e20793bda61fbeba"
+        },
+        {
+          "source_index": 24,
+          "class_name": "com.google.android.gms.tasks.NativeOnCompleteListener",
+          "method_name": "nativeOnComplete",
+          "descriptor": "(JLjava/lang/Object;ZZLjava/lang/String;)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 776,
+          "method_index": 7001,
+          "declaration_id": "jni_method_3dc034c428549fc765e97ea4d5b1ef504c3bea5ac116b22f66e974d57646cec3"
+        },
+        {
+          "source_index": 25,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeAttach",
+          "descriptor": "(Lio/flutter/embedding/engine/FlutterJNI;)J",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22376,
+          "declaration_id": "jni_method_3ef728cbe5847e642755ecb3c53b7e81692a4a5fa330986cd888bcd4314ac3f1"
+        },
+        {
+          "source_index": 26,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeCleanupMessageData",
+          "descriptor": "(J)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22377,
+          "declaration_id": "jni_method_b5a712a6331cde27562f933261fd711692354236bdab56fa55282360be009678"
+        },
+        {
+          "source_index": 27,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeDeferredComponentInstallFailure",
+          "descriptor": "(ILjava/lang/String;Z)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22378,
+          "declaration_id": "jni_method_34018c6a8833375cf33c4e0a357e1d061d8e8cada64f028ac40055bfe99033ca"
+        },
+        {
+          "source_index": 28,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeDestroy",
+          "descriptor": "(J)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22379,
+          "declaration_id": "jni_method_551b1807b0103afee3b7757462bd700402f7e7818e6b40236def54a172e3e0f4"
+        },
+        {
+          "source_index": 29,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeDispatchEmptyPlatformMessage",
+          "descriptor": "(JLjava/lang/String;I)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22380,
+          "declaration_id": "jni_method_d11cd11606e0f859a23357e15daa3ac0436633ddbdb22fce6cab45ea66ee6469"
+        },
+        {
+          "source_index": 30,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeDispatchPlatformMessage",
+          "descriptor": "(JLjava/lang/String;Ljava/nio/ByteBuffer;II)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22381,
+          "declaration_id": "jni_method_169df6447b604d2a8b2ac2009b2b6524990dce02618df52b128f6e910455b74f"
+        },
+        {
+          "source_index": 31,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeDispatchPointerDataPacket",
+          "descriptor": "(JLjava/nio/ByteBuffer;I)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22382,
+          "declaration_id": "jni_method_a900720f9284994c1038f3f8394b3c170327032eb7063e4217a0dc97b7dc963f"
+        },
+        {
+          "source_index": 32,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeDispatchSemanticsAction",
+          "descriptor": "(JIILjava/nio/ByteBuffer;I)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22383,
+          "declaration_id": "jni_method_096c46ad6cc2d654b2a54d77c0905cb12682fb01afc287721a15f4f993070112"
+        },
+        {
+          "source_index": 33,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeFlutterTextUtilsIsEmoji",
+          "descriptor": "(I)Z",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22384,
+          "declaration_id": "jni_method_ec54e5738314eeff6e1d7eafe6789e4e8c92d3e3596dd724c429c504dab59569"
+        },
+        {
+          "source_index": 34,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeFlutterTextUtilsIsEmojiModifier",
+          "descriptor": "(I)Z",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22385,
+          "declaration_id": "jni_method_5e418e3f071cf46982904adf844c3dfd77be2485914d9ca7cb44d0a9c7a458a6"
+        },
+        {
+          "source_index": 35,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeFlutterTextUtilsIsEmojiModifierBase",
+          "descriptor": "(I)Z",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22386,
+          "declaration_id": "jni_method_7c2dcf2b84610ae2cf61874dc7b5d7729ea770ab936ec332a4ae1e46975566a1"
+        },
+        {
+          "source_index": 36,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeFlutterTextUtilsIsRegionalIndicator",
+          "descriptor": "(I)Z",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22387,
+          "declaration_id": "jni_method_27fb15b6a2472c6e7e23e9903a317e1a0c0a66875e837174a373c756611acb05"
+        },
+        {
+          "source_index": 37,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeFlutterTextUtilsIsVariationSelector",
+          "descriptor": "(I)Z",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22388,
+          "declaration_id": "jni_method_2ba971e61bdf1de6ad4f6d970686e4ed69ea0e4d0af47b7279e78cf58cbe4063"
+        },
+        {
+          "source_index": 38,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeGetBitmap",
+          "descriptor": "(J)Landroid/graphics/Bitmap;",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22389,
+          "declaration_id": "jni_method_4c64d439525c193cdbad6c8a608577687d7dc483ae9ab56ec8393b3ca1e4c5cb"
+        },
+        {
+          "source_index": 39,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeGetIsSoftwareRenderingEnabled",
+          "descriptor": "()Z",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22390,
+          "declaration_id": "jni_method_b0be09f71d1a7af836bbb5c1eccaf90f12bc8eb77dd0d4681c196c8a09812021"
+        },
+        {
+          "source_index": 40,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeImageHeaderCallback",
+          "descriptor": "(JII)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22391,
+          "declaration_id": "jni_method_ad6696baa3f6607afd34a447d54a155046d1bf20b39c749a5117675255385b17"
+        },
+        {
+          "source_index": 41,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeInit",
+          "descriptor": "(Landroid/content/Context;[Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;JI)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22392,
+          "declaration_id": "jni_method_2238037020f607c81209354e59465cb4e4716c3f05f6e2d8b924a1fc48f1a35b"
+        },
+        {
+          "source_index": 42,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeInvokePlatformMessageEmptyResponseCallback",
+          "descriptor": "(JI)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22393,
+          "declaration_id": "jni_method_8cde6dca0329fac9a8b9bf1ea1c128089b0581c18313972a02b47b419e1d140a"
+        },
+        {
+          "source_index": 43,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeInvokePlatformMessageResponseCallback",
+          "descriptor": "(JILjava/nio/ByteBuffer;I)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22394,
+          "declaration_id": "jni_method_c7cf2ad1eb47b9ee4c771f89ca6aa3f24d75abc662ab7a77bb8432ee7a705e2f"
+        },
+        {
+          "source_index": 44,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeIsSurfaceControlEnabled",
+          "descriptor": "(J)Z",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22395,
+          "declaration_id": "jni_method_6efebfa515daad2d1979f6a549ff75ebea04791451aea20333f3e6f1c538612c"
+        },
+        {
+          "source_index": 45,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeLoadDartDeferredLibrary",
+          "descriptor": "(JI[Ljava/lang/String;)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22396,
+          "declaration_id": "jni_method_3a8a1db72e3d2aa560e7c447de5685b89c3018172c4ed67f07aa222f473533a0"
+        },
+        {
+          "source_index": 46,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeLookupCallbackInformation",
+          "descriptor": "(J)Lio/flutter/view/FlutterCallbackInformation;",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22397,
+          "declaration_id": "jni_method_20c9734d1e8be5f5caf4b46763ef4c4b6dcfe727e8fb32786136a2db357a12eb"
+        },
+        {
+          "source_index": 47,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeMarkTextureFrameAvailable",
+          "descriptor": "(JJ)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22398,
+          "declaration_id": "jni_method_f93c884430028997273179977884de629624d1248a9f37f04091ac5276976aec"
+        },
+        {
+          "source_index": 48,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeNotifyLowMemoryWarning",
+          "descriptor": "(J)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22399,
+          "declaration_id": "jni_method_def44d5c9c1a5147fe7172596a8ed36ff0deaa44652b33fe7dd68469285c4292"
+        },
+        {
+          "source_index": 49,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeOnVsync",
+          "descriptor": "(JJJ)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22400,
+          "declaration_id": "jni_method_d9688abbd605c7058108930569244d0cbe9f0bb8cc450d974ba67aae42e264cd"
+        },
+        {
+          "source_index": 50,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativePrefetchDefaultFontManager",
+          "descriptor": "()V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22401,
+          "declaration_id": "jni_method_7f9bd2ebf04b5bdc53146f19aee9352878b9b2c7ef10edb54fd5248559591ebe"
+        },
+        {
+          "source_index": 51,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeRegisterImageTexture",
+          "descriptor": "(JJLjava/lang/ref/WeakReference;Z)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22402,
+          "declaration_id": "jni_method_531eff53b3f63e3166f38947ed74cc7e215486d9b80d957f22ddd9532bb2ad6c"
+        },
+        {
+          "source_index": 52,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeRegisterTexture",
+          "descriptor": "(JJLjava/lang/ref/WeakReference;)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22403,
+          "declaration_id": "jni_method_9fc50ca15774f8f3c6b57bc8887313d2d70cc890137ddfaa40cfdade50ae9cf7"
+        },
+        {
+          "source_index": 53,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeRunBundleAndSnapshotFromLibrary",
+          "descriptor": "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Landroid/content/res/AssetManager;Ljava/util/List;J)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22404,
+          "declaration_id": "jni_method_c7f3d4c0aee80a054a650cba6214c5fa22f15d1d1fa18bdad809dd48e97abf91"
+        },
+        {
+          "source_index": 54,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeScheduleFrame",
+          "descriptor": "(J)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22405,
+          "declaration_id": "jni_method_3cd7dfd65c41200cd8b2dd46b8c1abe4f6c1c9f757605de21baaf3c3852fd860"
+        },
+        {
+          "source_index": 55,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeSetAccessibilityFeatures",
+          "descriptor": "(JI)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22406,
+          "declaration_id": "jni_method_230c4add36ad3b6da0eae1b2643a72aaeb1afac6e2f9455a4cbd661eeca9189b"
+        },
+        {
+          "source_index": 56,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeSetSemanticsEnabled",
+          "descriptor": "(JZ)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22407,
+          "declaration_id": "jni_method_b5984150cf3fed717d907f05f292bd3b7a88dce0deef912f2be164843462d9f2"
+        },
+        {
+          "source_index": 57,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeSetViewportMetrics",
+          "descriptor": "(JFIIIIIIIIIIIIIII[I[I[IIIIIIIII)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22408,
+          "declaration_id": "jni_method_c3bb42f332379dcf7b58242ab519f4d1ea03175291f3494651412375192b2d81"
+        },
+        {
+          "source_index": 58,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeSpawn",
+          "descriptor": "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/List;J)Lio/flutter/embedding/engine/FlutterJNI;",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22409,
+          "declaration_id": "jni_method_4135883eeb9e4b7b776891b52c6c3279a35460d72cc6492072e649f80d1403c0"
+        },
+        {
+          "source_index": 59,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeSurfaceChanged",
+          "descriptor": "(JII)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22410,
+          "declaration_id": "jni_method_2207be3cce6f729bdfedd4ffce0616a8cede539db32f40408e1ac9f096bd4ad6"
+        },
+        {
+          "source_index": 60,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeSurfaceCreated",
+          "descriptor": "(JLandroid/view/Surface;)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22411,
+          "declaration_id": "jni_method_8c89d61742887faea5dbc985665c7dc2864f13142adc1ebe9d2f189c906a5fda"
+        },
+        {
+          "source_index": 61,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeSurfaceDestroyed",
+          "descriptor": "(J)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22412,
+          "declaration_id": "jni_method_0d66ee9d698c7bb482f1b34cba3bcfb1fd28f599ff039387a1b9ef97dc203c10"
+        },
+        {
+          "source_index": 62,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeSurfaceWindowChanged",
+          "descriptor": "(JLandroid/view/Surface;)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22413,
+          "declaration_id": "jni_method_0c515d3325fa2c36a2d56fb88419e59fc764bfc74003666f5556b3473bfa38f9"
+        },
+        {
+          "source_index": 63,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeUnregisterTexture",
+          "descriptor": "(JJ)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22414,
+          "declaration_id": "jni_method_e761b370292bf2e02fe83c95c1026c2a0277c67c143c2deda278403d5cacfdd3"
+        },
+        {
+          "source_index": 64,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeUpdateDisplayMetrics",
+          "descriptor": "(J)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22415,
+          "declaration_id": "jni_method_f1afe8dafee2b5e8d78effc6ea79a8862068022b01f6c4cd4e2cf5f8a43e0394"
+        },
+        {
+          "source_index": 65,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeUpdateJavaAssetManager",
+          "descriptor": "(JLandroid/content/res/AssetManager;Ljava/lang/String;)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22416,
+          "declaration_id": "jni_method_2c7226f04d3b5ddfdc6961ac031327dad095a47753a579347051782eb706302a"
+        },
+        {
+          "source_index": 66,
+          "class_name": "io.flutter.embedding.engine.FlutterJNI",
+          "method_name": "nativeUpdateRefreshRate",
+          "descriptor": "(F)V",
+          "dex_entry": "classes3.dex",
+          "dex_entry_index": 867,
+          "class_index": 3987,
+          "method_index": 22417,
+          "declaration_id": "jni_method_00dec47be133cb030e0841ee167e703ed5d8775cf61f167fc1b7759653e3b2bb"
+        }
+      ],
+      "selected_declaration_ids": [
+        "jni_method_3e48f0267f71800df39c09132987e0ed05bb9d54779db71cd1c3c9c78ad1f876",
+        "jni_method_17130166e0322e1985979d6c0dc4046960767cd6c0531fc3fac6619d890b0db6",
+        "jni_method_7b1f01a9c51f51aba8ab779666395da6df1546014df995bce351b1807d1096ba",
+        "jni_method_885e49c682539e218a3609f738002cfbcd39c10d30e4a29bfbbd4a5ad8e013b7",
+        "jni_method_f77dc1c90bf14bd9faeb1e2be6a65608b765151ed2451eb391f6e00783a5b953",
+        "jni_method_ec294fe87cdd02bf0a8933aefdfa2f0782cc570845e5a1497043173d4db93f66",
+        "jni_method_af65218d5286adf0f7bf0d7b86ba645d9f1e3c5b2c1757b7090a50ca4e55860a",
+        "jni_method_c307551764ba3b85484dcbb6bf8ee15d1ac367c57100844f8823c1e913a1accf",
+        "jni_method_369def42f387ffe814cf230d6faeaa816b786fd4b4061e6bd8353b0c954a9e8a",
+        "jni_method_fd7c44a34dcd963e8766b48777081dcb175e06424f94edf2e72a436c32fb80fd",
+        "jni_method_36b423d74ded1bfc52d5c7ec1e071d5ed7b5eddd21b774ec3b1872a06dd26800",
+        "jni_method_651996ad0c0506fe5402b7aca86fb9b7958227dfec5c7fa25251ec4303993dcc",
+        "jni_method_6e3884521d6e9038bc21eeeb6fe93ccd05c6f5f11120fe6851ac2bbfd3bc5f89",
+        "jni_method_68b6e085c4000bca74c5975200e448730f39e0bd251649776aca0a910d8b128c",
+        "jni_method_ddae50a1d8d4901d298617a7b826c07ae3fb25a39e37988dab66913ab4e7b6ba",
+        "jni_method_b6329dbd21deaa3b9931a40f05d4252448e6feb93cc4e3c141cf9cc0badf80e8",
+        "jni_method_2efca546c92f21e0b9a48bba73db145c09038bdb5770fb43145a493c4bef41ee",
+        "jni_method_3bb87760cbd1b4c2411f427c166ab615dca8ce553e529bca0aa6074432b68d20",
+        "jni_method_8cb6dca1a4809bbba5f7bdc3035f2ec04adde0aa4cd5e6de2548634d635c9783",
+        "jni_method_03cc1c8a9c5c443f131cd3dfec83806d294cd524e04a3d29edce38d50f49dce8",
+        "jni_method_75cc3f2c0d60a4b251283240b2ea4c9aa4ed8fce4b1d0ce591386d537b3cf77b",
+        "jni_method_3978d1cf8993c1b5329178f25a76b1d37c00e7bece305cfb143c499ecee64eb7",
+        "jni_method_d49b099e78658e574a8c0747db6833f045d93a4570beed41ef5ea5222c706b7d",
+        "jni_method_0dcab78396aee85f70296858f0df294dd98b44c20da49300e20793bda61fbeba",
+        "jni_method_3dc034c428549fc765e97ea4d5b1ef504c3bea5ac116b22f66e974d57646cec3",
+        "jni_method_3ef728cbe5847e642755ecb3c53b7e81692a4a5fa330986cd888bcd4314ac3f1",
+        "jni_method_b5a712a6331cde27562f933261fd711692354236bdab56fa55282360be009678",
+        "jni_method_34018c6a8833375cf33c4e0a357e1d061d8e8cada64f028ac40055bfe99033ca",
+        "jni_method_551b1807b0103afee3b7757462bd700402f7e7818e6b40236def54a172e3e0f4",
+        "jni_method_d11cd11606e0f859a23357e15daa3ac0436633ddbdb22fce6cab45ea66ee6469",
+        "jni_method_169df6447b604d2a8b2ac2009b2b6524990dce02618df52b128f6e910455b74f",
+        "jni_method_a900720f9284994c1038f3f8394b3c170327032eb7063e4217a0dc97b7dc963f",
+        "jni_method_096c46ad6cc2d654b2a54d77c0905cb12682fb01afc287721a15f4f993070112",
+        "jni_method_ec54e5738314eeff6e1d7eafe6789e4e8c92d3e3596dd724c429c504dab59569",
+        "jni_method_5e418e3f071cf46982904adf844c3dfd77be2485914d9ca7cb44d0a9c7a458a6",
+        "jni_method_7c2dcf2b84610ae2cf61874dc7b5d7729ea770ab936ec332a4ae1e46975566a1",
+        "jni_method_27fb15b6a2472c6e7e23e9903a317e1a0c0a66875e837174a373c756611acb05",
+        "jni_method_2ba971e61bdf1de6ad4f6d970686e4ed69ea0e4d0af47b7279e78cf58cbe4063",
+        "jni_method_4c64d439525c193cdbad6c8a608577687d7dc483ae9ab56ec8393b3ca1e4c5cb",
+        "jni_method_b0be09f71d1a7af836bbb5c1eccaf90f12bc8eb77dd0d4681c196c8a09812021",
+        "jni_method_ad6696baa3f6607afd34a447d54a155046d1bf20b39c749a5117675255385b17",
+        "jni_method_2238037020f607c81209354e59465cb4e4716c3f05f6e2d8b924a1fc48f1a35b",
+        "jni_method_8cde6dca0329fac9a8b9bf1ea1c128089b0581c18313972a02b47b419e1d140a",
+        "jni_method_c7cf2ad1eb47b9ee4c771f89ca6aa3f24d75abc662ab7a77bb8432ee7a705e2f",
+        "jni_method_6efebfa515daad2d1979f6a549ff75ebea04791451aea20333f3e6f1c538612c",
+        "jni_method_3a8a1db72e3d2aa560e7c447de5685b89c3018172c4ed67f07aa222f473533a0",
+        "jni_method_20c9734d1e8be5f5caf4b46763ef4c4b6dcfe727e8fb32786136a2db357a12eb",
+        "jni_method_f93c884430028997273179977884de629624d1248a9f37f04091ac5276976aec",
+        "jni_method_def44d5c9c1a5147fe7172596a8ed36ff0deaa44652b33fe7dd68469285c4292",
+        "jni_method_d9688abbd605c7058108930569244d0cbe9f0bb8cc450d974ba67aae42e264cd",
+        "jni_method_7f9bd2ebf04b5bdc53146f19aee9352878b9b2c7ef10edb54fd5248559591ebe",
+        "jni_method_531eff53b3f63e3166f38947ed74cc7e215486d9b80d957f22ddd9532bb2ad6c",
+        "jni_method_9fc50ca15774f8f3c6b57bc8887313d2d70cc890137ddfaa40cfdade50ae9cf7",
+        "jni_method_c7f3d4c0aee80a054a650cba6214c5fa22f15d1d1fa18bdad809dd48e97abf91",
+        "jni_method_3cd7dfd65c41200cd8b2dd46b8c1abe4f6c1c9f757605de21baaf3c3852fd860",
+        "jni_method_230c4add36ad3b6da0eae1b2643a72aaeb1afac6e2f9455a4cbd661eeca9189b",
+        "jni_method_b5984150cf3fed717d907f05f292bd3b7a88dce0deef912f2be164843462d9f2",
+        "jni_method_c3bb42f332379dcf7b58242ab519f4d1ea03175291f3494651412375192b2d81",
+        "jni_method_4135883eeb9e4b7b776891b52c6c3279a35460d72cc6492072e649f80d1403c0",
+        "jni_method_2207be3cce6f729bdfedd4ffce0616a8cede539db32f40408e1ac9f096bd4ad6",
+        "jni_method_8c89d61742887faea5dbc985665c7dc2864f13142adc1ebe9d2f189c906a5fda",
+        "jni_method_0d66ee9d698c7bb482f1b34cba3bcfb1fd28f599ff039387a1b9ef97dc203c10",
+        "jni_method_0c515d3325fa2c36a2d56fb88419e59fc764bfc74003666f5556b3473bfa38f9",
+        "jni_method_e761b370292bf2e02fe83c95c1026c2a0277c67c143c2deda278403d5cacfdd3",
+        "jni_method_f1afe8dafee2b5e8d78effc6ea79a8862068022b01f6c4cd4e2cf5f8a43e0394",
+        "jni_method_2c7226f04d3b5ddfdc6961ac031327dad095a47753a579347051782eb706302a",
+        "jni_method_00dec47be133cb030e0841ee167e703ed5d8775cf61f167fc1b7759653e3b2bb"
+      ],
+      "libraries": [],
+      "candidates": [],
+      "bindings": [],
+      "unknowns": [
+        "Static candidates do not establish library loading, RegisterNatives execution or method invocation.",
+        "Runtime-built tables, encrypted/obfuscated strings and runtime-loaded code are not recovered.",
+        "Uniqueness is scoped to the complete recorded root DEX native inventory and selected library occurrences."
+      ],
+      "engine": {
+        "name": "jadx-headless-mcp",
+        "version": "0.7.1",
+        "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
+        "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
+        "worker_count": 1,
+        "heap_limit_mib": 3996
+      }
+    },
+    "confidence": "derived",
+    "authority": "shipped-artifact",
+    "environment": null,
+    "limitations": [],
+    "relationship_coverage": null,
+    "locations": [],
+    "evidence_links": [],
+    "caller_input_path": "/home/runner/work/_temp/rea-android/extracted/com.yaya.portal.apk"
+  },
+  "meta": {
+    "command": "inspect-android-jni-bindings",
+    "duration": "3435ms"
+  }
+}
