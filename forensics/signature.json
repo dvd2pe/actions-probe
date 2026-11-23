@@ -177,6 +177,6 @@
   },
   "meta": {
     "command": "inspect-apk-signature",
-    "duration": "139ms"
+    "duration": "173ms"
   }
 }

@@ -1,7 +1,7 @@
 {
   "ok": true,
   "data": {
-    "evidence_id": "ev_77879d023a04b97935be2cd051f8726d7922edd9079a98f5d82abbdfebe8eea3",
+    "evidence_id": "ev_e4b8cc74f2a70b00629e5d139e97aae7a4910633cde2374fa16ca847acd6c864",
     "evidence_format": 2,
     "subject": {
       "identity": {
@@ -34,7 +34,7 @@
       "jar_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
       "loaded": {
         "state": "LOADED",
-        "apk_path": "/tmp/rea-android-ghsZ4d/target.apk",
+        "apk_path": "/tmp/rea-android-zPpAF5/target.apk",
         "class_count": 19789,
         "resource_count": 1396,
         "threads": 1,
@@ -48,7 +48,7 @@
             "content": [
               {
                 "type": "text",
-                "text": "{\"available_processors\":4,\"java_version\":\"21.0.13\",\"max_heap_bytes\":4190109696,\"metadata_scope\":\"parsed_members\",\"engine_reported_version\":\"0.7.1\"}"
+                "text": "{\"max_heap_bytes\":4116709376,\"java_version\":\"21.0.13\",\"available_processors\":4,\"engine_reported_version\":\"0.7.1\",\"metadata_scope\":\"parsed_members\"}"
               }
             ],
             "isError": false
@@ -57,7 +57,7 @@
         {
           "operation": "load_apk",
           "input": {
-            "path": "/tmp/rea-android-ghsZ4d/target.apk",
+            "path": "/tmp/rea-android-zPpAF5/target.apk",
             "threads": 1,
             "resources": "full"
           },
@@ -65,7 +65,7 @@
             "content": [
               {
                 "type": "text",
-                "text": "{\"state\":\"LOADED\",\"apk_path\":\"/tmp/rea-android-ghsZ4d/target.apk\",\"class_count\":19789,\"raw_class_count\":19789,\"resource_count\":1396,\"load_duration_ms\":4586,\"decompile_timeout_ms\":90000,\"threads\":1,\"code_cache_size\":64,\"resources\":\"full\"}"
+                "text": "{\"state\":\"LOADED\",\"apk_path\":\"/tmp/rea-android-zPpAF5/target.apk\",\"class_count\":19789,\"raw_class_count\":19789,\"resource_count\":1396,\"load_duration_ms\":5045,\"decompile_timeout_ms\":90000,\"threads\":1,\"code_cache_size\":64,\"resources\":\"full\"}"
               }
             ],
             "isError": false
@@ -106,7 +106,7 @@
         "artifact_sha256": "6e5eacf500b64292bfb73c49797c1958f6ee44646e43e868039ae7feb573ff75",
         "source_revision": "5844800a486d2248fa949b74c9896285f5b54de2",
         "worker_count": 1,
-        "heap_limit_mib": 3996
+        "heap_limit_mib": 3926
       },
       "package_name": "com.yaya.portal",
       "version_name": "5.6.2",
@@ -4091,6 +4091,6 @@
   },
   "meta": {
     "command": "inspect-android-package",
-    "duration": "8359ms"
+    "duration": "9640ms"
   }
 }

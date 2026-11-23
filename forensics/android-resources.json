@@ -959,6 +959,6 @@
   },
   "meta": {
     "command": "decode-android-resources",
-    "duration": "2943ms"
+    "duration": "3221ms"
   }
 }

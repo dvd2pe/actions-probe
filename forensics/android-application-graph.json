@@ -1,7 +1,7 @@
 {
   "ok": true,
   "data": {
-    "evidence_id": "ev_b5c45f374f6d7ad0dc6064a9b082b4d604da2e992696a73cb4e52362738c3cd6",
+    "evidence_id": "ev_c733271167baa7233d50267f0f70c18b9b52b6ec118ec09ecc8016f93dc018f3",
     "evidence_format": 2,
     "subject": {
       "identity": {
@@ -24,16 +24,18 @@
     "operation": "project_android_application_graph",
     "parameters": {
       "inventory_evidence_ids": [
-        "ev_027c4daee419ed37e28d9010c9bdbb9e22b9295ccc2b896e51d5740d93f32d5a"
+        "ev_027c4daee419ed37e28d9010c9bdbb9e22b9295ccc2b896e51d5740d93f32d5a",
+        "ev_2a5b0cc0d40a54cddd81f54e11f778ee29b2de10519e6fcc62d76654add38bf9"
       ]
     },
     "raw_result": null,
     "normalized_result": {
-      "projection_id": "adp_7f047e6b802ba9aa5c13b1d39578734daab9d2ff99d01526b7a7a08160617c1b",
+      "projection_id": "adp_9b3303b2b558dd772d5b1ec0f34d0b58e54f001ca230eefc8a614378d581e515",
       "root_sha256": "ea38a4a2b7f9d4c5f0254091da3c7e6410210d3c70ddb3653bf39b8a5c7ec9d8",
       "root_format": "apk",
       "source_evidence_ids": [
-        "ev_027c4daee419ed37e28d9010c9bdbb9e22b9295ccc2b896e51d5740d93f32d5a"
+        "ev_027c4daee419ed37e28d9010c9bdbb9e22b9295ccc2b896e51d5740d93f32d5a",
+        "ev_2a5b0cc0d40a54cddd81f54e11f778ee29b2de10519e6fcc62d76654add38bf9"
       ],
       "components": {
         "manifests": [
@@ -286,11 +288,12 @@
     "relationship_coverage": null,
     "locations": [],
     "evidence_links": [
-      "ev_027c4daee419ed37e28d9010c9bdbb9e22b9295ccc2b896e51d5740d93f32d5a"
+      "ev_027c4daee419ed37e28d9010c9bdbb9e22b9295ccc2b896e51d5740d93f32d5a",
+      "ev_2a5b0cc0d40a54cddd81f54e11f778ee29b2de10519e6fcc62d76654add38bf9"
     ]
   },
   "meta": {
     "command": "project-android-application-graph",
-    "duration": "237ms"
+    "duration": "342ms"
   }
 }
