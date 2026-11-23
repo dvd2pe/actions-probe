@@ -96,9 +96,13 @@ jobs:
           set +e
           rea --version --json > "$REPORT_DIR/rea-version.json" 2> "$REPORT_DIR/rea-version.stderr"
           rea --help > "$REPORT_DIR/rea-cli-help.txt" 2> "$REPORT_DIR/rea-cli-help.stderr"
-          for command in decode-android-resources inspect-android-jni-bindings identify-flutter-build inspect-artifact project-android-application-graph audit-release-exposure build-reconstruction-obligation-ledger trace-application-feature; do
+          for command in decode-android-resources inspect-android-jni-bindings identify-flutter-build inspect-artifact project-android-application-graph build-reconstruction-obligation-ledger trace-application-feature; do
             rea "$command" --help > "$REPORT_DIR/rea-help-$command.txt" 2> "$REPORT_DIR/rea-help-$command.stderr"
             printf '%s\n' "$?" > "$REPORT_DIR/rea-help-$command.exit-code.txt"
+          done
+          for command in project-android-application-graph build-reconstruction-obligation-ledger trace-application-feature; do
+            rea "$command" --schema > "$REPORT_DIR/rea-schema-$command.json" 2> "$REPORT_DIR/rea-schema-$command.stderr"
+            printf '%s\n' "$?" > "$REPORT_DIR/rea-schema-$command.exit-code.txt"
           done
           exit 0
 
@@ -306,19 +310,21 @@ jobs:
               encoding="utf-8",
           )
           PY
-                graph_request="$(cat "$REPORT_DIR/android-graph-request.json")"
-                rea project-android-application-graph "$graph_request" --format json --full-output \
+                # REA accepts a JSON file path. Do not place the multi-megabyte Evidence JSON in argv.
+                rea project-android-application-graph "$REPORT_DIR/android-graph-request.json" --format json --full-output \
                   > "$REPORT_DIR/android-application-graph.json" 2> "$REPORT_DIR/android-application-graph.stderr"
-                printf '%s\n' "$?" > "$REPORT_DIR/android-application-graph.exit-code.txt"
+                graph_status="$?"
+                printf '%s\n' "$graph_status" > "$REPORT_DIR/android-application-graph.exit-code.txt"
+                if [[ "$graph_status" -ne 0 || ! -s "$REPORT_DIR/android-application-graph.json" ]]; then
+                  echo "REA Android application graph projection failed (exit $graph_status)." >&2
+                  cat "$REPORT_DIR/android-application-graph.stderr" >&2 || true
+                  exit 1
+                fi
               fi
             fi
           else
             echo "config.arm64_v8a.apk was not present in the XAPK." > "$REPORT_DIR/merged-abi-analysis.note.txt"
           fi
-
-          rea audit-release-exposure "$APK_PATH" --format json --full-output \
-            > "$REPORT_DIR/audit-release-exposure.json" 2> "$REPORT_DIR/audit-release-exposure.stderr"
-          printf '%s\n' "$?" > "$REPORT_DIR/audit-release-exposure.exit-code.txt"
 
           # Full Apktool decode is kept outside REPORT_DIR until the workspace filters secrets and binaries.
           apktool_out="${RUNNER_TEMP}/rea-android/apktool-decoded"
@@ -661,6 +667,15 @@ jobs:
               "jadart-source-revision.txt",
               "rea-version.json",
               "rea-cli-help.txt",
+              "rea-schema-project-android-application-graph.json",
+              "rea-schema-build-reconstruction-obligation-ledger.json",
+              "rea-schema-trace-application-feature.json",
+              "rea-schema-project-android-application-graph.stderr",
+              "rea-schema-build-reconstruction-obligation-ledger.stderr",
+              "rea-schema-trace-application-feature.stderr",
+              "rea-schema-project-android-application-graph.exit-code.txt",
+              "rea-schema-build-reconstruction-obligation-ledger.exit-code.txt",
+              "rea-schema-trace-application-feature.exit-code.txt",
               "android-resources.json",
               "android-jni-bindings.json",
               "flutter-build-identity.json",
@@ -686,9 +701,6 @@ jobs:
               "android-application-graph.json",
               "android-application-graph.stderr",
               "android-application-graph.exit-code.txt",
-              "audit-release-exposure.json",
-              "audit-release-exposure.stderr",
-              "audit-release-exposure.exit-code.txt",
               "redaction-summary.txt",
           )
           for name in report_files:
@@ -699,12 +711,12 @@ jobs:
           for pattern in (
               "rea-help-*.txt",
               "rea-help-*.exit-code.txt",
+              "rea-schema-*",
               "android-resources.*",
               "android-jni-bindings.*",
               "flutter-build-identity.*",
               "merged-android-inventory.*",
               "android-application-graph.*",
-              "audit-release-exposure.*",
           ):
               for src in sorted(report.glob(pattern)):
                   if src.is_file():
@@ -777,17 +789,102 @@ jobs:
           feature_file = report / "jadart-feature-strings.txt"
           feature_lines = feature_file.read_text(errors="replace").splitlines() if feature_file.is_file() else []
           route_pattern = re.compile(r"(?<![A-Za-z0-9_])/(?!/)[A-Za-z0-9_{}~.-]+(?:/[A-Za-z0-9_{}~.-]+)*")
-          routes = sorted({
+          route_sources = collections.defaultdict(list)
+          route_literal_pattern = re.compile(
+              r"""(?P<quote>['"])(?P<route>/(?!/)[A-Za-z][A-Za-z0-9_{}~.-]*(?:/[A-Za-z0-9_{}~.-]+)*)(?P=quote)"""
+          )
+          class_pattern = re.compile(r"(?m)^class\s+([A-Za-z_][A-Za-z0-9_]*)")
+          route_candidates = {
               match.group(0).rstrip(".,;")
               for line in feature_lines
               for match in route_pattern.finditer(line)
-          })
+          }
+          for dart_file in dart_files:
+              source_text = dart_file.read_text(errors="replace")
+              source_classes = class_pattern.findall(source_text)
+              for match in route_literal_pattern.finditer(source_text):
+                  route = match.group("route")
+                  line_number = source_text.count("\n", 0, match.start()) + 1
+                  route_sources[route].append({
+                      "file": dart_file.relative_to(source_dir).as_posix(),
+                      "line": line_number,
+                      "classes": source_classes[:8],
+                  })
+                  route_candidates.add(route)
+          routes = sorted(route_candidates)
 
           (root / "docs/navigation-map.md").write_text(
               "# Recovered navigation and route strings\n\n"
-              "These are route-like string literals found in the AOT decompilation; "
-              "they are evidence, not proof that every route is currently reachable.\n\n"
+              "Route-like literals recovered from the compiled Flutter snapshot. "
+              "These strings are evidence, not proof that every route is reachable in the current UI.\n\n"
               + ("\n".join(f"- {route}" for route in routes) if routes else "_No route candidates were extracted._")
+              + "\n",
+              encoding="utf-8",
+          )
+
+          route_rows = []
+          for route in routes:
+              matches = route_sources.get(route, [])
+              if matches:
+                  locations = []
+                  for item in matches[:8]:
+                      classes = ", ".join(item["classes"]) if item["classes"] else "class not recovered"
+                      locations.append(f"lib/recovered/{item['file']}:{item['line']} ({classes})")
+                  source_cell = "<br>".join(locations)
+              else:
+                  source_cell = "_String recovered; source location not mapped_"
+              route_rows.append(f"| {route} | {source_cell} |")
+          (root / "docs/route-source-map.md").write_text(
+              "# Route-to-Dart source evidence map\n\n"
+              "This index links route string literals to the decompiled Dart file(s) containing the same literal. "
+              "Co-location is a search lead, not proof of a runtime navigation edge. "
+              "Jadart output may contain obfuscated identifiers and incomplete pseudocode.\n\n"
+              "| Route literal | Decompiled source evidence |\n"
+              "|---|---|\n"
+              + ("\n".join(route_rows) if route_rows else "| _No route candidates_ | — |")
+              + "\n",
+              encoding="utf-8",
+          )
+
+          feature_markers = [
+              "FamilyOnboardingController", "SocketService", "RevenueCat", "CareFinder",
+              "HelperDetailsScreenRedesigned", "HelperInboxScreen", "FamilyJobPost",
+              "VisaSupportScreen", "FamilyProfileInfo", "FamilySubscribePlans",
+              "FamilyPlansPricing", "FamilySubscriptionStatus", "FamilyTrialStarted",
+              "HelperOnboarding", "HelpersSearch", "EmployerMessages", "FamilyWelcome",
+          ]
+          marker_hits = collections.defaultdict(list)
+          for dart_file in dart_files:
+              try:
+                  source_lines = dart_file.read_text(errors="replace").splitlines()
+              except OSError:
+                  continue
+              for line_number, source_line in enumerate(source_lines, 1):
+                  for marker in feature_markers:
+                      if marker.lower() in source_line.lower():
+                          marker_hits[marker].append((
+                              dart_file.relative_to(source_dir).as_posix(),
+                              line_number,
+                              source_line.strip()[:260],
+                          ))
+          marker_sections = []
+          for marker in feature_markers:
+              hits = marker_hits.get(marker, [])
+              if not hits:
+                  continue
+              marker_sections.append(
+                  f"## {marker}\n\n"
+                  + "\n".join(
+                      f"- lib/recovered/{path}:{line} — {snippet}"
+                      for path, line, snippet in hits[:12]
+                  )
+                  + (f"\n- _{len(hits) - 12} additional matches omitted._" if len(hits) > 12 else "")
+              )
+          (root / "docs/feature-source-map.md").write_text(
+              "# Feature-to-Dart source evidence map\n\n"
+              "These are literal matches inside Jadart-generated pseudocode. They help identify candidate "
+              "controllers and flows but do not establish complete call graphs or recover original Dart names.\n\n"
+              + ("\n\n".join(marker_sections) if marker_sections else "_No named feature markers were mapped._")
               + "\n",
               encoding="utf-8",
           )
@@ -883,6 +980,75 @@ jobs:
               "That merged APK is an analysis-only container, not an installable or signed release.\n",
               encoding="utf-8",
           )
+
+          import xml.etree.ElementTree as ET
+          manifest_path = root / "android/apktool/AndroidManifest.xml"
+          if manifest_path.is_file():
+              manifest_root = ET.parse(manifest_path).getroot()
+              android_attr = "{http://schemas.android.com/apk/res/android}"
+              app_node = manifest_root.find("application")
+              permissions = sorted({
+                  node.get(android_attr + "name", "")
+                  for node in manifest_root
+                  if node.tag.endswith("uses-permission") and node.get(android_attr + "name")
+              })
+              components = []
+              if app_node is not None:
+                  for node in app_node:
+                      if node.tag not in {"activity", "activity-alias", "service", "receiver", "provider"}:
+                          continue
+                      name = node.get(android_attr + "name", "")
+                      exported = node.get(android_attr + "exported", "unspecified")
+                      filters = []
+                      for intent_filter in node.findall("intent-filter"):
+                          actions = [x.get(android_attr + "name", "") for x in intent_filter.findall("action")]
+                          categories = [x.get(android_attr + "name", "") for x in intent_filter.findall("category")]
+                          data_values = []
+                          for data_node in intent_filter.findall("data"):
+                              attrs = ("scheme", "host", "port", "path", "pathPrefix", "pathPattern", "mimeType")
+                              data_values.extend(
+                                  f"{key}={data_node.get(android_attr + key)}"
+                                  for key in attrs if data_node.get(android_attr + key)
+                              )
+                          filters.append("; ".join(
+                              part for part in (
+                                  "actions=" + ",".join(actions) if actions else "",
+                                  "categories=" + ",".join(categories) if categories else "",
+                                  "data=" + ",".join(data_values) if data_values else "",
+                              ) if part
+                          ))
+                      components.append((node.tag, name, exported, filters))
+              sdk_node = manifest_root.find("uses-sdk")
+              sdk_summary = []
+              if sdk_node is not None:
+                  for key in ("minSdkVersion", "targetSdkVersion", "maxSdkVersion"):
+                      value = sdk_node.get(android_attr + key)
+                      if value:
+                          sdk_summary.append(f"- {key}: {value}")
+              component_rows = []
+              for kind, name, exported, filters in components:
+                  component_rows.append(
+                      f"| {kind} | {name} | {exported} | "
+                      + ("<br>".join(filters) if filters else "—")
+                      + " |"
+                  )
+              (root / "docs/android-manifest-map.md").write_text(
+                  "# Android manifest reconstruction map\n\n"
+                  f"- Package: {manifest_root.get('package', 'unknown')}\n"
+                  f"- Version name: {manifest_root.get(android_attr + 'versionName', 'not declared')}\n"
+                  f"- Version code: {manifest_root.get(android_attr + 'versionCode', 'not declared')}\n"
+                  + ("\n".join(sdk_summary) + "\n" if sdk_summary else "")
+                  + f"- Application class: {app_node.get(android_attr + 'name', 'default') if app_node is not None else 'not found'}\n"
+                  + f"- Application label: {app_node.get(android_attr + 'label', 'not declared') if app_node is not None else 'not found'}\n"
+                  + f"- Declared permissions: {len(permissions)}\n\n"
+                  + "## Permissions\n\n"
+                  + ("\n".join(f"- {item}" for item in permissions) if permissions else "_None recovered._")
+                  + "\n\n## Android components\n\n"
+                  + "| Type | Name | Exported | Intent filters |\n|---|---|---|---|\n"
+                  + ("\n".join(component_rows) if component_rows else "| _None recovered_ | — | — | — |")
+                  + "\n\nAPI keys and credential-like manifest values are intentionally not copied into this summary.\n",
+                  encoding="utf-8",
+              )
 
           asset_files = sorted(p for p in (root / "assets").rglob("*") if p.is_file())
           extension_counts = collections.Counter(p.suffix.lower() or "[no extension]" for p in asset_files)
@@ -989,11 +1155,13 @@ jobs:
               "# Yaya — recovered Flutter workspace\n\n"
               "This workspace was generated from the Android XAPK for com.yaya.portal "
               "(version 5.6.2, versionCode 228) using REA and Jadart.\n\n"
-              "## Open in an editor\n\n"
-              "Clone this branch and open the folder in VS Code. The recovered Dart files are in "
-              "lib/recovered/; extracted Flutter assets are in assets/flutter_assets/; "
-              "additional split assets are in assets/split-assets/; analysis evidence is in forensics/ "
-              "and the navigation/feature indexes are in docs/. The decoded Android manifest, resource XML and Smali are in android/apktool/.\n\n"
+              "## Work directly on GitHub\n\n"
+              "No local clone is required. Browse and edit this branch in the GitHub web interface, or open "
+              "the branch in github.dev: https://github.dev/dvd2pe/actions-probe/tree/yaya-recovered-source. "
+              "GitHub Actions performs extraction and verification in the cloud. The recovered Dart files "
+              "are in lib/recovered/; Flutter assets are in assets/flutter_assets/ and assets/split-assets/; "
+              "analysis evidence is in forensics/; navigation, route-to-source, feature-to-source and Android "
+              "manifest maps are in docs/. The decoded Android resource XML and Smali are in android/apktool/.\n\n"
               "The Android plugin registry is documented in docs/plugin-registry.md, with its Smali implementation under android/apktool/smali_classes3/io/flutter/plugins/GeneratedPluginRegistrant.smali. Direct package candidates are in docs/direct-dependency-candidates.md.\n\n"
               "## Important status\n\n"
               "- lib/recovered/ contains generated decompilation output, not the original Dart repository.\n"
